@@ -4,20 +4,20 @@ Justin Ventura
 
 ## Questions to Answer.
 
-###(a) What is the theoretical time complexity of your sorting algorithms (best and worst case), in terms 
-###of the array size?
+### (a) What is the theoretical time complexity of your sorting algorithms (best and worst case), in terms 
+### of the array size?
 
 
-###(b) How does the absolute timing scale with the number of elements in the array? The size of the elements? 
-###Can you use the data collected to rectify this with the theoretical time complexity?
+### (b) How does the absolute timing scale with the number of elements in the array? The size of the elements? 
+### Can you use the data collected to rectify this with the theoretical time complexity?
 
 
-###(c) Aggregate your data into a graph of the complexity for the various array sizes, for example with a 
-###spreadsheet program like LibreOffice Calc or Microsoft Word.
+### (c) Aggregate your data into a graph of the complexity for the various array sizes, for example with a 
+### spreadsheet program like LibreOffice Calc or Microsoft Word.
 
 
-###(d) How do the algorithms perform in different cases? What is the best and worst case, according to your 
-###own test results?
+### (d) How do the algorithms perform in different cases? What is the best and worst case, according to your 
+### own test results?
 
 
-###(e) How could the code be improved in terms of usability, efficiency, and robustness?
+### (e) How could the code be improved in terms of usability, efficiency, and robustness?

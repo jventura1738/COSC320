@@ -6,8 +6,11 @@ Justin Ventura
 
 ### (a) What is the theoretical time complexity of your sorting algorithms (best and worst case), in terms of the array size?
 Let the size of the array be n. 
+
 i) Bubble Sort: [best case] O(n), [worst case], O(n^2)
+
 ii) Selection Sort: [best case] O(n^2), [worst case], O(n^2)
+
 iii) Insertion Sort: [best case] O(n), [worst case], O(n^2)
 
 ### (b) How does the absolute timing scale with the number of elements in the array? The size of the elements? Can you use the data collected to rectify this with the theoretical time complexity?

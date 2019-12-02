@@ -8,6 +8,9 @@ enum element_order { RANDOM = 0, ASCEND, DESCEND };
 
 int * arrayGenerate (element_order ORDER, int len);
 
+// tests a given sort, reports time, swaps, etc
+void testSort(void (*sort)(int*, int), int* arr, int n);
+
 int main()
 {
 	int * arr = arrayGenerate(RANDOM, 10);
@@ -62,4 +65,12 @@ int * arrayGenerate (element_order ORDER, int size)
         return array;
     }
     else return nullptr;
+}
+
+// tests a given sort, reports time, swaps, etc. BIG BRAIN
+void testSort(void (*sort)(int*, int), int* arr, int n){
+    // chrono::start
+    sort(arr, n);
+    // chrono::end blah blah
+    // output the diagnostic code
 }

@@ -23,6 +23,12 @@ Data collected and documented on Google Sheets.
 
 ### (d) How do the algorithms perform in different cases? What is the best and worst case, according to your own test results?
 
-i) Bubble sort obviously performs at its best when an array is presorted.  
+i) Bubble sort obviously performs at its best when an array is presorted.  It performs worst when the array is initially in descending order.
+
+ii) Selection sort.
+
+iii) Insertion sort.
 
 ### (e) How could the code be improved in terms of usability, efficiency, and robustness?
+
+I believe I have optimized these algorithms as best as I could (keeping them in-place & saving memory).  If there are any possible improvements, that would be surprising but nice to know.

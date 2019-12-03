@@ -1,3 +1,5 @@
+// COSC320-002 Lab-1 (Dr. Anderson)
+// Justin Ventura [main.cpp]
 #include <iostream>
 #include <chrono>
 #include <random>

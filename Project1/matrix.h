@@ -1,3 +1,5 @@
+// Justin Ventura COSC320
+// Project 1: matrix.h
 #ifndef MATRIX_H
 #define MATRIX_H
 

@@ -8,7 +8,7 @@ private:
 public:
 	Matrix(int n, int m) : 
 	{
-		matrix = new int[];
+		matrix = new int[n*m];
 	}
 	~Matrix()
 	{ delete matrix; }

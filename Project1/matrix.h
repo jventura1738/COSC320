@@ -12,12 +12,11 @@ public:
 	double * M;
 
 	// dimensions of matrix
-	long unsigned r;
-	long unsigned c;
-	long unsigned len;
+	long unsigned row;
+	long unsigned col;
 
 	// constructor
-	Matrix(long unsigned m, long unsigned n) : len(n*m), r(m), c(n)
+	Matrix(long unsigned m, long unsigned n) : row(m), col(n)
 	{ std::cout << "\n--MATRIX ALLOCATED--\n";
 		M = new double[n*m]; }
 

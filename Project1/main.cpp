@@ -3,7 +3,7 @@
 
 void initMatrix(Matrix &a)
 {
-	int n = (a.r * a.c);
+	int n = (a.row * a.col);
 	for (int i = 0; i < n; i++)
 	{
 		a.M[i] = 1;
@@ -12,10 +12,21 @@ void initMatrix(Matrix &a)
 
 void printMatrix(Matrix &a)
 {
-	int n = (a.r * a.c);
-	for (int i = 0; i < n; i++)
+	// int n = (a.row * a.col);
+	// for (int i = 0; i < n; i++)
+	// {
+	// 	std::cout << a.M[i] << " ";
+	// }
+	// std::cout << "\n";
+
+	int n = (a.row * a.col);
+	for (int i = 0; i < a.row; i++)
 	{
-		std::cout << a.M[i] << " ";
+		for (int j = 0; j < a.col; j++)
+		{
+			std::cout << a.M[i * a.col + j] << " ";
+		}
+		std::cout << "\n";
 	}
 	std::cout << "\n";
 }
@@ -38,9 +49,12 @@ int main()
 	b.M[4] = 4;
 	b.M[5] = 2;
 
-	Matrix c = a * b;
-	std::cout << "after\n";
-	printMatrix(c);
+	printMatrix(a);
+	std::cout << "\n";
+	printMatrix(b);
+
+	Matrix C = (a * b);
+	printMatrix(C);
 	
 
 	/*

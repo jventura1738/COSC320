@@ -5,16 +5,27 @@
 
 class Matrix {
 private:
-	int * matrix;
 
 public:
-	Matrix(int n, int m) : 
-	{
-		matrix = new int[n*m];
-	}
-	~Matrix()
-	{ delete matrix; }
+	// matrix dynamic array
+	double * M;
 
+	// dimensions of matrix
+	long unsigned r;
+	long unsigned c;
+
+	// constructor
+	Matrix(long unsigned n, long unsigned m) : len(n*m)
+	{ M = new double[n*m]; }
+
+	// destructor
+	~Matrix()
+	{ delete M; }
+
+	// matrix operations
+	friend Matrix* operator+(Matrix *a, Matrix *b);
+	friend Matrix* operator-(Matrix *a, Matrix *b);
+	friend Matrix* operator*(Matrix *a, Matrix *b);
 };
 
-#ifndef
+#endif

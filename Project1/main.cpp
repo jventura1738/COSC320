@@ -22,6 +22,7 @@ void printMatrix(Matrix &a)
 
 int main()
 {
+	
 	Matrix a(2, 2);
 	Matrix b(2, 3);
 
@@ -38,10 +39,13 @@ int main()
 	b.M[5] = 2;
 
 	Matrix c = a * b;
+	std::cout << "after\n";
 	printMatrix(c);
+	
+
 	/*
 	Matrix x(3,3);
-	Matrix y(3,4);
+	Matrix y(3,3);
 	initMatrix(x);
 	initMatrix(y);
 

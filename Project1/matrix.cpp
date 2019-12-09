@@ -1,7 +1,7 @@
 // Justin Ventura COSC320
 // Project 1: matrix.h
 #include "matrix.h"
-#define INDEX(r, c, i, j) i*r + j
+//#define INDEX(r, c, i, j) i*r + j
 
 Matrix operator+(Matrix &a, Matrix &b)
 {
@@ -43,10 +43,31 @@ Matrix operator*(Matrix &a, Matrix &b)
 		std::cout << "ERROR.\n";
 		return c;
 	}
+
 	Matrix c(a.r, b.c);
 	long unsigned n = (a.r * b.c);
-	
-	
-	
+	long unsigned index = 0;
+
+	for (long unsigned i = 0; i < c.r; i++)
+	{
+		for (int j = 0; j < c.c; j++)
+		{
+			long unsigned R = (i * c.r);
+			long unsigned C = j;
+			double val = 0;
+			for (int k = 1; k <= c.r; k++)
+			{
+				std::cout << R << " " << C << " ";
+				val += (a.M[R] * b.M[C]);
+				R++;
+				C += c.c;
+			}
+			std::cout << "\n";
+			c.M[index] = val;
+			index++;
+		}
+	}
+
+	std::cout << "before.\n";
 	return c;
 }

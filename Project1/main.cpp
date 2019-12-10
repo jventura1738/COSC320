@@ -19,7 +19,6 @@ void printMatrix(Matrix &a)
 	// }
 	// std::cout << "\n";
 
-	int n = (a.row * a.col);
 	for (int i = 0; i < a.row; i++)
 	{
 		for (int j = 0; j < a.col; j++)
@@ -53,10 +52,25 @@ int main()
 	std::cout << "\n";
 	printMatrix(b);
 
-	Matrix C = (a * b);
-	printMatrix(C);
-	
+	std::cout << "before *\n";
 
+	Matrix c = (a * b);
+
+	std::cout << "after *\n";
+
+	printMatrix(c);
+
+	/*
+
+	std::cout << "\nTRANSPOSE TEST\n";
+
+	Matrix matrix1(5,4);
+	initMatrix(matrix1);
+	printMatrix(matrix1);
+	Matrix matrix2 = matrix1.transpose();
+	printMatrix(matrix2);
+	
+	*/
 	/*
 	Matrix x(3,3);
 	Matrix y(3,3);

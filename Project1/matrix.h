@@ -5,30 +5,54 @@
 #include <iostream>
 
 class Matrix {
-private:
 
 public:
-	// matrix dynamic array
+	// Matrix pointer M to be heap-allocated.
 	double * M;
 
-	// dimensions of matrix
-	long unsigned row;
-	long unsigned col;
+	// Dimensions of pointer (Matrix) M.
+	size_t row;
+	size_t col;
 
-	// constructor
-	Matrix(long unsigned m, long unsigned n) : row(m), col(n)
-	{ std::cout << "\n--MATRIX ALLOCATED--\n";
-		M = new double[n*m]; }
+	// Matrix Constructor (1x1 default).
+	// Allocates heap memory to M.
+	Matrix(size_t m = 1, size_t n = 1) : row(m), col(n) { 
+		std::cout << "\n--MATRIX ALLOCATED--\n";
+		M = new double[n * m]; 
+	}
 
-	// destructor
-	~Matrix()
-	{ std::cout << "\n--MATRIX DEALLOCATED--\n";
-		delete M; }
+	// Matrix Copy Constructor.
+	// Allocates heap memory to this->M.
+	Matrix(const Matrix &A) : row(A.row), col(A.col) {
+		std::cout << "\n--MATRIX [CC] ALLOCATED--\n";
+		this->M = new double[A.row * A.col];
+	}
 
-	// matrix operations
-	friend Matrix operator+(Matrix &a, Matrix &b);
-	friend Matrix operator-(Matrix &a, Matrix &b);
-	friend Matrix operator*(Matrix &a, Matrix &b);
+	// Matrix Assignment Operator Overload.
+	// Allocates heap memory to this->M.
+	void operator=(Matrix &A) {
+		delete this->M;
+		this->row = A.row;
+		this->col = A.col;
+		this->M = new double[this->row * this->col];
+	}
+
+	// Matrix Destructor.
+	// De-allocated heap memory for M.
+	~Matrix() { 
+		std::cout << "\n--MATRIX DEALLOCATED--\n";
+		delete M; 
+	}
+
+	// Matrix Operations.
+
+	Matrix transpose();
+
+	friend Matrix operator+(Matrix &A, Matrix &B);
+	friend Matrix operator-(Matrix &A, Matrix &B);
+	friend Matrix operator*(Matrix &A, Matrix &B);
+
+	//friend Matrix 
 };
 
 #endif

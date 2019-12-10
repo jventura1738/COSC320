@@ -3,19 +3,24 @@
 #include "matrix.h"
 
 void initMatrix(Matrix &a) {
+
 	int n = (a.row * a.col);
-	for (int i = 0; i < n; i++) {
+
+	for (int i = 0; i < n; i++)
 		a.M[i] = ((rand() % 10 + 1));
-	}
+
+}
+
+void initMatrix(Matrix *a) {
+
+	int n = (a->row * a->col);
+
+	for (int i = 0; i < n; i++) 
+		a->M[i] = ((rand() % 10 + 1));
+
 }
 
 void printMatrix(Matrix &a) {
-	// int n = (a.row * a.col);
-	// for (int i = 0; i < n; i++)
-	// {
-	// 	std::cout << a.M[i] << " ";
-	// }
-	// std::cout << "\n";
 
 	for (int i = 0; i < a.row; i++) {
 		for (int j = 0; j < a.col; j++) {

@@ -12,7 +12,7 @@ void Matrix::operator=(const Matrix &A) {
 
 	// Copy from A.M to re-allocated this->M.
 	size_t len = (this->row * this->col);
-	this->M = new double[len];
+	this->M = new float[len];
 	for (size_t i = 0; i < len; i++)
 		this->M[i] = A.M[i];
 }
@@ -27,6 +27,7 @@ Matrix& operator+(const Matrix &A, const Matrix &B) {
 		std::cout << "ERROR.\n";
 		return C;
 	}
+	
 	Matrix C(A.row, A.col);
 	size_t n = (A.row * A.col);
 

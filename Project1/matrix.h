@@ -8,7 +8,7 @@ class Matrix {
 
 public:
 	// Matrix pointer M to be heap-allocated.
-	double * M;
+	float * M;
 
 	// Dimensions of pointer (Matrix) M.
 	size_t row;
@@ -18,14 +18,14 @@ public:
 	// Allocates heap memory to M.
 	Matrix(size_t m = 1, size_t n = 1) : row(m), col(n) { 
 		std::cout << "\n--MATRIX ALLOCATED--\n";
-		M = new double[n * m]; 
+		M = new float[n * m]; 
 	}
 
 	// Matrix Copy Constructor.
 	// Allocates heap memory to this->M.
 	Matrix(const Matrix &A) : row(A.row), col(A.col) {
 		std::cout << "\n--MATRIX [CC] ALLOCATED--\n";
-		this->M = new double[A.row * A.col];
+		this->M = new float[A.row * A.col];
 	}
 
 	// Matrix Assignment Operator Overload.

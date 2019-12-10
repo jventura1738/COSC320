@@ -2,8 +2,23 @@
 // Project 1: matrix.h
 #include "matrix.h"
 
+// Matrix Assignment Operation
+void Matrix::operator=(const Matrix &A) {
+
+	// De-allocate old matrix pointer.
+	delete this->M;
+	this->row = A.row;
+	this->col = A.col;
+
+	// Copy from A.M to re-allocated this->M.
+	size_t len = (this->row * this->col);
+	this->M = new double[len];
+	for (size_t i = 0; i < len; i++)
+		this->M[i] = A.M[i];
+}
+
 // Matrix Addition Operation.
-Matrix operator+(Matrix &A, Matrix &B) {
+Matrix& operator+(const Matrix &A, const Matrix &B) {
 
 	// Matrices must have same dimensions.
 
@@ -25,7 +40,7 @@ Matrix operator+(Matrix &A, Matrix &B) {
 }
 
 // Matrix Subtraction Operation.
-Matrix operator-(Matrix &A, Matrix &B) {
+Matrix& operator-(const Matrix &A, const Matrix &B) {
 
 	// Matrices must have same dimensions.
 
@@ -47,9 +62,7 @@ Matrix operator-(Matrix &A, Matrix &B) {
 }
 
 // Matrix Multiplication Operation.
-Matrix operator*(Matrix &A, Matrix &B) {
-
-	std::cout << "in operator*\n";
+Matrix& operator*(const Matrix &A, const Matrix &B) {
 
 	// Matrix A.col must equal B.rows
 
@@ -83,26 +96,28 @@ Matrix operator*(Matrix &A, Matrix &B) {
 			}
 		}
 	}
-	std::cout << "hi3\n";
 	return C;
 }
 
+
 // Matrix Transposition Operation.
-Matrix Matrix::transpose() {
+Matrix operator-(const Matrix& A) {
 		
-	Matrix temp(this->col, this->row);
+	Matrix temp(A.col, A.row);
 
 	// Algorithm: simply swap i & j and
 	// row & col. 
-	
-	for (int i = 0; i < col; i++) {
 
-		for (int j = 0; j < row; j++) {
+	for (int i = 0; i < temp.col; i++) {
 
-			temp.M[i * row + j] = M[j * col + i];
+		for (int j = 0; j < temp.row; j++) {
+
+			temp.M[i * temp.row + j] = A.M[j * temp.col + i];
 			//std::cout << "i: " << i << " j: " << j;
 		}
 		//std::cout << "\n";
 	}
+
 	return temp;
 }
+

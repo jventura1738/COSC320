@@ -29,13 +29,8 @@ public:
 	}
 
 	// Matrix Assignment Operator Overload.
-	// Allocates heap memory to this->M.
-	void operator=(Matrix &A) {
-		delete this->M;
-		this->row = A.row;
-		this->col = A.col;
-		this->M = new double[this->row * this->col];
-	}
+	// Allocates heap memory to this->M and copies.
+	void operator=(const Matrix &A);
 
 	// Matrix Destructor.
 	// De-allocated heap memory for M.
@@ -44,15 +39,19 @@ public:
 		delete M; 
 	}
 
-	// Matrix Operations.
+	// - [Matrix Operations] -
 
-	Matrix transpose();
+	// Matrix Inversion (-Matrix)
+	friend Matrix operator-(const Matrix &A);
 
-	friend Matrix operator+(Matrix &A, Matrix &B);
-	friend Matrix operator-(Matrix &A, Matrix &B);
-	friend Matrix operator*(Matrix &A, Matrix &B);
+	// Matrix Addition (Matrix + Matrix)
+	friend Matrix& operator+(const Matrix &A, const Matrix &B);
 
-	//friend Matrix 
+	// Matrix Subtraction (Matrix - Matrix)
+	friend Matrix& operator-(const Matrix &A, const Matrix &B);
+
+	// Matrix Multiplication (Matrix * Matrix)
+	friend Matrix& operator*(const Matrix &A, const Matrix &B);
 };
 
 #endif

@@ -9,7 +9,7 @@ Dr. Joseph Anderson.
 
 There are two executables included: 'linearleastsquares' and 'matrixDriver'.  The former can be run with a text file full of data to find the optimal vector, B.  The latter is used to confirm that my matrix class works and is fully functional.
 
-Run the progams with the following linux commands: './linearleastsquares.exe <data.txt>' and './matrixDriver'.
+Run the progams with the following linux commands: './linearleastsquares.exe <data.txt>' and './matrixDriver' respectively.
 
 
 ### Extra Credit

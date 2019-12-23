@@ -41,7 +41,7 @@ public:
 
 	// - [Matrix Operations] -
 
-	// Matrix Inversion (-Matrix)
+	// Matrix Transpostion (-Matrix)
 	friend Matrix operator-(const Matrix &A);
 
 	// Matrix Addition (Matrix + Matrix)

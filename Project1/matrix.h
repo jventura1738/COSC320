@@ -39,18 +39,26 @@ public:
 		delete M; 
 	}
 
+	// - [Matrix Operation Methods] -
+
+	// Matrix Padding Method.
+	const Matrix& pad();
+
+	// Matrix Inversion Method.
+	Matrix& inverse();
+
 	// - [Matrix Operations] -
 
-	// Matrix Transpostion (-Matrix)
+	// Matrix Transpostion. (-Matrix)
 	friend Matrix operator-(const Matrix &A);
 
-	// Matrix Addition (Matrix + Matrix)
+	// Matrix Addition. (Matrix + Matrix)
 	friend Matrix& operator+(const Matrix &A, const Matrix &B);
 
-	// Matrix Subtraction (Matrix - Matrix)
+	// Matrix Subtraction. (Matrix - Matrix)
 	friend Matrix& operator-(const Matrix &A, const Matrix &B);
 
-	// Matrix Multiplication (Matrix * Matrix)
+	// Matrix Multiplication. (Matrix * Matrix)
 	friend Matrix& operator*(const Matrix &A, const Matrix &B);
 };
 

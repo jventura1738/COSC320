@@ -1,3 +1,6 @@
+// Justin Ventura COSC320
+// Project 1: test.cpp
+// Demonstrates working operations
 #include <iostream>
 #include <time.h>
 #include "matrix.h"

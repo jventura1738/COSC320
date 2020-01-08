@@ -51,15 +51,31 @@ int main()
 {
 	srand(time(0));
 
-	Matrix a(3,3);
-	Matrix b(3,3);
-	initMatrix(a);
-	initMatrix(b);
-	std::cout << "Original matrices.\n";
-	printMatrix(a);
-	printMatrix(b);
+	// Matrix a(3,3);
+	// Matrix b(3,3);
+	// initMatrix(a);
+	// initMatrix(b);
+	// std::cout << "Original matrices.\n";
+	// printMatrix(a);
+	// printMatrix(b);
 
-	Matrix c = (a + b);
+	// Matrix c = (-a);
+	// printMatrix(c);
+
+
+
+	Matrix z(3,3);
+	z.M[0] = 1;
+	z.M[1] = 2;
+	z.M[2] = 3;
+	z.M[3] = 2;
+	z.M[4] = 1;
+	z.M[5] = 0;
+	z.M[6] = 3;
+	z.M[7] = 0;
+	z.M[8] = 1;
+	printMatrix(z);
+	Matrix c = z.inverse();
 	printMatrix(c);
 
 

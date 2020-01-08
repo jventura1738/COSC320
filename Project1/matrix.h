@@ -25,7 +25,11 @@ public:
 	// Allocates heap memory to this->M.
 	Matrix(const Matrix &A) : row(A.row), col(A.col) {
 		std::cout << "\n--MATRIX [CC] ALLOCATED--\n";
-		this->M = new float[A.row * A.col];
+		this->M = new float[this->row * this->col];
+		size_t len = (this->row * this->col);
+
+		for (size_t i = 0; i < len; i++)
+			this->M[i] = A.M[i];
 	}
 
 	// Matrix Assignment Operator Overload.
@@ -42,12 +46,18 @@ public:
 	// - [Matrix Operation Methods] -
 
 	// Matrix Padding Method.
-	const Matrix& pad();
+	Matrix& pad();
 
 	// Matrix Inversion Method.
 	Matrix& inverse();
 
+	// Print Matrix Method.
+	void print();
+
 	// - [Matrix Operations] -
+
+	// Scalar Multiplication. (Matrix * float)
+	friend Matrix operator*(const Matrix &A, const float &scalar);
 
 	// Matrix Transpostion. (-Matrix)
 	friend Matrix operator-(const Matrix &A);

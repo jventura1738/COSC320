@@ -10,7 +10,7 @@ void initMatrix(Matrix &a) {
 	int n = (a.row * a.col);
 
 	for (int i = 0; i < n; i++)
-		a.M[i] = ((rand() % 10 + 1));
+		a.M[i] = ((rand() % 9 + 1));
 
 }
 
@@ -51,86 +51,20 @@ int main()
 {
 	srand(time(0));
 
-	Matrix z(3,3);
-	z.M[0] = 1;
-	z.M[1] = 2;
-	z.M[2] = 3;
-	z.M[3] = 2;
-	z.M[4] = 1;
-	z.M[5] = 0;
-	z.M[6] = 3;
-	z.M[7] = 0;
-	z.M[8] = 1;
-	printMatrix(z);
-	Matrix c = z.inverse();
-	printMatrix(c);
-
-	Matrix a(3,3);
-	Matrix b(3,3);
+	std::cout << "===================================\n";
+	std::cout << "   Justin Ventura's Matrix Test.   \n";
+	std::cout << "                                   \n";
+	std::cout << "         - Addition Test -         \n";
+	Matrix a(5,5);
+	Matrix b(5,5);
 	initMatrix(a);
 	initMatrix(b);
-	std::cout << "Original matrices.\n";
-	printMatrix(a);
-	printMatrix(b);
-
-	Matrix C = (-a);
-	printMatrix(C);
-
-
-	// Matrix a(2, 2);
-	// Matrix b(2, 3);
-
-	// a.M[0] = 2;
-	// a.M[1] = 4;
-	// a.M[2] = 1;
-	// a.M[3] = 6;
-
-	// b.M[0] = 0;
-	// b.M[1] = 5;
-	// b.M[2] = 1;
-	// b.M[3] = 3;
-	// b.M[4] = 4;
-	// b.M[5] = 2;
-
-	// printMatrix(a);
-	// std::cout << "\n";
-	// printMatrix(b);
-
-	// Matrix c = (a * b);
-	// printMatrix(c);
-
-
-	// std::cout << "\nTRANSPOSE TEST\n";
-
-	// Matrix matrix1(22,19);
-	// initMatrix(matrix1);
-	// printMatrix(matrix1);
-	
- 	// Matrix matrix2 = (-matrix1);
- 	// printMatrix(matrix2);
-
-	/*
-	
-	Matrix x(3,3);
-	Matrix y(3,3);
-	initMatrix(x);
-	initMatrix(y);
-
-	std::cout << "BEFORE.\n";
-	printMatrix(x);
-	printMatrix(y);
-
-	Matrix z = (x + y);
-
-	std::cout << "AFTER.\n";
-	printMatrix(z);
-
-	std::cout << "SUBTRACTION.\n";
-	Matrix a = (z - y);
-
-	printMatrix(a);
-	
-	*/
+	std::cout << "Original matrices:\n";
+	a.print();
+	b.print();
+	Matrix c = (a + b);
+	std::cout << "Addition Result:\n";
+	c.print();
 
 	return 0;
 }

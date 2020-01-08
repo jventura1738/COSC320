@@ -34,7 +34,7 @@ void Matrix::operator=(const Matrix &A) {
 	delete len;
 }
 
-// Matrix Padding Method
+// Matrix Padding Method.
 Matrix Matrix::pad() {
 
 	int newSize = 2;

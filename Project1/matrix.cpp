@@ -5,11 +5,11 @@
 // Matrix Display Method.
 void Matrix::print() {
 
-	for (int i = 0; i < this->row; i++)
+	for (size_t i = 0; i < this->row; i++)
 	{
-		for (int j = 0; j < this->col; j++)
+		for (size_t j = 0; j < this->col; j++)
 		{
-			std::cout << a->M[i * this->col + j] << " ";
+			std::cout << this->M[i * this->col + j] << " ";
 		}
 		std::cout << "\n";
 	}
@@ -20,20 +20,22 @@ void Matrix::print() {
 void Matrix::operator=(const Matrix &A) {
 
 	// De-allocate old matrix pointer.
+	// std::cout << "\n--MATRIX [AO] ALLOCATED--\n";
 	delete this->M;
 	this->row = A.row;
 	this->col = A.col;
 
 	// Copy from A.M to re-allocated this->M.
-	size_t len = (this->row * this->col);
-	this->M = new float[len];
+	size_t *len = new size_t(this->row * this->col);
+	this->M = new float[*len];
 
-	for (size_t i = 0; i < len; i++)
+	for (size_t i = 0; i < *len; i++)
 		this->M[i] = A.M[i];
+	delete len;
 }
 
 // Matrix Padding Method
-Matrix& Matrix::pad() {
+Matrix Matrix::pad() {
 
 	int newSize = 2;
 	while ((newSize < this->row || newSize < this->col) && newSize > 0)
@@ -75,21 +77,34 @@ Matrix& Matrix::pad() {
 
 }
 
-// Matrix Scalar Multiplication.
-Matrix operator*(const Matrix &A, const float &scalar) {
+// Matrix Negation.
+Matrix Matrix::negate() {
 
-	Matrix C(A.row, A.col);
-	size_t n = (A.row + A.col);
+	Matrix C(this->row, this->col);
+	size_t *n = new size_t(this->row * this->col);
 
-	// Multiply scalar to entire matrix.
-	for (int i = 0; i < n; i++)
-		C.M[i] = (C.M[i] * scalar);
+	for (size_t i = 0; i < *n; i++) 
+		C.M[i] = (this->M[i] * -1.0);
 
 	return C;
 }
 
+// Matrix Scalar Multiplication.
+// Matrix& operator*(const Matrix &A, const float &scalar) {
+
+// 	Matrix C(A.row, A.col);
+// 	size_t *n = new size_t(A.row * A.col);
+
+// 	// Multiply scalar to entire matrix.
+// 	for (size_t i = 0; i < *n; i++)
+// 		C.M[i] = (C.M[i] * scalar);
+
+// 	delete n;
+// 	return C;
+// }
+
 // Matrix Addition Operation.
-Matrix& operator+(const Matrix &A, const Matrix &B) {
+Matrix operator+(const Matrix &A, const Matrix &B) {
 
 	// Matrices must have same dimensions.
 
@@ -100,19 +115,19 @@ Matrix& operator+(const Matrix &A, const Matrix &B) {
 	}
 	
 	Matrix C(A.row, A.col);
-	size_t n = (A.row * A.col);
+	size_t *n = new size_t(A.row * A.col);
 
 	// Algorithm: C[m,n] = A[m,n] + B[m,n],
 	// where m is # rows, n is # cols.
 
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < *n; i++)
 		C.M[i] = (A.M[i] + B.M[i]);
 
 	return C;
 }
 
 // Matrix Subtraction Operation.
-Matrix& operator-(const Matrix &A, const Matrix &B) {
+Matrix operator-(const Matrix &A, const Matrix &B) {
 
 	// Matrices must have same dimensions.
 
@@ -123,19 +138,19 @@ Matrix& operator-(const Matrix &A, const Matrix &B) {
 	}
 
 	Matrix C(A.row, A.col);
-	size_t n = (A.row * A.col);
+	size_t *n = new size_t(A.row * A.col);
 
 	// Algorithm: C[m,n] = A[m,n] - B[m,n],
 	// where m is # rows, n is # cols.
 
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < *n; i++)
 		C.M[i] = (A.M[i] - B.M[i]);
 
 	return C;
 }
 
 // Matrix Multiplication Operation.
-Matrix& operator*(const Matrix &A, const Matrix &B) {
+Matrix operator*(const Matrix &A, const Matrix &B) {
 
 	// Matrix A.col must equal B.rows
 
@@ -199,7 +214,7 @@ Matrix operator-(const Matrix& A) {
 }
 
 // Matrix Inversion Method.
-Matrix& Matrix::inverse() {
+Matrix Matrix::inverse() {
 
 	// Catch non-squares.
 	if(row != col) {
@@ -212,6 +227,7 @@ Matrix& Matrix::inverse() {
 	if(row == 1 && col == 1) {
 
 		std::cout << "base of recursion\n";
+		M[0] = 1.0 / M[0];
 		return *this;
 
 	}
@@ -292,11 +308,11 @@ Matrix& Matrix::inverse() {
 	std::cout << "\n--Y TRANSPOSE--\n";
 	Yt.print();
 
-	Matrix T = (Yt * -1);
+	Matrix T = (Yt.negate());
 	std::cout << "\n--T--\n";
 	T.print();
 
-	Matrix U = (Y * -1);
+	Matrix U = (Y.negate());
 	std::cout << "\n--U--\n";
 	U.print();
 

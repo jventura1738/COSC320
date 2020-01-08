@@ -18,18 +18,24 @@ public:
 	// Allocates heap memory to M.
 	Matrix(size_t m = 1, size_t n = 1) : row(m), col(n) { 
 		std::cout << "\n--MATRIX ALLOCATED--\n";
-		M = new float[n * m]; 
+		M = new float[n * m];
+		size_t *len = new size_t(this->row * this->col);
+
+		for (size_t i = 0; i < *len; i++)
+			this->M[i] = 0;
+		delete len;
 	}
 
 	// Matrix Copy Constructor.
 	// Allocates heap memory to this->M.
 	Matrix(const Matrix &A) : row(A.row), col(A.col) {
 		std::cout << "\n--MATRIX [CC] ALLOCATED--\n";
-		this->M = new float[this->row * this->col];
-		size_t len = (this->row * this->col);
+		this->M = new float[A.row * A.col];
+		size_t *len = new size_t(A.row * A.col);
 
-		for (size_t i = 0; i < len; i++)
+		for (size_t i = 0; i < *len; i++)
 			this->M[i] = A.M[i];
+		delete len;
 	}
 
 	// Matrix Assignment Operator Overload.
@@ -45,11 +51,14 @@ public:
 
 	// - [Matrix Operation Methods] -
 
+	// Matrix Negation Method. (-Matrix)
+	Matrix negate();
+
 	// Matrix Padding Method.
-	Matrix& pad();
+	Matrix pad();
 
 	// Matrix Inversion Method.
-	Matrix& inverse();
+	Matrix inverse();
 
 	// Print Matrix Method.
 	void print();
@@ -57,19 +66,19 @@ public:
 	// - [Matrix Operations] -
 
 	// Scalar Multiplication. (Matrix * float)
-	friend Matrix operator*(const Matrix &A, const float &scalar);
+	//friend Matrix& operator*(const Matrix &A, const float &scalar);
 
 	// Matrix Transpostion. (-Matrix)
 	friend Matrix operator-(const Matrix &A);
 
 	// Matrix Addition. (Matrix + Matrix)
-	friend Matrix& operator+(const Matrix &A, const Matrix &B);
+	friend Matrix operator+(const Matrix &A, const Matrix &B);
 
 	// Matrix Subtraction. (Matrix - Matrix)
-	friend Matrix& operator-(const Matrix &A, const Matrix &B);
+	friend Matrix operator-(const Matrix &A, const Matrix &B);
 
 	// Matrix Multiplication. (Matrix * Matrix)
-	friend Matrix& operator*(const Matrix &A, const Matrix &B);
+	friend Matrix operator*(const Matrix &A, const Matrix &B);
 };
 
 #endif

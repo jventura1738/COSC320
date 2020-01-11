@@ -23,4 +23,4 @@ Tested for non-singular matrix in the class. Output is in the 'matrixDriver' (5)
 Added a test for non-symmetric matrices, then made possible to invert the non-symmetric square matrix by computing the following: A^-1 = (A^T * A)^-1 * A^T where (A^T * A) is guaranteed to be symmetric. (10)
 
 
-Strassen's Algorithm for matrix multiplication implemented.
+Strassen's Algorithm for matrix multiplication implemented. (10)

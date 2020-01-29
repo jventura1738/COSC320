@@ -2,7 +2,7 @@
 
 Who's Joe?
 
-Justin Ventura's Advanced Data Structures and Algorithms Repository.
+Justin Ventura's Advanced Data Structures and Algorithm Analysis Repository.
 
 ## Projects
 

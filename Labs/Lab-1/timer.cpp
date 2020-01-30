@@ -29,7 +29,7 @@ void Timer::reset_time()
 
 void Timer::display_time()
 {
-    std::cout << "\nTime elapsed: " << std::setprecision(2)
+    std::cout << "\nTime elapsed: " << std::setprecision(5)
               << std::fixed << get_time() << "ms, "
               << get_time()/1000 << "s\n";
 }

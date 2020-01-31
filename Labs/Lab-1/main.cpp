@@ -8,31 +8,36 @@
 #include <chrono>
 
 void display(long&);
+void printarr(int*, int);
 int swap(int&, int&);
 bool isSorted(int*, int&);
-long bubbleSort(int*, int&);
-long selectionSort(int*, int&);
-long insertionSort(int*, int&);
+size_t bubbleSort(int*, int&);
+size_t selectionSort(int*, int&);
+size_t insertionSort(int*, int&);
 int* generate_array(int order, bool dup, int n);
-long runsort(long (*sort)(int*, int&), int* arr, int& n);
+size_t runsort(size_t (*sort)(int*, int&), int* arr, int& n);
 
 int main() {
     Timer timer;
     int *arr;
-    int n = 100;
+    int n = 10;
     std::cout << "----- Bubble Sort (trash) -----\n";
 
     std::cout << "TRIAL ONE: 100 elements.\n";
     for (int i = 0; i < 6; i++) {
         long numswaps = 0;
+        std::cout << "\n" << (i % 3) << " " << (i % 2 == 0) << "\n";
         arr = generate_array((i % 3), (i % 2 == 0), n);
         timer.start_timer();
-        numswaps = runsort(bubbleSort, arr, n);
+        printarr(arr, 10);
+        numswaps = bubbleSort(arr, n);
+        printarr(arr, 10);
         timer.end_timer();
         timer.display_time();
         display(numswaps);
         delete [] arr;
     }
+    /*
     n *= 10;
     std::cout << "TRIAL TWO: 1000 elements.\n";
     for (int i = 0; i < 6; i++) {
@@ -170,12 +175,18 @@ int main() {
         delete [] arr;
     }
     n *= 10;
-
+    */
     return 0;
 }
 
 void display(long& swaps) {
     std::cout << "# swaps: " << swaps << "\n";
+}
+void printarr(int* arr, int n) {
+    for (int i = 0; i < n; i++) {
+        std::cout << arr[i] << " ";
+    }
+    std::cout << "\n";
 }
 int swap(int &a, int &b) {
     int temp = a;
@@ -191,8 +202,8 @@ bool isSorted(int* arr, int& n) {
     }
     return true;
 }
-long bubbleSort(int* arr, int& n) {
-    long count = 0;
+size_t bubbleSort(int* arr, int& n) {
+    size_t count = 0;
     bool swapped;
     for (int i = 0; i < n - 1; i++) {
         swapped = false;
@@ -203,9 +214,11 @@ long bubbleSort(int* arr, int& n) {
                 swap(arr[j], arr[j+1]);
             }
         }
+        if (!swapped)
+            break;
     }
 }
-long selectionSort(int* arr, int& n) {
+size_t selectionSort(int* arr, int& n) {
     long count = 0;
     int min;
     for (int i = 0; i < n - 1; i++) {
@@ -217,7 +230,7 @@ long selectionSort(int* arr, int& n) {
         swap(arr[min], arr[i]);
     }
 }
-long insertionSort(int* arr, int& n) {
+size_t insertionSort(int* arr, int& n) {
     long count = 0;
     int temp, j;
     for (int i = 1; i < n; i++) {
@@ -247,7 +260,7 @@ int* generate_array(int order, bool dup, int n) {
         // fuck division by zero buddy
         if (temp2 == 0) temp2++;
         for (int i = 0; i < n; i++) {
-            *(arr + i) = temp;
+            arr[i] = temp;
             if (i % temp2 == 0) {
                 temp++;
             }
@@ -256,13 +269,13 @@ int* generate_array(int order, bool dup, int n) {
     // otherwise make the array normally.
     else {
         for (int i = 0; i < n; i++) {
-            *(arr + i) = i;
+            arr[i] = i;
         }
     }
     // now decide the order
     switch (order) {
         // random.
-        case '0':
+        case 0:
             {
                 unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
                 std::shuffle(arr, arr + n, std::default_random_engine(seed));
@@ -270,7 +283,7 @@ int* generate_array(int order, bool dup, int n) {
             }
             break;
         // descending.
-        case '1':
+        case 1:
             // std::cout << "reversing array...\n";
             int j = n, i = 0;
             while (j > i) {
@@ -283,7 +296,7 @@ int* generate_array(int order, bool dup, int n) {
     }
     return arr;
 }
-long runsort(long (*sort)(int*, int&), int* arr, int& n) {
-    long swaps = sort(arr, n);
+size_t runsort(size_t (*sort)(int*, int&), int* arr, int& n) {
+    size_t swaps = sort(arr, n);
     return swaps;
 }

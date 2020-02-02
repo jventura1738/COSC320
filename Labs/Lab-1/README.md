@@ -19,15 +19,15 @@ The actual timing clearly gets longer as the array size increases.  In terms of 
 
 ### (c) Aggregate your data into a graph of the complexity for the various array sizes, for example with a spreadsheet program like LibreOffice Calc or Microsoft Word.
 
-Data collected and documented on Google Sheets.
+Data collected and documented on Google Sheets.  The images are saved as PNG's included with the rest of my files.
 
 ### (d) How do the algorithms perform in different cases? What is the best and worst case, according to your own test results?
 
-i) Bubble sort obviously performs at its best when an array is presorted.  It performs worst when the array is initially in descending order.
+i) Bubble sort obviously performs at its best when an array is presorted.  It performs worst when the array is initially in descending order or in a random order.
 
-ii) Selection sort.
+ii) Selection sort performed roughly the same regardless of the duplicates and order.  Performed slightly better than Bubble Sort.
 
-iii) Insertion sort.
+iii) Insertion sort performed the best out of the three, with an obvious best case being the presorted array.  Worst case was a backwards facing array.
 
 ### (e) How could the code be improved in terms of usability, efficiency, and robustness?
 

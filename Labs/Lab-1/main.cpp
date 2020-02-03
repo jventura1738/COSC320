@@ -62,18 +62,19 @@ int main() {
         delete [] arr;
     }
     n *= 10;
-    std::cout << "\nTRIAL FOUR: 100000 elements.\n";
-    for (int i = 0; i < 6; i++) {
-        size_t numswaps = 0;
-        arr = generate_array((i % 3), (i % 2 == 0), n);
-        timer.start_timer();
-        numswaps = runsort(bubbleSort, arr, n);
-        timer.end_timer();
-        timer.display_time();
-        std::cout << "# swaps: " << numswaps << "\n\n";
-        if (!isSorted(arr, n)) std::cout << "L\n";
-        delete [] arr;
-    }
+
+    // std::cout << "\nTRIAL FOUR: 100000 elements.\n";
+    // for (int i = 0; i < 6; i++) {
+    //     size_t numswaps = 0;
+    //     arr = generate_array((i % 3), (i % 2 == 0), n);
+    //     timer.start_timer();
+    //     numswaps = runsort(bubbleSort, arr, n);
+    //     timer.end_timer();
+    //     timer.display_time();
+    //     std::cout << "# swaps: " << numswaps << "\n\n";
+    //     if (!isSorted(arr, n)) std::cout << "L\n";
+    //     delete [] arr;
+    // }
     n = 100;
 
     std::cout << "----- Selection Sort -----\n";
@@ -116,18 +117,18 @@ int main() {
         delete [] arr;
     }
     n *= 10;
-    std::cout << "\nTRIAL FOUR: 100000 elements.\n";
-    for (int i = 0; i < 6; i++) {
-        size_t numswaps = 0;
-        arr = generate_array((i % 3), (i % 2 == 0), n);
-        timer.start_timer();
-        numswaps = runsort(selectionSort, arr, n);
-        timer.end_timer();
-        timer.display_time();
-        std::cout << "# swaps: " << numswaps << "\n\n";
-        if (!isSorted(arr, n)) std::cout << "L\n";
-        delete [] arr;
-    }
+    // std::cout << "\nTRIAL FOUR: 100000 elements.\n";
+    // for (int i = 0; i < 6; i++) {
+    //     size_t numswaps = 0;
+    //     arr = generate_array((i % 3), (i % 2 == 0), n);
+    //     timer.start_timer();
+    //     numswaps = runsort(selectionSort, arr, n);
+    //     timer.end_timer();
+    //     timer.display_time();
+    //     std::cout << "# swaps: " << numswaps << "\n\n";
+    //     if (!isSorted(arr, n)) std::cout << "L\n";
+    //     delete [] arr;
+    // }
     n = 100;
 
     std::cout << "----- Insertion Sort -----\n\n";
@@ -183,18 +184,18 @@ int main() {
         delete [] arr;
     }
     n *= 10;
-    std::cout << "\nTRIAL FIVE: 1000000 elements.\n";
-    for (int i = 0; i < 6; i++) {
-        size_t numswaps = 0;
-        arr = generate_array((i % 3), (i % 2 == 0), n);
-        timer.start_timer();
-        numswaps = runsort(insertionSort, arr, n);
-        timer.end_timer();
-        timer.display_time();
-        std::cout << "# swaps: " << numswaps << "\n\n";
-        if (!isSorted(arr, n)) std::cout << "L\n";
-        delete [] arr;
-    }
+    // std::cout << "\nTRIAL FIVE: 1000000 elements.\n";
+    // for (int i = 0; i < 6; i++) {
+    //     size_t numswaps = 0;
+    //     arr = generate_array((i % 3), (i % 2 == 0), n);
+    //     timer.start_timer();
+    //     numswaps = runsort(insertionSort, arr, n);
+    //     timer.end_timer();
+    //     timer.display_time();
+    //     std::cout << "# swaps: " << numswaps << "\n\n";
+    //     if (!isSorted(arr, n)) std::cout << "L\n";
+    //     delete [] arr;
+    // }
 
     return 0;
 }

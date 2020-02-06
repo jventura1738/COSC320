@@ -14,7 +14,7 @@ bool isSorted(int*, int);
 size_t bubbleSort(int*, int);
 size_t selectionSort(int*, int);
 size_t insertionSort(int*, int);
-int* generate_array(int order, bool dup, int n);
+int* generate_array(int, bool, int);
 size_t runsort (size_t (*sort)(int*, int), int* arr, int n);
 
 int main() {

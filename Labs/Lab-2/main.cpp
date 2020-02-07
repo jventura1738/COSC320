@@ -93,7 +93,7 @@ int partition  (int* arr, int start, int end, size_t& comp) {
     int loc = (start - 1);
     for (int j = start; j <= end - 1; j++) {
 
-        comp++;
+        comp++; // compison count
         if (arr[j] < piv) {
             loc++;
             swap(arr[loc], arr[j]);
@@ -103,8 +103,7 @@ int partition  (int* arr, int start, int end, size_t& comp) {
     return (loc + 1);
 }
 void quick_sort(int* arr, int start, int end, size_t& comp) {
-    if (start < end)
-    {
+    if (start < end) {
         // getting location for pivot.
         int piv = partition(arr, start, end, comp);
 
@@ -156,10 +155,10 @@ void merge(int *arr, int leftmost, int mid, int rightmost, size_t& comp) {
 }
 void merge_sort(int *array, int start, int end, size_t& comp) {
    int mid;
-   if(start < end)
-   {
+   if(start < end) {
       mid = start + (end - start) / 2;
       // Sort first and second arrays recursively.
+
       merge_sort(array, start, mid, comp);
       merge_sort(array, mid + 1, end, comp);
       // merge the two arrays together.
@@ -187,8 +186,7 @@ int* generate_array(int order, bool dup, int n) {
     // now decide the order
     switch (order) {
         // random.
-        case 0:
-            {
+        case 0: {
                 unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
                 std::shuffle(arr, arr + n, std::default_random_engine(seed));
             }

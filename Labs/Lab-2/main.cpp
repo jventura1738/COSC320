@@ -158,9 +158,9 @@ void merge_sort(int *array, int start, int end, size_t& comp) {
    if(start < end) {
       mid = start + (end - start) / 2;
       // Sort first and second arrays recursively.
-
       merge_sort(array, start, mid, comp);
       merge_sort(array, mid + 1, end, comp);
+
       // merge the two arrays together.
       merge(array, start, mid, end, comp);
    }

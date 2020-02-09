@@ -118,7 +118,8 @@ void merge(int *arr, int leftmost, int mid, int rightmost, size_t& comp) {
     int sub2 = rightmost - mid;
     int i, j, k;
     // create the subarrays.
-    int subArr1[sub1], subArr2[sub2];
+    int *subArr1 = new int[sub1], 
+    int *subArr2 = new int[sub2];
 
     // fill leftmost and rightmost sub-arrays
     for(i = 0; i < sub1; i++)
@@ -127,31 +128,28 @@ void merge(int *arr, int leftmost, int mid, int rightmost, size_t& comp) {
     for(j = 0; j < sub2; j++)
         subArr2[j] = arr[mid + 1 + j];
 
-    i = 0; j = 0; k = leftmost;
+    i = 0; 
+    j = 0; 
+    k = leftmost;
 
     // merge temp arrays to real array
     while(i < sub1 && j < sub2) {
         comp++;
         if(subArr1[i] <= subArr2[j]) {
-            arr[k] = subArr1[i];
-            i++;
+            arr[k++] = subArr1[i++];
         }
         else {
-            arr[k] = subArr2[j];
-            j++;
+            arr[k++] = subArr2[j++];
         }
-        k++;
     }
     while(i < sub1) { // for extra elements in leftmost array
-        arr[k] = subArr1[i];
-        i++;
-        k++;
+        arr[k++] = subArr1[i++];
     }
     while(j < sub2) { // for extra elements in rightmost array
-        arr[k] = subArr2[j];
-        j++;
-        k++;
+        arr[k++] = subArr2[j++];
     }
+    delete [] subArr1;
+    delete [] subArr2;
 }
 void merge_sort(int *array, int start, int end, size_t& comp) {
    int mid;

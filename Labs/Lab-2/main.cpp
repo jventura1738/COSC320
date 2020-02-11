@@ -58,6 +58,7 @@ int main () {
         if (i == 5) {
             n *= 10;
             i = 0;
+            trials++;
         }
         if (trials == 4) {
             break;
@@ -93,7 +94,7 @@ int partition  (int* arr, int start, int end, size_t& comp) {
     int loc = (start - 1);
     for (int j = start; j <= end - 1; j++) {
 
-        comp++; // compison count
+        comp++; // comparison count
         if (arr[j] < piv) {
             loc++;
             swap(arr[loc], arr[j]);

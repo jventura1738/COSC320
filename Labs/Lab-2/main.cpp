@@ -1,10 +1,11 @@
 // Justin Ventura COSC320
 // Lab-2 Dr. Joe Anderson
 
-#include <bits/stdc++.h>
 #include <iostream>
 #include <chrono>
 #include <algorithm>
+#include <random>
+//#include <bits/stdc++.h>
 #include "timer.h"
 
 // print the given array.
@@ -32,38 +33,71 @@ int* generate_array(int, bool, int);
 int main () {
     Timer timer;
     int *arr;
-    int n = 100, trials = 1;
-    for (int i = 0; i < 6; i++) {
-        std::cout << "===== Quick Sort =====\n";
-        std::cout << "Array size: " << n << "\n";
-        std::cout << "Duppies: " << (i % 2 == 0) << "\n";
-        if (i % 3 == 0) {
-            std::cout << "Order: random.\n";
-        }
-        else if (i % 3 == 1) {
-            std::cout << "Order: backwards.\n";
-        }
-        else {
-            std::cout << "Order: pre-sorted.\n";
-        }
-        size_t comps = 0;
-        arr = generate_array((i % 3), (i % 2 == 0), n);
-        timer.start_timer();
-        quick_sort(arr, 0, (n - 1), comps);
-        timer.end_timer();
-        timer.display_time();
-        std::cout << "# of comparisons: " << comps << "\n\n";
-        if (!isSorted(arr, n)) std::cout << "L\n";
-        delete [] arr;
-        if (i == 5) {
-            n *= 10;
-            i = 0;
-            trials++;
-        }
-        if (trials == 4) {
-            break;
-        }
-    }
+    int n, order, temp;
+    bool dups;
+    size_t comps = 0;
+
+    n = 130000;
+    arr = generate_array(0, true, 130000);
+    timer.start_timer();
+    merge_sort(arr, 0, (n-1), comps);
+    timer.end_timer();
+    std::cout << "Order: " << order << " & size: " << n << "\n";
+    timer.display_time();
+
+
+    // while (true) {
+    //     n = 70000;
+
+    //     while (n <= 130000) {
+    //         order = 0;
+    //         for (int i = 0; i < 3; i++) {
+    //             size_t comps = 0;
+    //             arr = generate_array(order, dups, n);
+    //             timer.start_timer();
+    //             quick_sort(arr, 0, (n-1), comps);
+    //             timer.end_timer();
+    //             std::cout << "Order: " << order << " & size: " << n << "\n";
+    //             timer.display_time();
+    //             std::cout << "# of comparisons: " << comps << "\n\n";
+    //             order++;
+    //         }
+    //         n += 10000;
+    //     }
+    //     delete [] arr;
+    // }
+
+    // for (int i = 0; i < 6; i++) {
+    //     std::cout << "===== Quick Sort =====\n";
+    //     std::cout << "Array size: " << n << "\n";
+    //     std::cout << "Duppies: " << (i % 2 == 0) << "\n";
+    //     if (i % 3 == 0) {
+    //         std::cout << "Order: random.\n";
+    //     }
+    //     else if (i % 3 == 1) {
+    //         std::cout << "Order: backwards.\n";
+    //     }
+    //     else {
+    //         std::cout << "Order: pre-sorted.\n";
+    //     }
+    //     size_t comps = 0;
+    //     arr = generate_array((i % 3), (i % 2 == 0), n);
+    //     timer.start_timer();
+    //     quick_sort(arr, 0, (n - 1), comps);
+    //     timer.end_timer();
+    //     timer.display_time();
+    //     std::cout << "# of comparisons: " << comps << "\n\n";
+    //     if (!isSorted(arr, n)) std::cout << "L\n";
+    //     delete [] arr;
+    //     if (i == 5) {
+    //         n *= 10;
+    //         i = 0;
+    //         trials++;
+    //     }
+    //     if (trials == 4) {
+    //         break;
+    //     }
+    // }
 
     return 0;
 }
@@ -119,7 +153,7 @@ void merge(int *arr, int leftmost, int mid, int rightmost, size_t& comp) {
     int sub2 = rightmost - mid;
     int i, j, k;
     // create the subarrays.
-    int *subArr1 = new int[sub1], 
+    int *subArr1 = new int[sub1];
     int *subArr2 = new int[sub2];
 
     // fill leftmost and rightmost sub-arrays

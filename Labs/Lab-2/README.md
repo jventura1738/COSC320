@@ -1,6 +1,6 @@
 # COSC320: Lab - 2 [Dr. Anderson]
 
-Justin Ventura
+Justin Ventura (README FILE)
 
 ## Questions to answer.
 

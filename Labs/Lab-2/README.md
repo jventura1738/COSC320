@@ -17,19 +17,19 @@ Justin Ventura
 ### B) How does the absolute timing scale with the number of elements in the array? The size of the elements? Can you use the data collected to rectify this with the theoretical time complexity?
 
 
-The timing scales just about right with the theoretical time complexities with respect to the number of elements.  With the data collected, it appears that the best and worst cases of quicksort began to show as the arrays became large.  Merge sort on the other hand, remained quite fast throughout the testing, growing just about O(nlogn).  I would say with the data collected, these sorts were quite close in growth with respect to the # of elements in the array to the time complexities.
+The timing scales just about right with the theoretical time complexities with respect to the number of elements.  With the data collected, it appears that the best and worst cases of quicksort began to show as the arrays became large.  Merge sort on the other hand, remained quite fast throughout the testing, growing just about O(nlogn).  I would say with the data collected, these sorts were quite close in growth with respect to the # of elements in the array to the time complexities.  (Note the graph linked to my data collected for various cases that will be attached to observe the trends in timing and comparisons.)
 
 
 ### C) How do the algorithms perform in different cases? What is the best and worst case, according to your own test results?
 
 
-As already mentioned, quick sort performed the worst when the array was already sorted or in reverse order, and performed best when the array was in a random order.  As for merge sort, regardless of the order, the times were roughly the same, as expected.
+As already mentioned, quick sort performed the worst when the array was already sorted or in reverse order, and performed best when the array was in a random order.  As for merge sort, regardless of the order, the times were roughly the same (per a specific n), as expected.
 
 
 ### D) Do your observations confirm the difference in the best and worst case for Quicksort? How does Mergesort handle these cases?
 
 
-Oh golly yes they do, the pre-sorted and backwards arrays were vastly worse during the quicksort trials than any other case.  The duplicates made it even worse (at least from the data I collected).  Merge sort barely seemed to be affected by the cases that made quicksort tremble.
+Oh golly yes they do, the pre-sorted and backwards arrays were vastly worse during the quicksort trials than any other case.  The duplicates made it even worse (at least from the data I collected).  Merge sort barely seemed to be affected by the cases that made quicksort tremble.  (Again, observe the graph & table)
 
 
 ### E) How do this algorithms compare to your implementation of Bubble sort from Lab 1?

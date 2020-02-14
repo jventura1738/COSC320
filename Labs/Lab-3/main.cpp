@@ -26,31 +26,35 @@ struct Heap {
     int* arr;      // array in the structure
     int length;    // size of the array
     int heap_size; // size of the valid heap
-    Heap(int& n) {
+    Heap(int size) : length(size), heap_size(0) {
         std::cout << "Heap Created.\n";
-        if (n < 1) {
-            std::cout << "WARNING: Invalid array size. [1]\n";
-            this->length = 1;
-            arr = new int[1];
-            return;
-        }
-        arr = new int[n];
+        arr = new int[size];
     }
+    // Heap(int& n) {
+    //     std::cout << "Heap Created.\n";
+    //     if (n < 1) {
+    //         std::cout << "WARNING: Invalid array size. [1]\n";
+    //         this->length = 1;
+    //         arr = new int[1];
+    //         return;
+    //     }
+    //     arr = new int[n];
+    // }
     ~Heap() {
         std::cout << "Heap destroyed.\n";
         delete [] arr;
     }
     int& operator[](int i) {
-        if (i < 1 || i > length - 1) {
+        if (i < 0 || i >= this->length) {
             std::cout << "WARNING: out of bounds. [0]\n";
             return this->arr[0];
         }
-        return arr[i];
+        return this->arr[i];
     }
     void load_data(int *data, int n) {
-        if (n != length) {
+        if (n != this->length) {
             std::cout << "WARNING: length changed.\n";
-            length = n;
+            this->length = n;
         }
         for (int i = 0; i < this->length; i++) {
             this->arr[i] = data[i];
@@ -58,51 +62,49 @@ struct Heap {
     }
 };
 
-void MaxHeapify(struct Heap *A, int &i) {
+void MaxHeapify(struct Heap* A, int &i) {
     int l = 2 * i;
     int r = ((2 * i) + 1);
     int max;
-    if (l <= A->heap_size && A[l] > A[i]) {
+    if (l <= A->heap_size && A->arr[l] > A->arr[i]) {
         max = l;
     }
     else {
         max = i;
     }
-    if (r <= A->heap_size && A[r] > A[max]) {
+    if (r <= A->heap_size && A->arr[r] > A->arr[max]) {
         max = r;
     }
     if (max != i) {
-        swap(*A[i], *A[max]);
+        swap(A->arr[i], A->arr[max]);
         MaxHeapify(A, max);
     }
 }
 
 void BuildMaxHeap(struct Heap *A) {
-    for (int i = (A.length/2 - 1); i > 1; i--) {
+    for (int i = (A->length/2 - 1); i > 1; i--) {
         MaxHeapify(A, i);
     }
 }
 
 int main () {
     Timer timer;
-    int *arr;
+    //int *arr;
     int n, order, temp;
     bool dups;
     size_t comps = 0;
 
-    int *arr = new int[8];
-    arr[0] = 4;
-    arr[1] = 8;
-    arr[2] = 1;
-    arr[3] = 10;
-    arr[4] = 7;
-    arr[5] = -4;
-    arr[6] = 0;
-    arr[7] = 3;
+    Heap test(8);
+    test[0] = 4;
+    test[1] = 8;
+    test[2] = 1;
+    test[3] = 10;
+    test[4] = 7;
+    test[5] = -4;
+    test[6] = 0;
+    test[7] = 3;
 
-    Heap *test;
-    test->load_data(arr);
-    BuildMaxHeap(test);
+    BuildMaxHeap(&test);
     for (int i = 0; i < 8; i++) {
         std::cout << test[i] << " ";
     }

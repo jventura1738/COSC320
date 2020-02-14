@@ -8,7 +8,7 @@ go = g++ -o
 main: main.o timer.o
 	$(go) main main.o timer.o
 
-main.o: main.cpp timer.o
+main.o: main.cpp timer.o heap.cpp heap.h
 	$(gc) main.cpp
 
 timer.o: timer.cpp timer.h

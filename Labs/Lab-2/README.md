@@ -29,7 +29,7 @@ As already mentioned, quick sort performed the worst when the array was already 
 ### D) Do your observations confirm the difference in the best and worst case for Quicksort? How does Mergesort handle these cases?
 
 
-Oh golly yes they do, the pre-sorted and backwards arrays were vastly worse during the quicksort trials than any other case.  The duplicates made it even worse (at least from the data I collected).  Merge sort barely seemed to be affected by the cases that made quicksort tremble.  (Again, observe the graph & table to see the evidence via empirical data)
+Oh lord yes they do, the pre-sorted and backwards arrays were vastly worse during the quicksort trials than any other case.  The duplicates made it even worse (at least from the data I collected).  Merge sort barely seemed to be affected by the cases that made quicksort tremble.  (Again, observe the graph & table to see the evidence via empirical data)
 
 
 ### E) How do this algorithms compare to your implementation of Bubble sort from Lab 1?

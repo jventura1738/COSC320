@@ -42,29 +42,44 @@ struct Heap {
     }
     int& operator[](int i) {
         if (i < 1 || i > length - 1) {
-            std::cout << "WARNING: out of bounds. [-1]\n";
-            return -1;
+            std::cout << "WARNING: out of bounds. [0]\n";
+            return this->arr[0];
         }
         return arr[i];
+    }
+    void load_data(int *data, int n) {
+        if (n != length) {
+            std::cout << "WARNING: length changed.\n";
+            length = n;
+        }
+        for (int i = 0; i < this->length; i++) {
+            this->arr[i] = data[i];
+        }
     }
 };
 
 void MaxHeapify(struct Heap *A, int &i) {
-    int l = 2*i;
-    int r = (2*i + 1);
+    int l = 2 * i;
+    int r = ((2 * i) + 1);
     int max;
-    if (l <= A->heap_size() && A[l] > A[i]) {
+    if (l <= A->heap_size && A[l] > A[i]) {
         max = l;
     }
     else {
         max = i;
     }
-    if (r <= A->heap_size() && A[r] > A[max]) {
+    if (r <= A->heap_size && A[r] > A[max]) {
         max = r;
     }
     if (max != i) {
-        swap(A[i], A[max]);
-        MaxHeapify(A, Largest);
+        swap(*A[i], *A[max]);
+        MaxHeapify(A, max);
+    }
+}
+
+void BuildMaxHeap(struct Heap *A) {
+    for (int i = (A.length/2 - 1); i > 1; i--) {
+        MaxHeapify(A, i);
     }
 }
 
@@ -75,6 +90,22 @@ int main () {
     bool dups;
     size_t comps = 0;
 
+    int *arr = new int[8];
+    arr[0] = 4;
+    arr[1] = 8;
+    arr[2] = 1;
+    arr[3] = 10;
+    arr[4] = 7;
+    arr[5] = -4;
+    arr[6] = 0;
+    arr[7] = 3;
+
+    Heap *test;
+    test->load_data(arr);
+    BuildMaxHeap(test);
+    for (int i = 0; i < 8; i++) {
+        std::cout << test[i] << " ";
+    }
     return 0;
 }
 

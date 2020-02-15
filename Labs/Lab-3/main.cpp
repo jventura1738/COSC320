@@ -90,33 +90,22 @@ void print_heap(Heap<T> *A) {
 
 int main () {
     Timer timer;
-    int arr[8];
     int n, order, temp;
     bool dups;
     size_t comps = 0;
 
-    int size = 8;
-    arr[0] = 4;
-    arr[1] = 8;
-    arr[2] = 1;
-    arr[3] = 10;
-    arr[4] = 7;
-    arr[5] = -4;
-    arr[6] = 0;
-    arr[7] = 3;
+    int size = 100;
+    int *arr = generate_array(2, false, size);
+    
     Heap<int> test(arr, size);
 
-    for (int i = 0; i < 8; i++) {
-        std::cout << test.arr[i] << " ";
-    }
-    std::cout << "\n";
-    BuildMaxHeap(&test);
-    print_heap(&test);
+    //print_heap(&test);
     std::cout << "\n";
     HeapSort(&test);
-    for (int i = 0; i < 8; i++) {
-        std::cout << test.arr[i] << " ";
+    if (isSorted(test.arr, size)) {
+        std::cout << "gamer win\n";
     }
+
     std::cout << "\n";
     return 0;
 }

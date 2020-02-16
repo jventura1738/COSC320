@@ -1,11 +1,13 @@
 // Justin Ventura COSC320
-// Lab-2 Dr. Joe Anderson
+// Lab-3 Dr. Joe Anderson
+// 02/16/20
 
 #include <iostream>
 #include <chrono>
 #include <algorithm>
 #include <random>
 #include <string>
+// not compatible on mac for some reason.
 //#include <bits/stdc++.h>
 #include "timer.h"
 #include "heap.h"
@@ -104,6 +106,15 @@ void print_heap(Heap<T> *A) {
     }
     std::cout << "\n";
 }
+
+/*
+ * Lab-3, COSC320-002 for Joe Anderson
+ * Coder: Justin Ventura
+ *
+ * INFO: below is the main for the lab
+ * which will used the templated heap
+ * sort to sort various data.
+*/
 
 int main () {
     Timer timer;

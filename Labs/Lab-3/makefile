@@ -14,6 +14,7 @@ main.o: main.cpp timer.o heap.cpp heap.h
 timer.o: timer.cpp timer.h
 	$(gc) timer.cpp
 
+# run make memcheck for memory checking.
 memcheck:
 	valgrind --leak-check=yes ./main
 

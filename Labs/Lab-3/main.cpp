@@ -125,14 +125,14 @@ int main () {
 
     // Size range: 50K - 150K
     std::cout << "--- HEAPSORT DATA ---\n\n";
-    while (n <= 2000000) {
+    while (n <= 1000000) {
         // Create the necessary int array and store
         // it into a heap structure.
         int order = 0, duppies = 0;
         std::cout << "\n==============================\n";
         std::cout << "Trials for # elements = " << n << ":\n";
         std::cout << "==============================\n";
-        if (n == 50000) delete [] data;
+        if (n != 250000) delete [] data;
         data = generate_array(order++, duppies, n);
         Heap<int> tester(data, n);
 
@@ -226,6 +226,7 @@ int main () {
 
         // increment for multiple trials
         std::cout << "\n\n";
+        if (n == 1000000) delete [] data;
         n += 250000;
     }
 

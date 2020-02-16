@@ -61,6 +61,8 @@ void MaxHeapify(Heap<T>* A, int i) {
 template <typename T>
 void BuildMaxHeap(Heap<T> *A) {
     A->heap_size = A->length - 1;
+    // length/2 is already floored, so we can
+    // subtract 1 from the result safely.
     for (int i = (A->length/2) - 1; i >= 0; i--) {
         MaxHeapify(A, i);
     }

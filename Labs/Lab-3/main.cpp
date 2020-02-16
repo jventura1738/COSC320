@@ -5,16 +5,20 @@
 #include <chrono>
 #include <algorithm>
 #include <random>
+#include <string>
 //#include <bits/stdc++.h>
 #include "timer.h"
 #include "heap.h"
 
 // print the given array.
-void printarr(int*, int);
+template <typename T>
+void printarr(T*, int);
 // swap two integers by reference.
-void swap (int&, int&);
+template <typename T>
+void swap (T&, T&);
 // checks if array is sorted.
-bool isSorted(int*, int);
+template <typename T>
+bool isSorted(T*, int);
 // generate an array.
 // 0 = random
 // 1 = descending
@@ -23,6 +27,11 @@ bool isSorted(int*, int);
 // false = no duppies
 int* generate_array(int, bool, int);
 
+// Max Heapify.  This function will be used
+// To "heapify" part of a tree given an index
+// i.  It will recurse down the tree in case
+// of breaking the properties of a "Max Heap."
+// Complexity: O(logn) with pessimism.
 template <typename T>
 void MaxHeapify(Heap<T>* A, int i) {
     int l = 2 * i;
@@ -43,6 +52,10 @@ void MaxHeapify(Heap<T>* A, int i) {
     }
 }
 
+// Build Max-Heap.  This will call Max Heapify
+// to create a "Max Heap" out of the Heap obj
+// passed into the function.
+// Complexity: O(n * logn).
 template <typename T>
 void BuildMaxHeap(Heap<T> *A) {
     A->heap_size = A->length - 1;
@@ -51,6 +64,10 @@ void BuildMaxHeap(Heap<T> *A) {
     }
 }
 
+// Take advantage of the Max Heap structure
+// to sort an array.  Pass in any ordered heap
+// and it will be sorted.
+// Complexity: (nlogn).
 template <typename T>
 void HeapSort(Heap<T> *A) {
     BuildMaxHeap(A);
@@ -90,40 +107,40 @@ void print_heap(Heap<T> *A) {
 
 int main () {
     Timer timer;
-    int n, order, temp;
+    int n = 50000, order, temp;
     bool dups;
-    size_t comps = 0;
 
-    int size = 100;
-    int *arr = generate_array(2, false, size);
-    
-    Heap<int> test(arr, size);
+    // Size range: 50K - 150K
+    std::cout << "--- HEAPSORT DATA ---\n";
+    while (n <= 150000) {
+        std::cout << "Trials for # elements = " << n << "\n";
+        
 
-    //print_heap(&test);
-    std::cout << "\n";
-    HeapSort(&test);
-    if (isSorted(test.arr, size)) {
-        std::cout << "gamer win\n";
+        n += 10000;
     }
 
     std::cout << "\n";
     return 0;
 }
 
-void printarr(int* arr, int n) {
+template <typename T>
+void printarr(T* arr, int n) {
     for (int i = 0; i < n; i++) {
         std::cout << arr[i] << " ";
     }
     std::cout << "\n";
 }
-void swap(int &a, int &b) {
-    int temp = a;
+template <typename T>
+void swap(T &a, T &b) {
+    T temp = a;
     a = b;
     b = temp;
 }
-bool isSorted(int* arr, int n) {
+template <typename T>
+bool isSorted(T* arr, int n) {
     int i = 0;
     while (i < n - 1) {
+        // my pointer understanding high ;)
         if (*(arr + i) > *(arr + (i + 1))) {
             return false;
         }

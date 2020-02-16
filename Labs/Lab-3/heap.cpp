@@ -11,7 +11,7 @@ Heap<T>::Heap(T* data, int& n) : length(n), heap_size(0) {
 		this->length = -1;
 	}
 
-	std::cout << "Heap Created with given array.\n";
+	//std::cout << "Heap Created with given array.\n";
 
 	// copy given array to heap array.
 	this->arr = new T[n];
@@ -21,7 +21,7 @@ Heap<T>::Heap(T* data, int& n) : length(n), heap_size(0) {
 }
 
 template <typename T>
-void Heap<T>::load_data(int *data, int n) {
+void Heap<T>::load_data(T *data, int n) {
       if (n != this->length) {
           std::cout << "WARNING: length changed.\n";
           this->length = n;

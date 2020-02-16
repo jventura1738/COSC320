@@ -13,7 +13,7 @@ public:
 
 	// Default Constructor.
 	Heap() : length(-1), heap_size(-1) {
-		std::cout << "Heap Created. [EMPTY]\n";
+		//std::cout << "Heap Created. [EMPTY]\n";
 	}
 
 	// Main Constructor.
@@ -21,7 +21,7 @@ public:
 
 	// Destructor.
 	~Heap() {
-		std::cout << "Heap Destroyed.\n";
+		//std::cout << "Heap Destroyed.\n";
 		delete [] arr;
 	}
 
@@ -31,7 +31,7 @@ public:
 	}
 
 	// Load data into the heap.
-	void load_data(int *data, int n);
+	void load_data(T *data, int n);
 
 };
 

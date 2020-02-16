@@ -32,3 +32,7 @@ The sort was definitely very quick for nearly every case, but it definitely seem
 ### G) How could the code be improved in terms of usability, efficiency, and robustness?
 
 Good question, I dont think there is.
+
+## Extra Credit:
+
+The Heap and every function has been templated to take any value, and operational on any type which has overloaded comparison operators.  The outputs demonstrating this are included in the Lab Report.

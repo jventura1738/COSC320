@@ -120,24 +120,52 @@ void print_heap(Heap<T> *A) {
 
 int main () {
     Timer timer;
-    int n = 250000;
+    int n = 10000000;
     int *data;
-    double *data2;
+    double *data2 = new double[n];
 
     data = generate_array(0, 0, n);
-    data2 = static_cast<double*>(generate_array(0, 0, n));
+    for (int i = 0; i < n; i++) {
+        data2[i] = double(data[i]);
+    }
 
     Heap<int> A(data, n);
     Heap<double> B(data2, n);
 
     timer.start_timer();
-    HeapSort(A, n);
+    HeapSort(&A);
     timer.end_timer();
     timer.display_time();
     timer.reset_time();
 
     timer.start_timer();
-    HeapSort(B, n);
+    HeapSort(&B);
+    timer.end_timer();
+    timer.display_time();
+    timer.reset_time();
+
+    n = 20000000;
+    delete [] data;
+    delete [] data2;
+
+    data2 = new double[n];
+
+    data = generate_array(0, 0, n);
+    for (int i = 0; i < n; i++) {
+        data2[i] = double(data[i]);
+    }
+
+    A.load_data(data, n);
+    B.load_data(data2, n);
+
+    timer.start_timer();
+    HeapSort(&A);
+    timer.end_timer();
+    timer.display_time();
+    timer.reset_time();
+
+    timer.start_timer();
+    HeapSort(&B);
     timer.end_timer();
     timer.display_time();
     timer.reset_time();

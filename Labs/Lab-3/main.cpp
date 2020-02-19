@@ -120,117 +120,165 @@ void print_heap(Heap<T> *A) {
 
 int main () {
     Timer timer;
-    int n = 250000;
+    int n = 10000000;
     int *data;
+    double *data2 = new double[n];
 
-    // Size range: 50K - 150K
-    std::cout << "--- HEAPSORT DATA ---\n\n";
-    while (n <= 2000000) {
-        // Create the necessary int array and store
-        // it into a heap structure.
-        int order = 0, duppies = 0;
-        std::cout << "\n==============================\n";
-        std::cout << "Trials for # elements = " << n << ":\n";
-        std::cout << "==============================\n";
-        if (n == 50000) delete [] data;
-        data = generate_array(order++, duppies, n);
-        Heap<int> tester(data, n);
-
-        // begin trials:
-
-        std::cout << "Array with randoms & no duppies: \n";
-        timer.start_timer();
-        HeapSort(&tester);
-        timer.end_timer();
-        timer.display_time();
-        timer.reset_time();
-
-        if (!isSorted(tester.arr, n)) {
-            std::cout << "WARNING: heap unsorted.\n";
-            return 0;
-        }
-
-        delete [] data;
-        data = generate_array(order++, duppies, n);
-        tester.load_data(data, n);
-
-        std::cout << "Array backwards & no duppies: \n";
-        timer.start_timer();
-        HeapSort(&tester);
-        timer.end_timer();
-        timer.display_time();
-        timer.reset_time();
-
-        if (!isSorted(tester.arr, n)) {
-            std::cout << "WARNING: heap unsorted.\n";
-            return 0;
-        }
-
-        delete [] data;
-        data = generate_array(order, duppies++, n);
-        tester.load_data(data, n);
-
-        std::cout << "Array pre-sorted & no duppies: \n";
-        timer.start_timer();
-        HeapSort(&tester);
-        timer.end_timer();
-        timer.display_time();
-        timer.reset_time();
-
-        // now test with duplicates.
-        std::cout << "\n";
-        order = 0;
-
-        delete [] data;
-        data = generate_array(order++, duppies, n);
-        tester.load_data(data, n);
-
-        std::cout << "Array with randoms & duppies: \n";
-        timer.start_timer();
-        HeapSort(&tester);
-        timer.end_timer();
-        timer.display_time();
-        timer.reset_time();
-
-        if (!isSorted(tester.arr, n)) {
-            std::cout << "WARNING: heap unsorted.\n";
-            return 0;
-        }
-
-        delete [] data;
-        data = generate_array(order++, duppies, n);
-        tester.load_data(data, n);
-
-        std::cout << "Array backwards & duppies: \n";
-        timer.start_timer();
-        HeapSort(&tester);
-        timer.end_timer();
-        timer.display_time();
-        timer.reset_time();
-
-        if (!isSorted(tester.arr, n)) {
-            std::cout << "WARNING: heap unsorted.\n";
-            return 0;
-        }
-
-        delete [] data;
-        data = generate_array(order, duppies, n);
-        tester.load_data(data, n);
-
-        std::cout << "Array pre-sorted & duppies: \n";
-        timer.start_timer();
-        HeapSort(&tester);
-        timer.end_timer();
-        timer.display_time();
-        timer.reset_time();
-
-        // increment for multiple trials
-        std::cout << "\n\n";
-        n += 250000;
+    data = generate_array(0, 0, n);
+    for (int i = 0; i < n; i++) {
+        data2[i] = double(data[i]);
     }
 
-    std::cout << "Testing complete.\n";
-    return 0;
+    Heap<int> A(data, n);
+    Heap<double> B(data2, n);
+
+    timer.start_timer();
+    HeapSort(&A);
+    timer.end_timer();
+    timer.display_time();
+    timer.reset_time();
+
+    timer.start_timer();
+    HeapSort(&B);
+    timer.end_timer();
+    timer.display_time();
+    timer.reset_time();
+
+    n = 20000000;
+    delete [] data;
+    delete [] data2;
+
+    data2 = new double[n];
+
+    data = generate_array(0, 0, n);
+    for (int i = 0; i < n; i++) {
+        data2[i] = double(data[i]);
+    }
+
+    A.load_data(data, n);
+    B.load_data(data2, n);
+
+    timer.start_timer();
+    HeapSort(&A);
+    timer.end_timer();
+    timer.display_time();
+    timer.reset_time();
+
+    timer.start_timer();
+    HeapSort(&B);
+    timer.end_timer();
+    timer.display_time();
+    timer.reset_time();
+
+    // Size range: 50K - 150K
+    // std::cout << "--- HEAPSORT DATA ---\n\n";
+    // while (n <= 1000000) {
+    //     // Create the necessary int array and store
+    //     // it into a heap structure.
+    //     int order = 0, duppies = 0;
+    //     std::cout << "\n==============================\n";
+    //     std::cout << "Trials for # elements = " << n << ":\n";
+    //     std::cout << "==============================\n";
+    //     if (n != 250000) delete [] data;
+    //     data = generate_array(order++, duppies, n);
+    //     Heap<int> tester(data, n);
+    //
+    //     // begin trials:
+    //
+    //     std::cout << "Array with randoms & no duppies: \n";
+    //     timer.start_timer();
+    //     HeapSort(&tester);
+    //     timer.end_timer();
+    //     timer.display_time();
+    //     timer.reset_time();
+    //
+    //     if (!isSorted(tester.arr, n)) {
+    //         std::cout << "WARNING: heap unsorted.\n";
+    //         return 0;
+    //     }
+    //
+    //     delete [] data;
+    //     data = generate_array(order++, duppies, n);
+    //     tester.load_data(data, n);
+    //
+    //     std::cout << "Array backwards & no duppies: \n";
+    //     timer.start_timer();
+    //     HeapSort(&tester);
+    //     timer.end_timer();
+    //     timer.display_time();
+    //     timer.reset_time();
+    //
+    //     if (!isSorted(tester.arr, n)) {
+    //         std::cout << "WARNING: heap unsorted.\n";
+    //         return 0;
+    //     }
+    //
+    //     delete [] data;
+    //     data = generate_array(order, duppies++, n);
+    //     tester.load_data(data, n);
+    //
+    //     std::cout << "Array pre-sorted & no duppies: \n";
+    //     timer.start_timer();
+    //     HeapSort(&tester);
+    //     timer.end_timer();
+    //     timer.display_time();
+    //     timer.reset_time();
+    //
+    //     // now test with duplicates.
+    //     std::cout << "\n";
+    //     order = 0;
+    //
+    //     delete [] data;
+    //     data = generate_array(order++, duppies, n);
+    //     tester.load_data(data, n);
+    //
+    //     std::cout << "Array with randoms & duppies: \n";
+    //     timer.start_timer();
+    //     HeapSort(&tester);
+    //     timer.end_timer();
+    //     timer.display_time();
+    //     timer.reset_time();
+    //
+    //     if (!isSorted(tester.arr, n)) {
+    //         std::cout << "WARNING: heap unsorted.\n";
+    //         return 0;
+    //     }
+    //
+    //     delete [] data;
+    //     data = generate_array(order++, duppies, n);
+    //     tester.load_data(data, n);
+    //
+    //     std::cout << "Array backwards & duppies: \n";
+    //     timer.start_timer();
+    //     HeapSort(&tester);
+    //     timer.end_timer();
+    //     timer.display_time();
+    //     timer.reset_time();
+    //
+    //     if (!isSorted(tester.arr, n)) {
+    //         std::cout << "WARNING: heap unsorted.\n";
+    //         return 0;
+    //     }
+    //
+    //     delete [] data;
+    //     data = generate_array(order, duppies, n);
+    //     tester.load_data(data, n);
+    //
+    //     std::cout << "Array pre-sorted & duppies: \n";
+    //     timer.start_timer();
+    //     HeapSort(&tester);
+    //     timer.end_timer();
+    //     timer.display_time();
+    //     timer.reset_time();
+    //
+    //     // increment for multiple trials
+    //     std::cout << "\n\n";
+    //     if (n == 1000000) delete [] data;
+    //     n += 250000;
+    // }
+    //
+    // std::cout << "Testing complete.\n";
+    // return 0;
 }
 
 template <typename T>

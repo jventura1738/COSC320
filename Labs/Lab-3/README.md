@@ -19,7 +19,7 @@ I tested with large arrays, small arrays, duplicates, no duplicates, random orde
 
 ### D) How does the absolute timing scale with the number of elements in the array? The size of the elements? Use the data collected to rectify this with the theoretical time complexity, e.g. what non-asymptotic function of n mostly closely matches the timings that you observe as n grows?
 
-The absolute timing scales pretty well with the # of elements in the array (call it 'n').  I did however notice that the growth seems slightly more linear than nlogn in my datasets & analysis.  //TODO: test time of doubles.  As n grows, it closely matched nlogn best, as it was more of a linear growth, but still not exactly linear.
+The absolute timing scales pretty well with the # of elements in the array (call it 'n').  I did however notice that the growth seems slightly more linear than nlogn in my datasets & analysis.  I also tested sorting various data-types.  For example, doubles (8 byte) vs integers (4 byte), I noticed that the runtime was slightly faster on the integers (smaller element size) which led me to the conclusion that sorting smaller datatypes is more efficient.  As n grows, it closely matched nlogn best, as it was more of a linear growth, but still not exactly linear.
 
 ### E) Aggregate your data into a graph of the complexity for the various array sizes, for example with a spreadsheet program like LibreOffice Calc or Microsoft Word.
 
@@ -32,3 +32,7 @@ The sort was definitely very quick for nearly every case, but it definitely seem
 ### G) How could the code be improved in terms of usability, efficiency, and robustness?
 
 Good question, I dont think there is.
+
+## Extra Credit:
+
+The Heap and every function has been templated to take any value, and operational on any type which has overloaded comparison operators.  The outputs demonstrating this are included in the Lab Report.  I also put some examples of where smaller elements (in terms of storage; bytes) provided a faster sortinh runtime than sorting larger elements.

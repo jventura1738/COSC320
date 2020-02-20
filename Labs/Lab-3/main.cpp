@@ -128,58 +128,70 @@ void print_heap(Heap<T> *A, int i, int d) {
 
 int main () {
     Timer timer;
-    int n = 32;
-    int *data = new int[n];
-    for (int i = 0; i < n; i++) {
-        data[i] = i;
-    }
+    int n = 2000;
+    int n2 = 10;
+    int *data = generate_array(0, 0, n);
+
+    Heap<int> test(data, n);
+    timer.start_timer();
+    HeapSort(&test);
+    timer.end_timer();
+    timer.display_time();
+    timer.reset_time();
+    
+    print_heap(&test, 0, 4);
+
+    // for (int i = 0; i < n; i++) {
+    //     data[i] = i;
+    // }
 
     // test print
-    Heap<int> test(data, n);
-    print_heap(&test, 0, 6);
+    // Heap<int> test(data, n);
+    // print_heap(&test, 0, 6);
+    
 
     // double *data2 = new double[n];
-    //
+    
     // data = generate_array(0, 0, n);
     // for (int i = 0; i < n; i++) {
     //     data2[i13 14 15 16 17 18 19 20 r] = double(data[i]);
     // }
-    //
+    
     // Heap<int> A(data, n);
     // Heap<double> B(data2, n);
-    //
+    
     // timer.start_timer();
     // HeapSort(&A);
     // timer.end_timer();
     // timer.display_time();
     // timer.reset_time();
-    //
+    
     // timer.start_timer();
     // HeapSort(&B);
     // timer.end_timer();
     // timer.display_time();
     // timer.reset_time();
-    //
+    
     // n = 20000000;
     // delete [] data;
     // delete [] data2;
-    //
+    
     // data2 = new double[n];
-    //
+    
     // data = generate_array(0, 0, n);
     // for (int i = 0; i < n; i++) {
     //     data2[i] = double(data[i]);
     // }
-    //
+    
     // A.load_data(data, n);
     // B.load_data(data2, n);
-    //
+    
     // timer.start_timer();
     // HeapSort(&A);
     // timer.end_timer();
     // timer.display_time();
     // timer.reset_time();
-    //
+    
     // timer.start_timer();
     // HeapSort(&B);
     // timer.end_timer();

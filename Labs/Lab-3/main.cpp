@@ -96,9 +96,12 @@ void print_heap(Heap<T> *A, int i, int d) {
         std::cout << "Empty Heap.\n";
         return;
     }
+
     std::cout << A->arr[i] << "\n";
+
     int row_start = (2 * i) + 1;
 
+    // keep track of the level.
     for (int k = 2; k <= d; k++) {
 
         for (int l = row_start; l < (row_start + pow(2, k-1)); l++) {
@@ -106,6 +109,7 @@ void print_heap(Heap<T> *A, int i, int d) {
             if (l >= A->length) {
                 std::cout << "* ";
             }
+            // for incomplete levels of the tree.
             else {
                 std::cout << A->arr[l] << " ";
             }

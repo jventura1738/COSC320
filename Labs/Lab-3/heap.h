@@ -17,6 +17,7 @@ public:
 	}
 
 	// Main Constructor.
+	// PASS IN A DYNAMICALLY ALLOCATED ARRAY.
 	Heap(T* data, int& n);
 
 	// Destructor.

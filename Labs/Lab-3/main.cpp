@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <random>
 #include <string>
+#include <cmath>
 // not compatible on mac for some reason.
 //#include <bits/stdc++.h>
 #include "timer.h"
@@ -70,7 +71,7 @@ void BuildMaxHeap(Heap<T> *A) {
 
 // Take advantage of the Max Heap structure
 // to sort an array.  Pass in any ordered heap
-// and it will be sorted.
+// and it will be sorted.he first
 // Complexity: (nlogn).
 template <typename T>
 void HeapSort(Heap<T> *A) {
@@ -85,28 +86,39 @@ void HeapSort(Heap<T> *A) {
     }
 }
 
+// Print the heap.  A is the heap, i is the
+// root index to begin the (sub) tree, and
+// d is the depth down from the root (root
+// is the first from d)
 template <typename T>
-void print_heap(Heap<T> *A) {
+void print_heap(Heap<T> *A, int i, int d) {
     if (A->length < 1) {
         std::cout << "Empty Heap.\n";
         return;
     }
-    int buffer = 2, i, track = 1;
-    std::cout << A->arr[0] << "\n";
 
-    for (i = 1; i < A->length; i++, track++) {
-        std::cout << A->arr[i] << " ";
-        if (track == buffer) {
-            std::cout << "\n";
-            buffer = buffer * 2;
-            track = 0;
+    std::cout << A->arr[i] << "\n";
+
+    int row_start = (2 * i) + 1;
+
+    // keep track of the level.
+    for (int k = 2; k <= d; k++) {
+
+        for (int l = row_start; l < (row_start + pow(2, k-1)); l++) {
+
+            if (l >= A->length) {
+                std::cout << "* ";
+            }
+            // for incomplete levels of the tree.
+            else {
+                std::cout << A->arr[l] << " ";
+            }
+
         }
+        //std::cout << "row start: " << row_start << std::endl;
+        std::cout << std::endl;
+        row_start = (2 * row_start) + 1;
     }
-    while (track <= buffer) {
-        std::cout << "* ";
-        track++;
-    }
-    std::cout << "\n";
 }
 
 /*
@@ -120,55 +132,75 @@ void print_heap(Heap<T> *A) {
 
 int main () {
     Timer timer;
-    int n = 10000000;
-    int *data;
-    double *data2 = new double[n];
+    int n = 2000;
+    int n2 = 10;
+    int *data = generate_array(0, 0, n);
 
-    data = generate_array(0, 0, n);
-    for (int i = 0; i < n; i++) {
-        data2[i] = double(data[i]);
-    }
-
-    Heap<int> A(data, n);
-    Heap<double> B(data2, n);
-
+    Heap<int> test(data, n);
     timer.start_timer();
-    HeapSort(&A);
+    HeapSort(&test);
     timer.end_timer();
     timer.display_time();
     timer.reset_time();
+    
+    print_heap(&test, 0, 4);
 
-    timer.start_timer();
-    HeapSort(&B);
-    timer.end_timer();
-    timer.display_time();
-    timer.reset_time();
+    // for (int i = 0; i < n; i++) {
+    //     data[i] = i;
+    // }
 
-    n = 20000000;
-    delete [] data;
-    delete [] data2;
+    // test print
+    // Heap<int> test(data, n);
+    // print_heap(&test, 0, 6);
+    
 
-    data2 = new double[n];
-
-    data = generate_array(0, 0, n);
-    for (int i = 0; i < n; i++) {
-        data2[i] = double(data[i]);
-    }
-
-    A.load_data(data, n);
-    B.load_data(data2, n);
-
-    timer.start_timer();
-    HeapSort(&A);
-    timer.end_timer();
-    timer.display_time();
-    timer.reset_time();
-
-    timer.start_timer();
-    HeapSort(&B);
-    timer.end_timer();
-    timer.display_time();
-    timer.reset_time();
+    // double *data2 = new double[n];
+    
+    // data = generate_array(0, 0, n);
+    // for (int i = 0; i < n; i++) {
+    //     data2[i13 14 15 16 17 18 19 20 r] = double(data[i]);
+    // }
+    
+    // Heap<int> A(data, n);
+    // Heap<double> B(data2, n);
+    
+    // timer.start_timer();
+    // HeapSort(&A);
+    // timer.end_timer();
+    // timer.display_time();
+    // timer.reset_time();
+    
+    // timer.start_timer();
+    // HeapSort(&B);
+    // timer.end_timer();
+    // timer.display_time();
+    // timer.reset_time();
+    
+    // n = 20000000;
+    // delete [] data;
+    // delete [] data2;
+    
+    // data2 = new double[n];
+    
+    // data = generate_array(0, 0, n);
+    // for (int i = 0; i < n; i++) {
+    //     data2[i] = double(data[i]);
+    // }
+    
+    // A.load_data(data, n);
+    // B.load_data(data2, n);
+    
+    // timer.start_timer();
+    // HeapSort(&A);
+    // timer.end_timer();
+    // timer.display_time();
+    // timer.reset_time();
+    
+    // timer.start_timer();
+    // HeapSort(&B);
+    // timer.end_timer();
+    // timer.display_time();
+    // timer.reset_time();
 
     // Size range: 50K - 150K
     // std::cout << "--- HEAPSORT DATA ---\n\n";

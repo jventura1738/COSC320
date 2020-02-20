@@ -13,10 +13,13 @@ Heap<T>::Heap(T* data, int& n) : length(n), heap_size(0) {
 	//std::cout << "Heap Created with given array.\n";
 
 	// copy given array to heap array.
-	this->arr = new T[n];
-	for (int i = 0; i < n; i++) {
-		this->arr[i] = data[i];
-	}
+	this->arr = data;
+
+	// 
+	// this->arr = new T[n];
+	// for (int i = 0; i < n; i++) {
+	// 	this->arr[i] = data[i];
+	// }
 }
 
 template <typename T>

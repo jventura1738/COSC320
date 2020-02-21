@@ -33,39 +33,18 @@ int* generate_array(int, bool, int);
 int main () {
     Timer timer;
     int *arr;
-    int n, order, temp;
-    bool dups;
+    int n = 100000;
+    bool dups = true;
     size_t comps = 0;
 
-    n = 130000;
-    arr = generate_array(0, true, 130000);
+    arr = generate_array(0, 0, n);
     timer.start_timer();
-    merge_sort(arr, 0, (n-1), comps);
+    merge_sort(arr, 0, (n - 1), comps);
+    std::cout << "# comparisons: " << comps << "\n";
     timer.end_timer();
-    std::cout << "Order: " << order << " & size: " << n << "\n";
     timer.display_time();
-
-
-    // while (true) {
-    //     n = 70000;
-
-    //     while (n <= 130000) {
-    //         order = 0;
-    //         for (int i = 0; i < 3; i++) {
-    //             size_t comps = 0;
-    //             arr = generate_array(order, dups, n);
-    //             timer.start_timer();
-    //             quick_sort(arr, 0, (n-1), comps);
-    //             timer.end_timer();
-    //             std::cout << "Order: " << order << " & size: " << n << "\n";
-    //             timer.display_time();
-    //             std::cout << "# of comparisons: " << comps << "\n\n";
-    //             order++;
-    //         }
-    //         n += 10000;
-    //     }
-    //     delete [] arr;
-    // }
+    timer.reset_time();
+    delete [] arr;
 
     // for (int i = 0; i < 6; i++) {
     //     std::cout << "===== Quick Sort =====\n";

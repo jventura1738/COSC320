@@ -16,6 +16,7 @@ public:
     // Keep track of the rows & columns.
     size_t row;
     size_t col;
+    size_t len;
 
     /* (CON/DE)STRUCTORS ETC */
 
@@ -25,7 +26,7 @@ public:
 
     // Regular Constructor.
     // Allocates a matrix with the given dimensions.
-    Matrix(size_t & n = 1, size_t & m = 1) : row(n), col(m);
+    Matrix(size_t & n = 1, size_t & m = 1) : row(n), col(m), len(n*m);
 
     // Copy Constructor.
     // Allocates a copy of a given matrix.

@@ -8,9 +8,16 @@
 
 #include <iostream>
 
+/*
+ * INDEXING: I * COL + J
+*/
+
 class Matrix {
 public:
     // Pointer to the matrix array.
+    // Constructors will take care of allocations,
+    // if you free or allocate otherwise, the memory
+    // risks are now all up to you.
     float * M;
 
     // Keep track of the rows & columns.
@@ -18,27 +25,36 @@ public:
     size_t col;
     size_t len;
 
-    /* (CON/DE)STRUCTORS ETC */
+    /* 
+     * (CON/DE)STRUCTORS ETC.
+     * All memory (de)allocations are taken care of
+     * in these functions.  No need to allocate or
+     * free any yourself.  The matrix is public
+     * if you choose to manage the memory by yourself, 
+     * but you must be aware of the memory risks.
+    */
 
-    // Default Constructor.
+    // Default Constructor. [MEMORY ALLOCATION]
     // Allocates a 1 x 1 matrix.
+    // This allocation prevents the AO from attempting
+    // to free non-allocated memory.
     Matrix();
 
-    // Regular Constructor.
+    // Regular Constructor. [MEMORY ALLOCATION]
     // Allocates a matrix with the given dimensions.
-    Matrix(size_t & n = 1, size_t & m = 1) : row(n), col(m), len(n*m);
+    Matrix(size_t & n, size_t & m);
 
-    // Copy Constructor.
+    // Copy Constructor. [MEMORY ALLOCATION]
     // Allocates a copy of a given matrix.
-    Matrix(Matrix * rhs);
+    Matrix(const Matrix * rhs);
 
-    // De-structor.
+    // De-structor. [MEMORY DE-ALLOCATION]
     // Frees memory of a matrix out of scope.
     ~Matrix();
 
-    // Overloaded Assignment operator.
+    // Overloaded Assignment operator. [MEMORY ALLOCATION]
     // Allocates a copy matrix by assignment.
-    Matrix * operator=(Matrix * rhs);
+    void * operator=(const Matrix * rhs);
 
     /*
      * MATRIX OPERATORS (OVERLOADED):
@@ -48,27 +64,32 @@ public:
     */
 
     // Matrix Addition.
-    // Require: A = B = Matrix[n x m].
-    Matrix * operator+(Matrix * A, Matrix * B);
+    // Require: A(this) = B = Matrix[n x m].
+    Matrix * operator+(const Matrix * B);
 
     // Matrix Subtraction.
-    // Require: A = B = Matrix[n x m].
-    Matrix * operator-(Matrix * A, Matrix * B);
+    // Require: A(this) = B = Matrix[n x m].
+    Matrix * operator-(const Matrix * B);
 
-    // Matrix Scalar Multiply.
-    Matrix * operator*(Matrix * A, size_t scalar);
+    // Matrix Scalar Multiply. [EXTRA CREDIT]
+    // Multiplies the scalar to each element in matrix.
+    Matrix * operator*(size_t & scalar);
 
     // Matrix Multiplication.
-    // Require: A = Matrix[n x m]
-    //          B = Matrix[m x k]
-    // Return:  C = Matrix[n x k]
-    Matrix * operator*(Matrix * A, Matrix * B);
+    // Require: A(this) = Matrix[n x m]
+    //          B       = Matrix[m x k]
+    // Return:  C       = Matrix[n x k]
+    Matrix * operator*(const Matrix * B);
 
     // Strassen's Algorithm for Matrix
     // Multiplication.
-    Matrix * StrassenMultiply(Matrix * A, Matrix * B);
+    // Require: A = Matrix[n x m]
+    //          B = Matrix[m x k]
+    // Return:  C = Matrix[n x k]    
+    Matrix * StrassenMultiply(const Matrix * A, const Matrix * B);
 
     // Additional Print Method.
+    // This prints this->M in matrix form.
     void print();
 };
 

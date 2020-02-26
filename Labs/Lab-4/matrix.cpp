@@ -28,32 +28,32 @@ Matrix::Matrix(const size_t & n, const size_t & m) {
 }
 
 // Matrix Copy Constructor.
-Matrix::Matrix(const Matrix * rhs) {
+Matrix::Matrix(const Matrix & rhs) {
 	std::cout << "Matrix allocated (copy construct).\n";
-	this->len = rhs->len;
-	this->row = rhs->row;
-	this->col = rhs->col;
+	this->len = rhs.len;
+	this->row = rhs.row;
+	this->col = rhs.col;
 
 	this->M = new float[this->len];
 	for (size_t i = 0; i < this->len; i++)
-		this->M[i] = rhs->M[i];
+		this->M[i] = rhs.M[i];
 }
 
 // Matrix Assignment Operation
-void Matrix::operator=(const Matrix * rhs) {
+void Matrix::operator=(const Matrix & rhs) {
 
 	// De-allocate old matrix pointer.
 	// std::cout << "\n--MATRIX [AO] ALLOCATED--\n";
 	delete [] this->M;
-	this->len = rhs->len;
-	this->row = rhs->row;
-	this->col = rhs->col;
+	this->len = rhs.len;
+	this->row = rhs.row;
+	this->col = rhs.col;
 
 	// Copy A->M to re-allocated this->M.
 	this->M = new float[this->len];
 
 	for (size_t i = 0; i < this->len; i++)
-		this->M[i] = rhs->M[i];
+		this->M[i] = rhs.M[i];
 }
 
 // Destructor.
@@ -118,6 +118,7 @@ Matrix operator*(const Matrix & A, const float & scalar) {
 	return C;
 }
 
+// Regular Matrix Multiplication.
 Matrix operator*(const Matrix & A, const Matrix & B) {
 
 	// Matrix A.col must equal B.rows

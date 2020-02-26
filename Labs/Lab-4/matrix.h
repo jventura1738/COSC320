@@ -51,7 +51,7 @@ public:
 
     // Copy Constructor. [MEMORY ALLOCATION]
     // Allocates a copy of a given matrix.
-    Matrix(const Matrix * rhs);
+    Matrix(const Matrix & rhs);
 
     // De-structor. [MEMORY DE-ALLOCATION]
     // Frees memory of a matrix out of scope.
@@ -59,7 +59,7 @@ public:
 
     // Overloaded Assignment operator. [MEMORY ALLOCATION]
     // Allocates a copy matrix by assignment.
-    void operator=(const Matrix * rhs);
+    void operator=(const Matrix & rhs);
 
     /*
      * MATRIX OPERATORS (OVERLOADED):
@@ -91,7 +91,7 @@ public:
     // Require: A = Matrix[n x m]
     //          B = Matrix[m x k]
     // Return:  C = Matrix[n x k]    
-    //Matrix * StrassenMultiply(const Matrix * A, const Matrix * B);
+    // Matrix * StrassenMultiply(const Matrix * A, const Matrix * B);
 
     // Additional Print Method.
     // This prints this->M in matrix form.

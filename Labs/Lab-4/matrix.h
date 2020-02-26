@@ -10,6 +10,8 @@
 
 /*
  * INDEXING: I * COL + J
+ * Don't mess with deletes and news,
+ * all of that is done for you.
 */
 
 class Matrix {
@@ -45,7 +47,7 @@ public:
     // Allocates a matrix with the given dimensions.
     // NOTE: does not assign any values to the matrix.
     // Exceptions: will throw std::string if n, m < 1.
-    Matrix(size_t & n, size_t & m);
+    Matrix(const size_t & n, const size_t & m);
 
     // Copy Constructor. [MEMORY ALLOCATION]
     // Allocates a copy of a given matrix.
@@ -68,28 +70,28 @@ public:
 
     // Matrix Addition.
     // Require: A(this) = B = Matrix[n x m].
-    Matrix * operator+(const Matrix * B);
+    friend Matrix operator+(const Matrix & A, const Matrix & B);
 
     // Matrix Subtraction.
     // Require: A(this) = B = Matrix[n x m].
-    Matrix * operator-(const Matrix * B);
+    friend Matrix operator-(const Matrix & A, const Matrix & B);
 
     // Matrix Scalar Multiply. [EXTRA CREDIT]
     // Multiplies the scalar to each element in matrix.
-    Matrix * operator*(size_t & scalar);
+    friend Matrix operator*(const Matrix & A, const float & scalar);
 
     // Matrix Multiplication.
-    // Require: A(this) = Matrix[n x m]
-    //          B       = Matrix[m x k]
-    // Return:  C       = Matrix[n x k]
-    Matrix * operator*(const Matrix * B);
+    // Require: A = Matrix[n x m]
+    //          B = Matrix[m x k]
+    // Return:  C = Matrix[n x k]
+    friend Matrix operator*(const Matrix & A, const Matrix & B);
 
     // Strassen's Algorithm for Matrix
     // Multiplication.
     // Require: A = Matrix[n x m]
     //          B = Matrix[m x k]
     // Return:  C = Matrix[n x k]    
-    Matrix * StrassenMultiply(const Matrix * A, const Matrix * B);
+    //Matrix * StrassenMultiply(const Matrix * A, const Matrix * B);
 
     // Additional Print Method.
     // This prints this->M in matrix form.

@@ -8,42 +8,74 @@
 
 // Default Constructor.
 Matrix::Matrix() {
-	std::cout << "Matrix created.\n";
-	std::cout << "Not allocated.\n";
+	std::cout << "Matrix allocated (default).\n";
+	this->row = 1;
+	this->col = 1;
+	this->len = 1;
+	this->M = new float[1];
 }
 
 // Main Constructor.
 Matrix::Matrix(size_t & n, size_t & m) {
-	this->M = new float[n * m];
-	
+	if (n < 1 || m < 1) {
+		throw std::string("Exception: matrix dimensions must be >= 1.\n");
+	}
+	std::cout << "Matrix allocated (main).\n";
+	this->len = n * m;
+	this->M = new float[this->len];
+	this->row = n;
+	this->col = m;
+}
+
+// Matrix Copy Constructor.
+Matrix::Matrix(const Matrix * rhs) {
+	std::cout << "Matrix allocated (copy construct).\n";
+	this->len = rhs->len;
+	this->row = rhs->row;
+	this->col = rhs->col;
+
+	this->M = new float[this->len];
+	for (size_t i = 0; i < this->len; i++)
+		this->M[i] = rhs->M[i];
 }
 
 // Matrix Assignment Operation
-void Matrix::operator=(const Matrix *A) {
+void Matrix::operator=(const Matrix * rhs) {
 
 	// De-allocate old matrix pointer.
 	// std::cout << "\n--MATRIX [AO] ALLOCATED--\n";
-	delete this->M;
-	this->row = A->row;
-	this->col = A->col;
+	delete [] this->M;
+	this->len = rhs->len;
+	this->row = rhs->row;
+	this->col = rhs->col;
 
-	// Copy from A.M to re-allocated this->M.
-	size_t *len = new size_t(this->row * this->col);
-	this->M = new float[*len];
+	// Copy A->M to re-allocated this->M.
+	this->M = new float[this->len];
 
-	for (size_t i = 0; i < *len; i++)
-		this->M[i] = A->M[i];
-	delete len;
+	for (size_t i = 0; i < this->len; i++)
+		this->M[i] = rhs->M[i];
 }
 
+// Destructor.
+Matrix::~Matrix() {
+	// std::cout << "Matrix de-allocated (destructor).\n";
+	delete [] this->M;
+}
 
+// Matrix print method.
 void Matrix::print() {
+
+	/*
+	 * Nested loops to print out the array in
+	 * its matrix form; each col per row since 
+	 * I am using a 1D "flat" array.
+	*/
 
 	for (size_t i = 0; i < this->row; i++) {
 
+		// print the row of the matrix.
 		for (size_t j = 0; j < this->col; j++) {
             
-            // print the row of the matrix
 			std::cout << this->M[i * this->col + j] << " ";
 
 		}
@@ -54,3 +86,26 @@ void Matrix::print() {
 
 }
 
+// Soft reset (refresh).
+void Matrix::softreset() {
+
+	// Replace all indices of the matrix with zeroes.
+	for (size_t i = 0; i < this->row; i++) {
+
+		// print the row of the matrix.
+		for (size_t j = 0; j < this->col; j++) {
+            
+			this->M[i * this->col + j] = 0;
+
+		}
+	}
+}
+
+// Hard reset (full refresh).
+void Matrix::hardreset() {
+	delete [] this->M;
+	this->row = 1;
+	this->col = 1;
+	this->len = 1;
+	this->M = new float[1];
+}

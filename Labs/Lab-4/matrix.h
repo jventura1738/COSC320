@@ -38,10 +38,13 @@ public:
     // Allocates a 1 x 1 matrix.
     // This allocation prevents the AO from attempting
     // to free non-allocated memory.
+    // NOTE: does not assign any values to the matrix.
     Matrix();
 
     // Regular Constructor. [MEMORY ALLOCATION]
     // Allocates a matrix with the given dimensions.
+    // NOTE: does not assign any values to the matrix.
+    // Exceptions: will throw std::string if n, m < 1.
     Matrix(size_t & n, size_t & m);
 
     // Copy Constructor. [MEMORY ALLOCATION]
@@ -54,7 +57,7 @@ public:
 
     // Overloaded Assignment operator. [MEMORY ALLOCATION]
     // Allocates a copy matrix by assignment.
-    void * operator=(const Matrix * rhs);
+    void operator=(const Matrix * rhs);
 
     /*
      * MATRIX OPERATORS (OVERLOADED):
@@ -91,6 +94,14 @@ public:
     // Additional Print Method.
     // This prints this->M in matrix form.
     void print();
+
+    // Additional method to "soft" reset the matrix values
+    // to consist of all zeroes. Initial size remains constant.
+    void softreset();
+
+    // Additional method to "hard" reset the matrix back to an
+    // empty 1 x 1.
+    void hardreset();
 };
 
 #endif

@@ -50,7 +50,7 @@ void init_identity(Matrix & A);
 // TYPE: 1 = diagonal
 //       2 = upper triangle
 //       3 = lower triangle
-void demo_print(Matrix & A, int type);
+void print(Matrix & A, int type);
 
 int main () {
 
@@ -60,9 +60,13 @@ int main () {
     Matrix c(2, 8);  // Random 2 x 8 matrix.
     Matrix d(4, 4);  // Random 4 x 4 matrix.
     Matrix v(9, 1);  // Random vector in R9.
+    Matrix *temp = nullptr;// placeholder matrix.
 
     init_matrix(a);
-    Matrix temp = a;
+    init_matrix(b);
+    init_matrix(c);
+    init_matrix(d);
+    init_matrix(v);
 
     /*
      * PRINT TESTS: Test the prints of the matrices
@@ -77,9 +81,65 @@ int main () {
     std::cout << "===============================\n\n"; 
     std::cout << BOLDOFF << RESET;
 
-    std::cout << BOLDON << "Random Matrix A (9 x 9): \n" << BOLDOFF;
-    std::cout << " --> Initial matrix.";
+    std::cout << BOLDON << "--- Random Matrix A (9 x 9) --- \n" << BOLDOFF;
+    std::cout << " --> Initial matrix:\n";
     a.print();
+
+    std::cout << "--> Diagonal matrix:\n";
+    temp = new Matrix(a);
+    diagonal(a);
+    print(a, 1);
+    a = *temp;
+
+    std::cout << "--> Upper & Lower triangle matrix:\n";
+    uppertri(a);
+    print(a, 2);
+    std::cout << "\n";
+    a = *temp;
+    lowertri(a);
+    print(a, 3);
+    a = *temp;
+    delete temp;
+
+    std::cout << BOLDON << "\n--- Random Matrix B (8 x 2) --- \n" << BOLDOFF;
+    std::cout << " --> Initial matrix:\n";
+    b.print();
+
+    std::cout << "--> Diagonal matrix:\n";
+    temp = new Matrix(b);
+    diagonal(b);
+    print(b, 1);
+    b = *temp;
+
+    std::cout << "--> Upper & Lower triangle matrix:\n";
+    uppertri(b);
+    print(b, 2);
+    std::cout << "\n";
+    b = *temp;
+    lowertri(b);
+    print(b, 3);
+    std::cout << "\n";
+    b = *temp;
+    delete temp;
+
+
+    std::cout << "--> Identity Matrix (square):\n";
+    init_identity(a);
+    print(a, 1);
+    std::cout << "\n";
+    
+    std::cout << "--> Identity Matrix (verticle)\n";
+    init_identity(b);
+    print(b, 1);
+    std::cout << "\n";
+
+    std::cout << "--> Identity Matrix (horizontal)\n";
+    init_identity(c);
+    print(c, 1);
+    std::cout << "\n";
+
+
+
     
     /*
      * ADDITION AND SUBTRACTION TESTS: a few
@@ -161,7 +221,25 @@ void uppertri(Matrix & A) {
 
     // Be sure not to seg fault.
     // Stops after triangle is complete.
-    while (i < A.row) {
+    size_t buffer;
+    if (A.col < A.row) {
+
+        buffer = (A.col - 1) * A.col + (A.col + 1);
+
+    }
+    else if (A.col > A.row) {
+
+        buffer = (A.row - 1) * A.col + (A.col - 1);
+
+    }
+    else {
+
+        buffer = (A.col - 2) * A.col + (A.col - 1);
+
+    }
+
+    // Create the triangle.
+    while ((i * A.col + j) <= buffer) {
 
         // Start the upper triangle.
         A.M[i * A.col + j] = 0;
@@ -169,8 +247,10 @@ void uppertri(Matrix & A) {
 
         // If the row is complete, move to the next.
         if ((i * A.col + j) >= ((i + 1) * A.col)) {
+
             i++;
             j = i + 1;
+
         }
 
     }
@@ -186,14 +266,14 @@ void lowertri(Matrix & A) {
 
     // Start from row 1 and go down to row
     // A.row - 1.
-    while (i < A.row) {
+    while ((i * A.col + j) < A.len) {
 
         // Start the lower triangle.
         A.M[i * A.col + j] = 0;
         j++;
 
         // If the row is complete, move to the next.
-        if (i == j) {
+        if (i == j || j >= (A.col)) {
             i++;
             j = 0;
         }
@@ -230,7 +310,7 @@ void init_identity(Matrix & A) {
 // TYPE: 1 = diagonal/identity
 //       2 = upper triangle
 //       3 = lower triangle
-void demo_print(Matrix & A, int type) {
+void print(Matrix & A, int type) {
 
     /*
 	 * Nested loops to print out the array in

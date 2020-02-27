@@ -29,7 +29,7 @@ void lowertri(Matrix & A);
 void init_identity(Matrix & A);
 
 int main () {
-    Matrix a(1, 5);
+    Matrix a(5, 5);
     Matrix b(10, 10);
 
     init_matrix(a, 0);
@@ -83,7 +83,7 @@ void init_matrix(Matrix & A, int shift) {
 
     for (size_t i = 0; i < A.len; i++) {
 
-        A.M[i] = (rand() % 9) + 1;
+        A.M[i] = (rand() % 99) + 1;
 
     }
     std::shuffle(A.M, A.M + A.len, std::default_random_engine(seed));

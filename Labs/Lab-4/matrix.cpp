@@ -5,6 +5,7 @@
 */
 
 #include "matrix.h"
+#include <iomanip>
 
 // Default Constructor.
 Matrix::Matrix() {
@@ -167,12 +168,14 @@ void Matrix::print() {
 	 * I am using a 1D "flat" array.
 	*/
 
+
 	for (size_t i = 0; i < this->row; i++) {
 
 		// print the row of the matrix.
 		for (size_t j = 0; j < this->col; j++) {
             
-			std::cout << this->M[i * this->col + j] << " ";
+			std::cout //<< std::setfill('0') << std::setw(5) 
+			<< this->M[i * this->col + j] << " ";
 
 		}
         // new line for the next row in matrix.

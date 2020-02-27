@@ -20,7 +20,7 @@ public:
     // Constructors will take care of allocations,
     // if you free or allocate otherwise, the memory
     // risks are now all up to you.
-    float * M;
+    int * M;
 
     // Keep track of the rows & columns.
     size_t row;
@@ -94,7 +94,9 @@ public:
     // Matrix * StrassenMultiply(const Matrix * A, const Matrix * B);
 
     // Additional Print Method.
-    // This prints this->M in matrix form.
+    // This prints this->M in matrix form, such that
+    // the format is perfect.  This will affect the
+    // runtime negatively but looks clean.
     void print();
 
     // Additional method to "soft" reset the matrix values

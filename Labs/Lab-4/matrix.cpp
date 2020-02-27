@@ -13,7 +13,7 @@ Matrix::Matrix() {
 	this->row = 1;
 	this->col = 1;
 	this->len = 1;
-	this->M = new float[1];
+	this->M = new int[1];
 }
 
 // Main Constructor.
@@ -23,7 +23,7 @@ Matrix::Matrix(const size_t & n, const size_t & m) {
 	}
 	std::cout << "Matrix allocated (main).\n";
 	this->len = n * m;
-	this->M = new float[this->len];
+	this->M = new int[this->len];
 	this->row = n;
 	this->col = m;
 }
@@ -35,7 +35,7 @@ Matrix::Matrix(const Matrix & rhs) {
 	this->row = rhs.row;
 	this->col = rhs.col;
 
-	this->M = new float[this->len];
+	this->M = new int[this->len];
 	for (size_t i = 0; i < this->len; i++)
 		this->M[i] = rhs.M[i];
 }
@@ -51,7 +51,7 @@ void Matrix::operator=(const Matrix & rhs) {
 	this->col = rhs.col;
 
 	// Copy A->M to re-allocated this->M.
-	this->M = new float[this->len];
+	this->M = new int[this->len];
 
 	for (size_t i = 0; i < this->len; i++)
 		this->M[i] = rhs.M[i];
@@ -108,7 +108,7 @@ Matrix operator-(const Matrix & A, const Matrix & B) {
 }
 
 // Scalar Multiplication [EXTRA CREDIT]
-Matrix operator*(const Matrix & A, const float & scalar) {
+Matrix operator*(const Matrix & A, const int & scalar) {
 
 	Matrix C(A.row, A.col);
 
@@ -159,28 +159,59 @@ Matrix operator*(const Matrix & A, const Matrix & B) {
 
 }
 
-// Matrix print method.
+// Matrix print method (PERFECT FORMATTING; SLOW).
 void Matrix::print() {
 
 	/*
 	 * Nested loops to print out the array in
 	 * its matrix form; each col per row since 
-	 * I am using a 1D "flat" array.
+	 * I am using a 1D "flat" array.  We will also
+	 * find the number with the most digits,
+	 * then count it's total digits, and format
+	 * the matrix accordingly.
 	*/
 
+	// Find the largest number.
+	size_t maxIndex = 0;
+	for (size_t i = 1; i < this->len; i++) {
 
+		if (this->M[i] > this->M[maxIndex]){
+
+			maxIndex = i;
+
+		}
+
+	}
+
+	// Now count it's digits then use this to
+	// generalize the matrix's spacing format.
+	int max = this->M[maxIndex];
+	size_t spacing = 0;
+
+	while (max >= 1) {
+
+		// division hacks
+		max /= 10;
+		spacing++;
+
+	}
+
+	// Nested looping begins.
 	for (size_t i = 0; i < this->row; i++) {
 
 		// print the row of the matrix.
 		for (size_t j = 0; j < this->col; j++) {
             
-			std::cout //<< std::setfill('0') << std::setw(5) 
+			std::cout << std::setfill('0') << std::setw(spacing) 
 			<< this->M[i * this->col + j] << " ";
 
 		}
-        // new line for the next row in matrix.
+
+    // new line for the next row in matrix.
 		std::cout << "\n";
+
 	}
+
 	std::cout << "\n";
 
 }
@@ -197,14 +228,19 @@ void Matrix::softreset() {
 			this->M[i * this->col + j] = 0;
 
 		}
+
 	}
+
 }
 
 // Hard reset (full refresh).
 void Matrix::hardreset() {
+
+	// Refreshes the matrix to default.
 	delete [] this->M;
 	this->row = 1;
 	this->col = 1;
 	this->len = 1;
-	this->M = new float[1];
+	this->M = new int[1];
+
 }

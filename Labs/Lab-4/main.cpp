@@ -4,7 +4,11 @@
  * Lab-4: Main.cpp
 */
 
+// Necessities.
 #include "matrix.h"
+#include "timer.h"
+
+// Used for basic formatting and stuff.
 #include <iostream>
 #include <stdio.h> 
 #include <stdlib.h> 
@@ -13,8 +17,8 @@
 #include <chrono>
 #include <algorithm>
 
-// Randomly generates a matrix of the given size.
-void init_matrix(Matrix & A, int shift);
+// Randomly generates a matrix of the given object dimensions.
+void init_matrix(Matrix & A);
 
 // Makes all elements off main diagonal 0's.
 void diagonal(Matrix & A);
@@ -29,11 +33,9 @@ void lowertri(Matrix & A);
 void init_identity(Matrix & A);
 
 int main () {
-    Matrix a(5, 5);
-    Matrix b(10, 10);
+    Matrix a(10, 10);
 
-    init_matrix(a, 0);
-    init_matrix(b, 1);
+    init_matrix(a);
     Matrix temp = a;
 
     std::cout << "Matrix A: \n";
@@ -75,17 +77,20 @@ int main () {
     return 0;
 }
 
-// Randomly generates matrix of the given size.
-void init_matrix(Matrix & A, int shift) {
+// Randomly generates matrix of the given object dimensions.
+void init_matrix(Matrix & A) {
 
+    // Random seed for generating random matrix.
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     srand(seed);
 
     for (size_t i = 0; i < A.len; i++) {
 
-        A.M[i] = (rand() % 99) + 1;
+        A.M[i] = (rand() % 9) + 1;
 
     }
+
+    // Shuffle the array in a random order.
     std::shuffle(A.M, A.M + A.len, std::default_random_engine(seed));
 }
 
@@ -96,6 +101,7 @@ void diagonal(Matrix & A) {
 
         for (size_t j = 0; j < A.col; j++) {
 
+            // Any spot of the A[i,j] diagonal should be zero.
             if(i != j) {
                 A.M[i * A.col + j] = 0;
             } 
@@ -168,10 +174,12 @@ void init_identity(Matrix & A) {
 
     // Slide down the main diagonal assign 1's.
     size_t i = 0, j = 0;
-    size_t buffer = std::min(A.row, A.col);
-    size_t semibuffer = (A.row >= A.col) ? A.col : A.row;
 
-    while (i < semibuffer) {
+    // This buffer is to account for all cases, such that
+    // regardless of the dimensions of the matrix, there
+    // will be no incorrect jumps or seg faults.
+    size_t buffer = (A.row >= A.col) ? A.col : A.row;
+    while (i < buffer) {
 
         A.M[i * A.col + j] = 1;
         i++;

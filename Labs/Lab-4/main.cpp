@@ -8,7 +8,7 @@
 #include "matrix.h"
 #include "timer.h"
 
-// Used for basic formatting and stuff.
+// Used for basic formatting, randomizing and stuff.
 #include <iostream>
 #include <stdio.h> 
 #include <stdlib.h> 
@@ -16,6 +16,20 @@
 #include <random>
 #include <chrono>
 #include <algorithm>
+#include <iomanip>
+
+// For terminal colors and affects.
+#define RESET   "\033[0m"
+#define RED     "\033[31m"      /* Red */
+#define GREEN   "\033[32m"      /* Green */
+#define MAGENTA "\033[35m"      /* Magenta */
+#define WHITE   "\033[37m"      /* White */
+//#define BLACK   "\033[30m"      /* Black */
+//#define YELLOW  "\033[33m"      /* Yellow */
+//#define BLUE    "\033[34m"      /* Blue */
+//#define CYAN    "\033[36m"      /* Cyan */
+#define BOLDON  "\e[1m"
+#define BOLDOFF "\e[0m"
 
 // Randomly generates a matrix of the given object dimensions.
 void init_matrix(Matrix & A);
@@ -32,47 +46,70 @@ void lowertri(Matrix & A);
 // Converts A to the identity matrix.
 void init_identity(Matrix & A);
 
+// Clearly prints the matrix with color coding.
+// TYPE: 1 = diagonal
+//       2 = upper triangle
+//       3 = lower triangle
+void demo_print(Matrix & A, int type);
+
 int main () {
-    Matrix a(10, 10);
+
+    // Matrices for print tests.
+    Matrix a(9, 9);  // Random 9 x 9 matrix.
+    Matrix b(8, 2);  // Random 8 x 2 matrix.
+    Matrix c(2, 8);  // Random 2 x 8 matrix.
+    Matrix d(4, 4);  // Random 4 x 4 matrix.
+    Matrix v(9, 1);  // Random vector in R9.
 
     init_matrix(a);
     Matrix temp = a;
 
-    std::cout << "Matrix A: \n";
+    /*
+     * PRINT TESTS: Test the prints of the matrices
+     * and vectors below.  They will be printed in
+     * regular, diagonal, upper/lower triangular,
+     * and identity form.
+    */
+
+    std::cout << BOLDON << WHITE << "\n"; 
+    std::cout << "===============================\n";
+    std::cout << "       MATRIX PRINT TESTS:     \n";
+    std::cout << "===============================\n\n"; 
+    std::cout << BOLDOFF << RESET;
+
+    std::cout << BOLDON << "Random Matrix A (9 x 9): \n" << BOLDOFF;
+    std::cout << " --> Initial matrix.";
     a.print();
+    
+    /*
+     * ADDITION AND SUBTRACTION TESTS: a few
+     * tests will be performed, including the
+     * exception catches for mismatch/incorrect
+     * cases.
+     * 
+     * [EXTRA CREDIT] SCALAR MULTIPLICATION:
+     * there are also some tests involving the
+     * scalar multiplication * overload.
+    */
 
-    std::cout << "Diagonal A:\n";
-    diagonal(a);
-    a.print();
+    std::cout << BOLDON << WHITE << "\n"; 
+    std::cout << "===============================\n";
+    std::cout << "    ADD/SUB & SCALAR TESTS:    \n";
+    std::cout << "===============================\n\n"; 
+    std::cout << BOLDOFF << RESET;
 
-    a = temp;
+   /*
+    * MATRIX MULTIPLICATION TESTS: here are a 
+    * few cases for matrix multiplication, as
+    * well as some extreme cases and the time
+    * it takes to perform the multiplication.
+   */
 
-    std::cout << "Upper Triangle A:\n";
-    uppertri(a);
-    a.print();
-
-    a = temp;
-
-    std::cout << "Lower Triangle A:\n";
-    lowertri(a);
-    a.print();
-
-    a = temp;
-
-    std::cout << "Identity matrix:\n";
-    init_identity(a);
-    a.print();
-
-
-    // std::cout << "Matrix B: \n";
-    // b.print();
-
-    // std::cout << "Matrix A + Matrix B: \n";
-    // c.print();
-
-    // std::cout << "Matrix A - Matrix B: \n";
-    // c = a - b;
-    // c.print();
+    std::cout << BOLDON << WHITE << "\n"; 
+    std::cout << "===============================\n";
+    std::cout << "  DOT PRODUCT TESTS & TIMING:  \n";
+    std::cout << "===============================\n\n"; 
+    std::cout << BOLDOFF << RESET;
 
     return 0;
 }
@@ -86,7 +123,7 @@ void init_matrix(Matrix & A) {
 
     for (size_t i = 0; i < A.len; i++) {
 
-        A.M[i] = (rand() % 9) + 1;
+        A.M[i] = (rand() % 999) + 1;
 
     }
 
@@ -189,3 +226,155 @@ void init_identity(Matrix & A) {
 
 }
 
+// Clearly prints the matrix with color coding.
+// TYPE: 1 = diagonal/identity
+//       2 = upper triangle
+//       3 = lower triangle
+void demo_print(Matrix & A, int type) {
+
+    /*
+	 * Nested loops to print out the array in
+	 * its matrix form; each col per row since 
+	 * I am using a 1D "flat" array.  We will also
+	 * find the number with the most digits,
+	 * then count it's total digits, and format
+	 * the matrix accordingly.
+	*/
+
+    // Find the largest number.
+	size_t maxIndex = 0;
+	for (size_t i = 1; i < A.len; i++) {
+
+		if (A.M[i] > A.M[maxIndex]){
+
+			maxIndex = i;
+
+		}
+
+	}
+
+	// Now count it's digits then use this to
+	// generalize the matrix's spacing format.
+	int max = A.M[maxIndex];
+	size_t spacing = 0;
+
+	while (max >= 1) {
+
+		// division hacks
+		max /= 10;
+		spacing++;
+
+	}
+
+    // Use the spacing variables above to format matrix.
+    switch(type) {
+
+        // Diagonal/Identity print.
+        case 1:
+
+        for (size_t i = 0; i < A.row; i++) {
+
+            for (size_t j = 0; j < A.col; j++) {
+
+                // Make the main diagonal colored.
+                if (i == j) {
+
+                    std::cout << BOLDON << GREEN << std::setfill('0') << std::setw(spacing)
+                    << A.M[i * A.col + j] << BOLDOFF << RESET << " ";
+
+                }
+                else {
+
+                    std::cout << WHITE << std::setfill('0') << std::setw(spacing)
+                    << A.M[i * A.col + j] << RESET << " ";
+
+                }
+
+            }
+
+            std::cout << "\n";
+
+        }
+
+        std::cout << "\n";
+        break;
+
+        // Upper Triangle print.
+        case 2:
+
+        for (size_t i = 0; i < A.row; i++) {
+
+            for (size_t j = 0; j < A.col; j++) {
+
+                if (i == j) {
+
+                    std::cout << GREEN << std::setfill('0') << std::setw(spacing)
+                    << A.M[i * A.col + j] << RESET << " ";
+
+                }
+                else if (i > j) {
+
+                    std::cout << MAGENTA << std::setfill('0') << std::setw(spacing)
+                    << A.M[i * A.col + j] << RESET << " "; 
+
+                }
+                else {
+
+                    std::cout << BOLDON << WHITE << std::setfill('0') << std::setw(spacing)
+                    << A.M[i * A.col + j] << RESET << BOLDOFF << " ";
+
+                }
+
+            }
+
+            std::cout << "\n";
+
+        }
+
+        std::cout << "\n";
+        break;
+
+        // Lower Triangle print.
+        case 3:
+
+        // No change to a vector.
+        if (A.col == 1) return;
+
+        for (size_t i = 0; i < A.row; i++) {
+
+            for (size_t j = 0; j < A.col; j++) {
+
+                if (i == j) {
+
+                    std::cout << GREEN << std::setfill('0') << std::setw(spacing)
+                    << A.M[i * A.col + j] << RESET << " ";
+
+                }
+                else if (i < j) {
+
+                    std::cout << MAGENTA << std::setfill('0') << std::setw(spacing)
+                    << A.M[i * A.col + j] << RESET << " "; 
+
+                }
+                else {
+
+                    std::cout << BOLDON << WHITE << std::setfill('0') << std::setw(spacing)
+                    << A.M[i * A.col + j] << RESET << BOLDOFF << " ";
+
+                }
+
+            }
+
+            std::cout << "\n";
+
+        }
+
+        std::cout << "\n";
+        break;
+
+        default:
+        std::cout << RED << BOLDON << "Error: Your IQ is comparable to your shoe size.\n" << RESET << BOLDOFF;
+    
+    }
+
+}

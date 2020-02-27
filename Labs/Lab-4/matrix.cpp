@@ -4,12 +4,21 @@
  * Lab-4: Matrix.cpp
 */
 
+// Header file.
 #include "matrix.h"
+
+// Formatting and terminal colors.
 #include <iomanip>
+#define RESET   "\033[0m"
+#define RED     "\033[31m"      /* Red */
+#define YELLOW  "\033[33m"      /* Yellow */
+#define WHITE   "\033[37m"      /* White */
+#define BOLDON  "\e[1m"
+#define BOLDOFF "\e[0m"
 
 // Default Constructor.
 Matrix::Matrix() {
-	std::cout << "Matrix allocated (default).\n";
+	//std::cout << YELLOW << "Matrix allocated (default).\n" << RESET;
 	this->row = 1;
 	this->col = 1;
 	this->len = 1;
@@ -19,9 +28,9 @@ Matrix::Matrix() {
 // Main Constructor.
 Matrix::Matrix(const size_t & n, const size_t & m) {
 	if (n < 1 || m < 1) {
-		throw std::string("Exception: matrix dimensions must be >= 1.\n");
+		throw std::string("\e[1m \033[31m Exception: matrix dimensions must be >= 1.\n \033[0m \e[0m");
 	}
-	std::cout << "Matrix allocated (main).\n";
+	//std::cout << YELLOW << "Matrix allocated (main).\n" << RESET;
 	this->len = n * m;
 	this->M = new int[this->len];
 	this->row = n;
@@ -30,7 +39,7 @@ Matrix::Matrix(const size_t & n, const size_t & m) {
 
 // Matrix Copy Constructor.
 Matrix::Matrix(const Matrix & rhs) {
-	std::cout << "Matrix allocated (copy construct).\n";
+	//std::cout << YELLOW << "Matrix allocated (copy construct).\n" << RESET;
 	this->len = rhs.len;
 	this->row = rhs.row;
 	this->col = rhs.col;
@@ -75,7 +84,7 @@ Matrix operator+(const Matrix & A, const Matrix & B) {
 
 	// Matrices must have same dimensions.
 	if (A.row != B.row || A.col != B.col) {
-		throw std::string("Exception: addition only defined for matrices with same dimentions.\n");
+		throw std::string("\e[1m \033[31m Exception: addition only defined for matrices with same dimentions.\n \033[0m \e[0m");
 	}
 	
 	Matrix C(A.row, A.col);
@@ -93,7 +102,7 @@ Matrix operator-(const Matrix & A, const Matrix & B) {
 
 	// Matrices must have same dimensions.
 	if (A.row != B.row || A.col != B.col) {
-		throw std::string("Exception: addition only defined for matrices with same dimentions.\n");
+		throw std::string("\e[1m \033[31m Exception: addition only defined for matrices with same dimentions.\n \033[0m \e[0m");
 	}
 	
 	Matrix C(A.row, A.col);
@@ -125,7 +134,7 @@ Matrix operator*(const Matrix & A, const Matrix & B) {
 	// Matrix A.col must equal B.rows
 
 	if (A.col != B.row) {
-		throw std::string("Exception: matrix A cols must equal matrix B rows.\n");
+		throw std::string("\e[1m \033[31m Exception: matrix A cols must equal matrix B rows.\n \033[0m \e[0m");
 	}
 
 	Matrix C(A.row, B.col);
@@ -196,23 +205,25 @@ void Matrix::print() {
 
 	}
 
+	std::cout << WHITE; //<< std::setfill('0') << std::setw(spacing);
+
 	// Nested looping begins.
 	for (size_t i = 0; i < this->row; i++) {
 
 		// print the row of the matrix.
 		for (size_t j = 0; j < this->col; j++) {
             
-			std::cout << std::setfill('0') << std::setw(spacing) 
+			std::cout << std::setfill('0') << std::setw(spacing)
 			<< this->M[i * this->col + j] << " ";
 
 		}
 
-    // new line for the next row in matrix.
+    	// new line for the next row in matrix.
 		std::cout << "\n";
 
 	}
 
-	std::cout << "\n";
+	std::cout << RESET << "\n";
 
 }
 

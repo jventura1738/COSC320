@@ -1,5 +1,5 @@
 // Justin Ventura COSC220
-// Used for Lab-3 in COSC320
+// Used for Lab-4 in COSC320
 #include "timer.h"
 #include <iomanip>
 
@@ -21,7 +21,7 @@ void Timer::reset_time() {
     end_time = 0;
 }
 void Timer::display_time() {
-    std::cout << "Time elapsed to sort: " << std::setprecision(3)
+    std::cout << "Time elapsed for operations: " << std::setprecision(3)
               << std::fixed << get_time() << "ms, "
               << get_time()/1000 << "s\n";
 }

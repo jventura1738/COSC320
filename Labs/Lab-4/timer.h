@@ -1,5 +1,5 @@
 // Justin Ventura COSC220
-// Used for Lab-3 in COSC320
+// Used for Lab-4 in COSC320
 #ifndef TIMER_H
 #define TIMER_H
 #include <time.h>

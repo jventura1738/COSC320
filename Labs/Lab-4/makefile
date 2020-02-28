@@ -7,7 +7,7 @@ gc = g++ -c -std=c++11 -Wall # would be c++20 but not allowed :(
 go = g++ -o
 
 main: main.o matrix.o timer.o
-	$(go) main main.o matrix.o
+	$(go) main main.o matrix.o timer.o
 
 main.o: main.cpp matrix.o timer.o
 	$(gc) main.cpp

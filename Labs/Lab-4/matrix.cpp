@@ -86,7 +86,7 @@ Matrix operator+(const Matrix & A, const Matrix & B) {
 
 	// Matrices must have same dimensions.
 	if (A.row != B.row || A.col != B.col) {
-		throw std::string("\e[1m \033[31m Exception: addition only defined for matrices with same dimentions.\n \033[0m \e[0m");
+		throw std::string("\e[1m \033[31m Exception: addition only defined for matrices with same dimensions.\n \033[0m \e[0m");
 	}
 	
 	Matrix C(A.row, A.col);
@@ -104,7 +104,7 @@ Matrix operator-(const Matrix & A, const Matrix & B) {
 
 	// Matrices must have same dimensions.
 	if (A.row != B.row || A.col != B.col) {
-		throw std::string("\e[1m \033[31m Exception: addition only defined for matrices with same dimentions.\n \033[0m \e[0m");
+		throw std::string("\e[1m \033[31m Exception: subtraction only defined for matrices with same dimensions.\n \033[0m \e[0m");
 	}
 	
 	Matrix C(A.row, A.col);
@@ -119,7 +119,7 @@ Matrix operator-(const Matrix & A, const Matrix & B) {
 }
 
 // Scalar Multiplication [EXTRA CREDIT]
-Matrix operator*(const Matrix & A, const int & scalar) {
+Matrix operator*(const Matrix & A, const float & scalar) {
 
 	Matrix C(A.row, A.col);
 
@@ -136,7 +136,7 @@ Matrix operator*(const Matrix & A, const Matrix & B) {
 	// Matrix A.col must equal B.rows
 
 	if (A.col != B.row) {
-		throw std::string("\e[1m \033[31m Exception: matrix A cols must equal matrix B rows.\n \033[0m \e[0m");
+		throw std::string("\e[1m \033[31m Exception: matrix A cols must equal matrix B rows for matrix multiplication.\n \033[0m \e[0m");
 	}
 
 	Matrix C(A.row, B.col);

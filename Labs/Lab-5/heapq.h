@@ -31,9 +31,9 @@ public:
 	int heap_size;	        // size of the valid heap
 
 	// Main Constructor.
-	// You may pass in a STATIC array. If dynamically allocated, delete after call.
-	// Throws std::string if the array incorrect dimensions are given.
-	HeapQ(const T * data, const int & n);
+	// Pass in the size the queue should be initially.
+	// Dynamically allocates the array of given size.
+	HeapQ(const int & n);
 
 	// Destructor.
 	~Heap() {
@@ -41,8 +41,20 @@ public:
 		delete [] arr;
 	}
 
-	// Load data into the heap.
-	void load_data(const T * data, const int & n);
+	// Peek at the top of the queue.
+	const T & peek() const {
+
+		return this->arr[0].data;
+
+	}
+
+	// Extract-Max to dequeue the highest priority data.
+	T & dequeue() {
+
+		return this->arr[0].data;
+
+		// FINISH THIS
+	}
 
 };
 

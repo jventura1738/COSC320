@@ -27,11 +27,11 @@ public:
 
 	// Heap Members.
 	HeapObj<T> * arr;       // pointer to priority queue
-	int length;			    // length of the array
+	int length;			    		// length of the array
 	int heap_size;	        // size of the valid heap
 
 	// Main Constructor.
-	// You may pass in a STATIC array. If dynamically allocated, delete after.
+	// You may pass in a STATIC array. If dynamically allocated, delete after call.
 	// Throws std::string if the array incorrect dimensions are given.
 	HeapQ(const T * data, const int & n);
 

@@ -2,6 +2,8 @@
 // Joe Anderson (heap.h)
 // Lab-5
 
+#include <iostream>
+
 #ifndef HEAPQ_H
 #define HEAPQ_H
 
@@ -15,6 +17,9 @@ private:
 	// expand the array if necessary.
 	void push_back(int & value);
 
+	// maintain the max heap.
+	void max_heapify(int & i);
+
 public:
 
 	// Heap Object structure.
@@ -27,7 +32,7 @@ public:
 
 	// Heap Members.
 	HeapObj<T> * arr;       // pointer to priority queue
-	int length;			    		// length of the array
+	int length;			    // length of the array
 	int heap_size;	        // size of the valid heap
 
 	// Main Constructor.
@@ -49,12 +54,14 @@ public:
 	}
 
 	// Extract-Max to dequeue the highest priority data.
-	T & dequeue() {
+	T & dequeue();
 
-		return this->arr[0].data;
+	// Add an item to the queue with given priority.
+	void enqueue(T d, int priority);
 
-		// FINISH THIS
-	}
+	// Method to print the heap from i to depth d.
+	void print_heap(int i, int d);
+}
 
 };
 

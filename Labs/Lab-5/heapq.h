@@ -12,7 +12,7 @@ class HeapQ {
 private:
 
 	// change arr[i].key to k.
-	void increase_key(int & i, int & k);
+	void increase_key(int i, int k);
 
 	// expand the array if necessary.
 	void push_back(int & value);
@@ -31,7 +31,7 @@ public:
 	};
 
 	// Heap Members.
-	HeapObj<T> * arr;       // pointer to priority queue
+	HeapObj * arr;       // pointer to priority queue
 	int length;			    // length of the array
 	int heap_size;	        // size of the valid heap
 
@@ -41,7 +41,7 @@ public:
 	HeapQ(const int & n);
 
 	// Destructor.
-	~Heap() {
+	~HeapQ() {
 		//std::cout << "Heap Destroyed.\n";
 		delete [] arr;
 	}
@@ -60,9 +60,7 @@ public:
 	void enqueue(T d, int priority);
 
 	// Method to print the heap from i to depth d.
-	void print_heap(int i, int d);
-}
-
+	void print_queue(int i, int d);
 };
 
 #include "heapq.cpp"

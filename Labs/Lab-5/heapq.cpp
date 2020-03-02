@@ -7,16 +7,16 @@
 
 // Private member to increase key.
 template <typename T>
-void HeapQ<T>::increase_key(int & i, int & k) {
+void HeapQ<T>::increase_key(int i, int k) {
 	
 	// already in correct position of the tree.
-	if (this->arr[i].key >= k) return;
+	if (this->arr[i].key > k) return;
 
 	// going up the tree.
 	this->arr[i].key = k;
 	while (i != 0 && this->arr[i].key > this->arr[i/2].key) {
 
-		HeapObj<T> temp = this->arr[i];
+		HeapObj temp = this->arr[i];
 		this->arr[i] = this->arr[i/2];
 		this->arr[i/2] = temp;
 		i = i/2;
@@ -28,7 +28,7 @@ void HeapQ<T>::increase_key(int & i, int & k) {
 template <typename T>
 void HeapQ<T>::push_back(int & value) {
 
-	HeapObj<T> * arr2 = new HeapQ<T>[this->length++];
+	HeapObj * arr2 = new HeapQ[this->length++];
 
 	for (int i = 0; i < this->length - 1; i++) {
 		arr2[i].data = this->arr[i].data;
@@ -57,7 +57,7 @@ void HeapQ<T>::max_heapify(int & i) {
     }
     if (max != i) {
 
-		HeapObj<T> temp = this->arr[i];
+		HeapObj temp = this->arr[i];
 		this->arr[i] = this->arr[max];
 		this->arr[max] = temp;
         max_heapify(max);
@@ -72,18 +72,13 @@ HeapQ<T>::HeapQ(const int & n) : length(n), heap_size(0) {
 	// cannot make array of negative size.
 	if (n < 1) {
 
+		std::cout << "incorrect length.\n";
 		throw std::string("ERROR: Array length must be >= 1.\n");
-
-	}
-	// prevent seg faults.
-	else if ((*(&arr + 1) - arr) != n){
-
-		throw std::string("ERROR: passed dimensions do not match actual dimensions.\n");
 
 	}
 
 	// create the priority queue of the given size.
-	this->arr = new HeapObj<T>[n];
+	this->arr = new HeapObj[n];
 
 }
 
@@ -109,20 +104,21 @@ template <typename T>
 void HeapQ<T>::enqueue(T d, int priority) {
 
 	this->arr[++this->heap_size - 1].data = d;
-	this->arr[this->heap_size - 1].key = (-1/0);
+	this->arr[this->heap_size - 1].key = (-1);
 	increase_key(this->heap_size - 1, priority);
 
 }
 
 template <typename T>
-void HeapQ<T>::print_heap(int i, int d) {
+void HeapQ<T>::print_queue(int i, int d) {
+
     if (this->length < 1) {
         
 		throw std::string("Heap is empty.\n");
 
     }
 
-    std::cout << this->arr[i] << "\n";
+    std::cout << this->arr[i].data << "\n";
 
     int row_start = (2 * i) + 1;
 
@@ -131,12 +127,12 @@ void HeapQ<T>::print_heap(int i, int d) {
 
         for (int l = row_start; l < (row_start + pow(2, k-1)); l++) {
 
-            if (l >= this->length) {
+            if (l >= this->length || l >= this->heap_size) {
                 std::cout << "* ";
             }
             // for incomplete levels of the tree.
             else {
-                std::cout << A->arr[l] << " ";
+                std::cout << this->arr[l].data << " ";
             }
 
         }

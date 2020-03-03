@@ -48,8 +48,6 @@ int main() {
 
     jspace::sort(ages, qsize);
     jspace::reverse(ages, qsize);
-    // std::sort(ages, ages + qsize);
-    // std::reverse(ages, ages + qsize);
 
     for (int i = 0; i < qsize; i++) {
 

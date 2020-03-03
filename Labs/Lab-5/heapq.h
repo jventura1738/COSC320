@@ -18,7 +18,7 @@ private:
 	void push_back();
 
 	// maintain the max heap.
-	void max_heapify(int & i);
+	void max_heapify(int i);
 
 public:
 

@@ -46,7 +46,8 @@ void HeapQ<T>::push_back() {
 
 // Private function to maintain the max heap.
 template <typename T>
-void HeapQ<T>::max_heapify(int & i) {
+void HeapQ<T>::max_heapify(int i) {
+
     int l = 2 * i;
     int r = ((2 * i) + 1);
     int max;
@@ -92,15 +93,15 @@ T HeapQ<T>::dequeue() {
 	// bounds check
 	if (this->heap_size < 1) {
 
-		throw std::string("Queue is currently empty.\n");
+		throw std::string("Queue is currently empty or broken.\n");
 
 	}
 
 	T temp = this->arr[0].data;
-	this->arr[0] = this->arr[this->heap_size];
+	this->arr[0].data = this->arr[this->heap_size - 1].data;
+	this->arr[0].key = this->arr[this->heap_size - 1].key;
 	this->heap_size--;
-	int x = 0;
-	max_heapify(x);
+	max_heapify(0);
 	return temp;
 
 }

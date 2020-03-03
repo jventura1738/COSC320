@@ -10,17 +10,30 @@
 template <typename T>
 void HeapQ<T>::increase_key(int i, int k) {
 	
-	// already in correct position of the tree.
+	// error, but no need to throw exception.
 	if (this->arr[i].key > k) return;
 
-	// going up the tree.
 	this->arr[i].key = k;
-	while (i != 0 && this->arr[i].key > this->arr[i/2].key) {
+	// if (i <= 2) {
 
-		jspace::swap(&this->arr[i], &this->arr[i/2]);
-		i = i/2;
+	// 	if (i != 0 && (this->arr[i].key > this->arr[0].key) ) {
+
+	// 		jspace::swap(&this->arr[i], &this->arr[0]);
+
+	// 	}
+		
+	// 	return;
+
+	// }
+
+	// going up the tree.
+	while (i > 1 && (this->arr[i].key > this->arr[(i/2) - 1].key)) {
+
+		jspace::swap(&this->arr[i], &this->arr[(i/2) - 1]);
+		i = (i/2) - 1;
 
 	}
+
 }
 
 // Push back Private method.
@@ -56,10 +69,11 @@ void HeapQ<T>::max_heapify(int & i) {
     }
     if (max != i) {
 
-   	jspace::swap(&this->arr[i], &this->arr[max])
+   	jspace::swap(&this->arr[i], &this->arr[max]);
     max_heapify(max);
 
     }
+
 }
 
 // Main Constructor.
@@ -91,7 +105,7 @@ T & HeapQ<T>::dequeue() {
 	}
 
 	T temp = this->arr[0].data;
-	this->arr[0] = this->arr[this->heap_size - 1];
+	this->arr[0] = this->arr[this->heap_size];
 	this->heapsize--;
 	max_heapify(0);
 	return temp;
@@ -117,9 +131,10 @@ void HeapQ<T>::enqueue(T d, int priority) {
 
 	}
 
-	this->arr[++this->heap_size].data = d;
-	this->arr[this->heap_size].key = -1;
-	this->increase_key(this->heap_size, priority);
+	this->heap_size++;
+	this->arr[this->heap_size - 1].data = d;
+	this->arr[this->heap_size - 1].key = -1;
+	this->increase_key(this->heap_size - 1, priority);
 
 }
 
@@ -129,7 +144,7 @@ void HeapQ<T>::print_queue(int i, int d) {
 
     if (this->length < 1) {
         
-		throw std::string("Heap is empty.\n");
+			throw std::string("Heap is empty.\n");
 
     }
 

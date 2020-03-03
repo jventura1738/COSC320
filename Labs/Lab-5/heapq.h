@@ -3,7 +3,6 @@
 // Lab-5
 
 #include <iostream>
-#include "jspace.h"
 
 #ifndef HEAPQ_H
 #define HEAPQ_H

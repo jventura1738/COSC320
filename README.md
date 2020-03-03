@@ -6,6 +6,3 @@ Justin Ventura's Advanced Data Structures and Algorithm Analysis Repository.
 
 ## Projects
 
-### Linear Least Squares Regression With Matrices
-
-first project

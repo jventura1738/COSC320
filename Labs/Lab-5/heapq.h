@@ -54,7 +54,7 @@ public:
 	}
 
 	// Extract-Max to dequeue the highest priority data.
-	T & dequeue();
+	T dequeue();
 
 	// Add an item to the queue with given priority.
 	// Throws std::string for negative priorities.

@@ -14,25 +14,13 @@ void HeapQ<T>::increase_key(int i, int k) {
 	if (this->arr[i].key > k) return;
 
 	this->arr[i].key = k;
-	// if (i <= 2) {
-
-	// 	if (i != 0 && (this->arr[i].key > this->arr[0].key) ) {
-
-	// 		jspace::swap(&this->arr[i], &this->arr[0]);
-
-	// 	}
-		
-	// 	return;
-
-	// }
-
 
 	// FIX THIS
 	// going up the tree.
-	while (i > 1 && (this->arr[i].key > this->arr[(i/2) - 1].key)) {
+	while (i > 0 && (this->arr[i].key > this->arr[jspace::ceil(i/2.0) - 1].key)) {
 
-		jspace::swap(&this->arr[i], &this->arr[(i/2) - 1]);
-		i = (i/2) - 1;
+		jspace::swap(&this->arr[i], &this->arr[jspace::ceil(i/2.0) - 1]);
+		i = jspace::ceil(i/2.0) - 1;
 
 	}
 
@@ -42,11 +30,13 @@ void HeapQ<T>::increase_key(int i, int k) {
 template <typename T>
 void HeapQ<T>::push_back() {
 
-	HeapObj * arr2 = new HeapObj[this->length++];
+	HeapObj * arr2 = new HeapObj[++this->length];
 
 	for (int i = 0; i < this->length - 1; i++) {
+
 		arr2[i].data = this->arr[i].data;
 		arr2[i].key = this->arr[i].key;
+
 	}
 
 	delete [] this->arr;
@@ -97,7 +87,7 @@ HeapQ<T>::HeapQ(const int & n) : length(n), heap_size(0) {
 
 // Dequeue or "Extract-Max."
 template <typename T>
-T & HeapQ<T>::dequeue() {
+T HeapQ<T>::dequeue() {
 
 	// bounds check
 	if (this->heap_size < 1) {
@@ -108,8 +98,9 @@ T & HeapQ<T>::dequeue() {
 
 	T temp = this->arr[0].data;
 	this->arr[0] = this->arr[this->heap_size];
-	this->heapsize--;
-	max_heapify(0);
+	this->heap_size--;
+	int x = 0;
+	max_heapify(x);
 	return temp;
 
 }

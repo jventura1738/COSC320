@@ -3,6 +3,7 @@
 // Lab-5
 
 #include <iostream>
+#include "jspace.h"
 
 #ifndef HEAPQ_H
 #define HEAPQ_H
@@ -15,7 +16,7 @@ private:
 	void increase_key(int i, int k);
 
 	// expand the array if necessary.
-	void push_back(int & value);
+	void push_back();
 
 	// maintain the max heap.
 	void max_heapify(int & i);
@@ -57,6 +58,7 @@ public:
 	T & dequeue();
 
 	// Add an item to the queue with given priority.
+	// Throws std::string for negative priorities.
 	void enqueue(T d, int priority);
 
 	// Method to print the heap from i to depth d.

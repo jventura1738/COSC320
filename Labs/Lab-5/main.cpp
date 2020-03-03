@@ -27,6 +27,10 @@ int main() {
     pqueue.enqueue(16, 16);
     pqueue.print_queue(0, 5);
 
+    std::cout << "Adding value: 999 with priority 999.\n";
+    pqueue.enqueue(999, 999);
+    pqueue.print_queue(0, 5);
+
     std::cout << "\n=== STRING TEST ===\n";
     std::cout << "Priority queue by age test. \n\n";
     std::cout << "List of names with ages:\n";
@@ -60,6 +64,17 @@ int main() {
         std::cout << names[i] << " age: " << ages[i] << "\n";
 
     }
+
+    std::cout << "\n===== EXTRA CREDIT =====\n";
+    int n = 10;
+    int arr[n];
+    for (int i = 0; i < n; i++) {
+
+        std::cout << "gamers\n";
+
+    }
+
+
 
     return 0;
 }

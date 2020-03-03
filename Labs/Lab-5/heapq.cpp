@@ -26,6 +26,8 @@ void HeapQ<T>::increase_key(int i, int k) {
 
 	// }
 
+
+	// FIX THIS
 	// going up the tree.
 	while (i > 1 && (this->arr[i].key > this->arr[(i/2) - 1].key)) {
 

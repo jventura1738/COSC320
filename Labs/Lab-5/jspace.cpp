@@ -21,6 +21,19 @@ namespace jspace {
 		*b = temp;
 	}
 
+	template <typename T>
+	void print(T * arr, size_t length) {
+
+		for (int i = 0; i < length; i++) {
+
+			std::cout << arr[i] << " ";
+
+		}
+
+		std::cout << "\n";
+
+	}
+
 	int floor(const double & quant) {
 		
 		return (int(quant));

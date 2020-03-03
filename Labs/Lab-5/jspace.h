@@ -6,7 +6,7 @@
 #define JSPACE_H
 
 /*
- * This file was created to cover very basic methods
+ * This file was created to cover very basic tasks
  * and functions that I find useful for everyday
  * tasks. Things I shouldn't have to code more than
  * once.
@@ -15,10 +15,15 @@
 
 namespace jspace {
 
-	// Method to swap to values passed by reference.
+	// Function to swap to values passed by reference.
 	// Overload any assignment operators if necessary.
 	template <typename T>
 	void swap(T * a, T * b);
+
+	// Function to print an array.  Be sure to overload
+	// any ostream operators.
+	template <typename T>
+	void print(T * arr, size_t length);
 
 	// Takes a double, and applies the functional floor.
 	int floor(const double & quant);
@@ -30,7 +35,7 @@ namespace jspace {
 	template <typename T>
 	void reverse(T * arr, int length);
 
-	// Merge sort method for stable sorting.
+	// Merge sort function for stable sorting.
 	// Overload any comparison operators to
 	// be sure the sort is defined properly.
 	template <typename T>

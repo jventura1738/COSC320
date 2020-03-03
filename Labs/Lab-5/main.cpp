@@ -1,6 +1,7 @@
 #include "heapq.h"
 #include "jspace.h"
 #include <iostream>
+#include <algorithm>
 
 int main() {
 
@@ -26,8 +27,8 @@ int main() {
     pqueue.enqueue(16, 16);
     pqueue.print_queue(0, 5);
 
-    std::cout << "=== STRING TEST ===\n";
-    std::cout << "Priority queue by age test. \n";
+    std::cout << "\n=== STRING TEST ===\n";
+    std::cout << "Priority queue by age test. \n\n";
     std::cout << "List of names with ages:\n";
     std::string names[] = {"Justin Ventura", "Jacob Duncan", "Joe Anderson", "Ian Thomas",
     "Gabriel Corinthian", "Michael Mandulak", "Blaine Mason", "Zak Holliman"};
@@ -41,12 +42,14 @@ int main() {
 
     }
 
-    std::cout << "Test peek (should print 'Joe Anderson'):\n";
+    std::cout << "\nTest peek (should print 'Joe Anderson'):\n";
     std::cout << pq.peek() << "\n\n";
     std::cout << "Now the lists will be re-ordered by age priority:\n";
 
     jspace::sort(ages, qsize);
     jspace::reverse(ages, qsize);
+    // std::sort(ages, ages + qsize);
+    // std::reverse(ages, ages + qsize);
 
     for (int i = 0; i < qsize; i++) {
 

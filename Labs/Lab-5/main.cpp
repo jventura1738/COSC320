@@ -23,7 +23,7 @@ int main() {
     std::cout << "=== Priorities match values === \n";
     std::cout << "Created a priority queue with 16 total spaces.\n";
 
-    for (int i = 0; i < 14; i++) {
+    for (int i = 0; i < 16; i++) {
 
     	std::cout << "enqueuing...\n";
         pqueue.enqueue(i, i);
@@ -31,10 +31,6 @@ int main() {
 
     }
 
-    pqueue.enqueue(14, 14);
-    pqueue.print_queue(0, 5);
-    pqueue.enqueue(15, 15);
-    pqueue.print_queue(0, 5);
     std::cout << "This will call push back.\n";
     pqueue.enqueue(16, 16);
     pqueue.print_queue(0, 5);
@@ -43,14 +39,24 @@ int main() {
     pqueue.enqueue(999, 999);
     pqueue.print_queue(0, 5);
 
+    std::cout << "\nNow print the priority queue from highest to lowest priority:\n";
+    for (int i = 0; i < pqueue.length; i++) {
+
+        std::cout << pqueue.dequeue() << " ";
+
+    }
+    std::cout << "\n";
+
     std::cout << "\n=== STRING TEST ===\n";
     std::cout << "Priority queue by age test. \n\n";
     std::cout << "List of names with ages:\n";
+
     std::string names[] = {"Justin Ventura", "Jacob Duncan", "Joe Anderson", "Ian Thomas",
     "Gabriel Corinthian", "Michael Mandulak", "Blaine Mason", "Zak Holliman"};
     int ages[] = {20, 19, 29, 20, 19, 18, 19, 21};
     HeapQ<std::string> pq(qsize);
     qsize = 8;
+    
     for (int i = 0; i < qsize; i++) {
 
         std::cout << names[i] << " age: " << ages[i] << "\n";
@@ -78,7 +84,7 @@ int main() {
     }
 
     std::cout << "\n===== EXTRA CREDIT =====\n";
-    int n = 10;
+    int n = 100;
     int arr1[n];
     int arr2[n];
     for (int i = 0; i < n; i++) {
@@ -141,7 +147,7 @@ void random_swaps(T * arr, int length) {
     // indices to be made random.
     int j, k;
 
-    for (int i = 0; i < length; i++) {
+    for (int i = 0; i < 1000; i++) {
 
         j = (rand() % length);
         k = (rand() % length);

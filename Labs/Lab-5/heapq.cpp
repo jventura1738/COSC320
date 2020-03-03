@@ -48,9 +48,10 @@ void HeapQ<T>::push_back() {
 template <typename T>
 void HeapQ<T>::max_heapify(int i) {
 
-    int l = 2 * i;
-    int r = ((2 * i) + 1);
+    int l = 2 * i + 1;
+    int r = ((2 * i) + 2);
     int max;
+
     if (l <= this->heap_size && this->arr[l].key > this->arr[i].key) {
         max = l;
     }
@@ -62,8 +63,8 @@ void HeapQ<T>::max_heapify(int i) {
     }
     if (max != i) {
 
-   	jspace::swap(&this->arr[i], &this->arr[max]);
-    max_heapify(max);
+		jspace::swap(&this->arr[i], &this->arr[max]);
+		max_heapify(max);
 
     }
 
@@ -118,7 +119,7 @@ void HeapQ<T>::enqueue(T d, int priority) {
 		throw std::string("ERROR: Priority must be positive.\n");
 
 	}
-	else if (this->heap_size == this->length - 1) {
+	else if (this->heap_size == this->length) {
 
 		// push back the new data.
 		this->push_back();
@@ -160,7 +161,10 @@ void HeapQ<T>::print_queue(int i, int d) {
             }
 
         }
+		
         std::cout << std::endl;
         row_start = (2 * row_start) + 1;
+
     }
+
 }

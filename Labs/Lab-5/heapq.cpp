@@ -144,13 +144,17 @@ void HeapQ<T>::print_queue(int i, int d) {
 
     std::cout << this->arr[i].data << "\n";
 
+    // This will keep track of where the level (row) starts.
     int row_start = (2 * i) + 1;
 
-    // keep track of the level.
+    // This ensures that we print a partial tree, that is,
+    // a sub-tree rooted at i, and with a depth d.
     for (int k = 2; k <= d; k++) {
 
+    		// We only want the subtree.
         for (int l = row_start; l < (row_start + pow(2, k-1)); l++) {
 
+        		// If part of the sub-tree is empty, print an asterisk.
             if (l >= this->length || l >= this->heap_size) {
                 std::cout << "* ";
             }
@@ -160,7 +164,7 @@ void HeapQ<T>::print_queue(int i, int d) {
             }
 
         }
-		
+				// Start the new level of the tree with a newline.
         std::cout << "\n";
         row_start = (2 * row_start) + 1;
 

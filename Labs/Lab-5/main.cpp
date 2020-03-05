@@ -119,15 +119,15 @@ int main() {
     jspace::print(arr1, n);
 
     // randomized priority algorithm.
-    shuffle_arr(arr1, n);
+    // shuffle_arr(arr1, n);
     // random swaps algorithm.
-    random_swaps(arr2, n);
+    // random_swaps(arr2, n);
 
-    std::cout << "\nResulting array from random priorities:\n";
-    jspace::print(arr1, n);
+    // std::cout << "\nResulting array from random priorities:\n";
+    // jspace::print(arr1, n);
 
-    std::cout << "Resulting array from random swaps:\n";
-    jspace::print(arr2, n);
+    // std::cout << "Resulting array from random swaps:\n";
+    // jspace::print(arr2, n);
 
     return 0;
 }

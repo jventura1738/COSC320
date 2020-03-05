@@ -10,7 +10,11 @@ I modified my max heap to essentially act like a priority queue in the sense tha
 
 ### B) What is the theoretical time complexity of your algorithms (best and worst case), in terms of the input size? Be sure to vary the parameters enough to use the observations to answer the next questions!
 
+For the Dequeue/Extract-Max, the complexity in terms of n (the number of elements in the array) is O(logn).  This is because each time an item is dequeued, the function calls max-heapify to fix any max heap violations due to the way this function replaces the the max with the last element after dequeuing.  Enqueue also has a theoretical complexity of O(logn), as it calls increase-key which is essentially an upwards version of max-heapify.  Enqueue places the new element at the end of the heap, and then moves it to it's respective position based on its key.  Of course unless this element is a new max, the upper bound O(logn) is very pessimisitic.
+
 ### C) How does the absolute timing of different algorithms scale with the input? Use the data collected to rectify this with the theoretical time complexity, e.g. what non-asymptotic function of n mostly closely matches the timings that you observe as n grows?
+
+Dequeue was almost perfectly matched with the O(logn), but Enqueue depended on the priority of the new element inserted.  It was much easier to find the upper bound which was O(logn) as I just repeatedly inserted an item with a new highest priority.  This was much easier to see with more elements already in the heap (max).  Both of these most closely resembled O(logn) based on my tests.
 
 ### D) Describe 2-3 different larger application areas where a priority queue would be helpful. Explain and give some justification why it would be a better choice than other data structures.
 

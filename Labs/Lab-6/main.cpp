@@ -10,7 +10,6 @@ int partition  (int * arr, int start, int end) {
     int loc = (start - 1);
     for (int j = start; j <= end - 1; j++) {
 
-        comp++; // comparison count
         if (arr[j] < piv) {
             loc++;
             swap(arr[loc], arr[j]);
@@ -22,11 +21,11 @@ int partition  (int * arr, int start, int end) {
 void quick_sort(int * arr, int start, int end) {
     if (start < end) {
         // getting location for pivot.
-        int piv = partition(arr, start, end, comp);
+        int piv = partition(arr, start, end);
 
         // sort before and after the partition.
-        quick_sort(arr, start, piv - 1, comp);
-        quick_sort(arr, piv + 1, end, comp);
+        quick_sort(arr, start, piv - 1);
+        quick_sort(arr, piv + 1, end);
     }
 }
 void merge(int * arr, int leftmost, int mid, int rightmost) {
@@ -51,7 +50,6 @@ void merge(int * arr, int leftmost, int mid, int rightmost) {
 
     // merge temp arrays to real array
     while(i < sub1 && j < sub2) {
-        comp++;
         if(subArr1[i] <= subArr2[j]) {
             arr[k++] = subArr1[i++];
         }
@@ -73,11 +71,11 @@ void merge_sort(int * array, int start, int end) {
    if(start < end) {
       mid = start + (end - start) / 2;
       // Sort first and second arrays recursively.
-      merge_sort(array, start, mid, comp);
-      merge_sort(array, mid + 1, end, comp);
+      merge_sort(array, start, mid);
+      merge_sort(array, mid + 1, end);
 
       // merge the two arrays together.
-      merge(array, start, mid, end, comp);
+      merge(array, start, mid, end);
    }
 }
 // Max Heapify.  This function will be used

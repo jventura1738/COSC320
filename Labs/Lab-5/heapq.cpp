@@ -15,7 +15,6 @@ void HeapQ<T>::increase_key(int i, int k) {
 
 	this->arr[i].key = k;
 
-	// FIX THIS
 	// going up the tree.
 	while (i > 0 && (this->arr[i].key > this->arr[jspace::ceil(i/2.0) - 1].key)) {
 
@@ -162,7 +161,7 @@ void HeapQ<T>::print_queue(int i, int d) {
 
         }
 		
-        std::cout << std::endl;
+        std::cout << "\n";
         row_start = (2 * row_start) + 1;
 
     }

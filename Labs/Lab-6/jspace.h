@@ -45,6 +45,9 @@ namespace jspace {
 	template <typename T>
 	void merge(T *, int, int, int);
 
+	// Generate an array which will be dynamically allocated.
+	int * generate_array(size_t length);
+
 }
 
 #include "jspace.cpp"

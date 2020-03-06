@@ -2,8 +2,25 @@
 // Dr. Anderson Lab-6: main.cpp
 #include <iostream>
 #include "heap.h"
+#include "heapq.h"
 #include "timer.h"
 #include "jspace.h"
+#include <time.h>
+#include <random>
+#include <chrono>
+
+// For terminal colors and affects.
+#define RESET   "\033[0m"
+#define RED     "\033[31m"      /* Red */
+#define GREEN   "\033[32m"      /* Green */
+#define MAGENTA "\033[35m"      /* Magenta */
+#define WHITE   "\033[37m"      /* White */
+#define BLACK   "\033[30m"      /* Black */
+#define YELLOW  "\033[33m"      /* Yellow */
+#define BLUE    "\033[34m"      /* Blue */
+#define CYAN    "\033[36m"      /* Cyan */
+#define BOLDON  "\e[1m"
+#define BOLDOFF "\e[0m"
 
 int partition  (int * arr, int start, int end) {
     int piv = arr[end];
@@ -12,10 +29,10 @@ int partition  (int * arr, int start, int end) {
 
         if (arr[j] < piv) {
             loc++;
-            swap(arr[loc], arr[j]);
+            jspace::swap(&arr[loc], &arr[j]);
         }
     }
-    swap(arr[loc + 1], arr[end]); // insert pivot.
+    jspace::swap(&arr[loc + 1], &arr[end]); // insert pivot.
     return (loc + 1);
 }
 void quick_sort(int * arr, int start, int end) {
@@ -63,8 +80,10 @@ void merge(int * arr, int leftmost, int mid, int rightmost) {
     while(j < sub2) { // for extra elements in rightmost array
         arr[k++] = subArr2[j++];
     }
+
     delete [] subArr1;
     delete [] subArr2;
+
 }
 void merge_sort(int * array, int start, int end) {
    int mid;
@@ -98,9 +117,12 @@ void MaxHeapify(Heap<T>* A, int i) {
         max = r;
     }
     if (max != i) {
-        swap(A->arr[i], A->arr[max]);
+
+        jspace::swap(&A->arr[i], &A->arr[max]);
         MaxHeapify(A, max);
+
     }
+
 }
 
 // Build Max-Heap.  This will call Max Heapify
@@ -113,8 +135,11 @@ void BuildMaxHeap(Heap<T> *A) {
     // length/2 is already floored, so we can
     // subtract 1 from the result safely.
     for (int i = (A->length/2) - 1; i >= 0; i--) {
+
         MaxHeapify(A, i);
+
     }
+
 }
 
 // Take advantage of the Max Heap structure
@@ -123,19 +148,158 @@ void BuildMaxHeap(Heap<T> *A) {
 // Complexity: (nlogn).
 template <typename T>
 void HeapSort(Heap<T> *A) {
+
     BuildMaxHeap(A);
     for (int i = A->length - 1; i >= 1; i--) {
+
         // We know A[i] is the largest among A[1,...,i], so move it
         // to the back, and consider it removed from the heap
         swap(A->arr[0], A->arr[A->heap_size]);
         A->heap_size -= 1;
         // We moved one of the smaller elements to the root, so we have to clean up
         MaxHeapify(A, 0);
+
     }
+
 }
 
+template <typename T>
+void shuffle(T * arr, int length) {
+
+    // set up the random seed.
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    srand(seed);
+    
+    // create the bound for random keys, and set up priority queue.
+    int bound = pow(length, 3);
+    HeapQ<T> pqueue(length);
+
+    // assign the random keys to each value in the array.
+    for (int i = 0; i < length; i++) {
+
+        pqueue.enqueue(arr[i], (rand() % bound) + 1);
+
+    }
+
+    // randomly select the elements by priority.
+    for (int i = 0; i < length; i++) {
+
+        arr[i] = pqueue.dequeue();
+
+    }
+
+}
+
+template <typename T>
+void random_swaps(T * arr, int length) {
+
+    // set up the random seed.
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    srand(seed);
+
+    // indices to be made random.
+    int j, k;
+
+    for (int i = 0; i < 1000; i++) {
+
+        j = (rand() % length);
+        k = (rand() % length);
+        jspace::swap(&arr[j], &arr[k]);
+
+    }
+
+}
+
+template <typename T>
+size_t hire_assistant(T * pool, size_t poolsize) {
+
+    // count total rehires.
+    size_t rehires = 0;
+    T curr = pool[0];
+
+    for (int i = 1; i < poolsize; i++) {
+
+        // if this candidate is better than our
+        // current assistant, replace our curr
+        // with this candidate.
+        if (pool[i] > curr) {
+
+            curr = pool[i];
+            rehires++;
+
+        }
+
+    }
+
+    return rehires;
+
+}
 
 int main () {
+
+    // use these to run trials.
+    int cap = 10;
+    bool hiring = true;
+    int candidates = 1000;
+    int hires1, hires2;
+    int * group1, * group2;
+    float group1avg = 0, group2avg = 0;
+    float totalavg;
+
+    while(hiring) {
+
+        std::cout << YELLOW << "==========================================================\n"                        << RESET;
+        std::cout << YELLOW << "10 Interviews for " << BOLDON << candidates << BOLDOFF << YELLOW << " applicants.\n" << RESET;
+        std::cout << YELLOW << "Total number of replacement hires per interview session:   \n"                       << RESET;
+        std::cout << YELLOW << "==========================================================\n\n"                      << RESET;
+
+        for (int session = 1; session <= 10; session++) {
+
+            // Shuffle the two different groups sent from company.
+            group1 = jspace::generate_array(candidates);
+            group2 = jspace::generate_array(candidates);
+            shuffle(group1, candidates);
+            random_swaps(group2, candidates);
+
+            // Perform interviews and count number of hires.
+            hires1 = hire_assistant(group1, candidates);
+            hires2 = hire_assistant(group2, candidates);
+
+            // Calculate the average of each group.
+            group1avg += hires1;
+            group2avg += hires2;
+
+            // After interviewing, display number of hires.
+            std::cout << CYAN  << "Pool " << session << ", group 1 hires: " << BOLDON << hires1 << BOLDOFF << RESET << "\n";
+            std::cout << GREEN << "Pool " << session << ", group 2 hires: " << BOLDON << hires2 << BOLDOFF << RESET << "\n";
+
+            // Discard current groups for the next.
+            delete [] group1;
+            delete [] group2;
+
+        }
+
+        // Finish calculating the average.
+        std::cout << "\n";
+        group1avg /= cap;
+        group2avg /= cap;
+        totalavg   = (group1avg + group2avg) / 2.0;
+
+        // Report the average hires.
+        std::cout << CYAN   << "Group 1 average hires: " << BOLDON << group1avg << BOLDOFF << RESET << "\n";
+        std::cout << GREEN  << "Group 2 average hires: " << BOLDON << group2avg << BOLDOFF << RESET << "\n";
+        std::cout << YELLOW << "Total average hires:   " << BOLDON << totalavg  << BOLDOFF << RESET << "\n";
+
+        candidates += 1000;
+        if (candidates == 10000) {
+
+            hiring = false;
+
+        }
+        
+        std::cout << "\n";
+
+    }
 
     return 0;
 

@@ -22,7 +22,7 @@
 #define BOLDON  "\e[1m"
 #define BOLDOFF "\e[0m"
 
-int partition  (int * arr, int start, int end) {
+int partition (int * arr, int start, int end) {
     int piv = arr[end];
     int loc = (start - 1);
     for (int j = start; j <= end - 1; j++) {
@@ -34,6 +34,29 @@ int partition  (int * arr, int start, int end) {
     }
     jspace::swap(&arr[loc + 1], &arr[end]); // insert pivot.
     return (loc + 1);
+}
+int partition (int * arr, int start, int end) {
+    int piv = arr[end];
+    int loc = (start - 1);
+    for (int j = start; j <= end - 1; j++) {
+
+        if (arr[j] < piv) {
+            loc++;
+            jspace::swap(&arr[loc], &arr[j]);
+        }
+    }
+    jspace::swap(&arr[loc + 1], &arr[end]); // insert pivot.
+    return (loc + 1);
+}
+void quick_sort(int * arr, int start, int end) {
+    if (start < end) {
+        // getting location for pivot.
+        int piv = partition(arr, start, end);
+
+        // sort before and after the partition.
+        quick_sort(arr, start, piv - 1);
+        quick_sort(arr, piv + 1, end);
+    }
 }
 void quick_sort(int * arr, int start, int end) {
     if (start < end) {

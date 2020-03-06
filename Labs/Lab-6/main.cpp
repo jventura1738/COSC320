@@ -204,7 +204,7 @@ void random_swaps(T * arr, int length) {
     // indices to be made random.
     int j, k;
 
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < length; i++) {
 
         j = (rand() % length);
         k = (rand() % length);
@@ -261,7 +261,7 @@ int main () {
         std::cout << YELLOW << "Total number of replacement hires per interview session:   \n"                       << RESET;
         std::cout << YELLOW << "==========================================================\n\n"                      << RESET;
 
-        for (int session = 1; session <= 10; session++) {
+        for (int session = 1; session <= 20; session++) {
 
             // Shuffle the two different groups sent from company.
             group1 = jspace::generate_array(candidates);
@@ -309,11 +309,26 @@ int main () {
 
     }
 
-    std::cout << "SORT COMPARISONS: QS, RQS, MERGE, HEAP:\n";
+    std::cout << YELLOW << "=======================================\n";
+    std::cout << YELLOW << "SORT COMPARISONS: QS, RQS, MERGE, HEAP:\n";
+    std::cout << YELLOW << "=======================================\n";
+    std::cout << RESET;
+    int trials = 10;
+    Timer timer;
+    int index = 0;
+    double * qs_avg = new double[9];
+    double * rqs_avg = new double[9];
+    double * mrg_avg = new double[9];
+    double * heap_avg = new double[9];
 
-    for (int size = 10000; size <= 10000; size += 50000) {
+    for (int size = 50000; size <= 1000000; size += 50000) {
 
-        for (int k = 1; k <= 2; k++) {
+        qs_avg[index] = 0;
+        rqs_avg[index] = 0;
+        mrg_avg[index] = 0;
+        heap_avg[index] = 0;
+
+        for (int k = 1; k <= trials; k++) {
 
             int * arr_qs = jspace::generate_array(size);
             shuffle(arr_qs, size);
@@ -322,18 +337,33 @@ int main () {
             int * arr_heap = jspace::copy(arr_qs, size);
 
             Heap<int> heap(arr_heap, size);
-    
-            std::cout << "quicksort\n";
+
+            timer.start_timer();
             quick_sort(arr_qs, 0, size - 1);
+            timer.end_timer();
+            qs_avg[index] += timer.get_time();
+            timer.reset_time();
             if (!jspace::isSorted(arr_qs, size)) throw std::string("FIX YOUR SH*T\n");
-            std::cout << "rand quicksort\n";
+
+            timer.start_timer();
             rand_quick_sort(arr_rqs, 0, size - 1);
+            timer.end_timer();
+            rqs_avg[index] += timer.get_time();
+            timer.reset_time();
             if (!jspace::isSorted(arr_rqs, size)) throw std::string("FIX YOUR SH*T\n");
-            std::cout << "mergesort\n";
+
+            timer.start_timer();
             merge_sort(arr_mrg, 0, size - 1);
+            timer.end_timer();
+            mrg_avg[index] += timer.get_time();
+            timer.reset_time();
             if (!jspace::isSorted(arr_mrg, size)) throw std::string("FIX YOUR SH*T\n");
-            std::cout << "heapsort\n";
+
+            timer.start_timer();
             HeapSort(&heap);
+            timer.end_timer();
+            heap_avg[index] += timer.get_time();
+            timer.reset_time();
             if (!jspace::isSorted(heap.arr, size)) throw std::string("FIX YOUR SH*T\n");
 
             delete [] arr_qs;
@@ -341,6 +371,32 @@ int main () {
             delete [] arr_mrg;
 
         }
+
+        qs_avg[index]   /= trials;
+        rqs_avg[index]  /= trials;
+        mrg_avg[index]  /= trials;
+        heap_avg[index] /= trials;
+        index++;
+
+    }
+
+    int n = 50000;
+
+    for (int i = 0; i < 9; i++) {
+
+        std::cout << CYAN << "Average time for QuickSort on " << n << " elements: ";
+        std::cout << BOLDON << qs_avg[i] << "ms.\n" << BOLDOFF << RESET;
+
+        std::cout << GREEN << "Average time for Randomized QuickSort on " << n << " elements: ";
+        std::cout << BOLDON << rqs_avg[i] << "ms.\n" << BOLDOFF << RESET;
+
+        std::cout << BLUE << "Average time for MergeSort on " << n << " elements: ";
+        std::cout << BOLDON << mrg_avg[i] << "ms.\n" << BOLDOFF << RESET;
+
+        std::cout << MAGENTA << "Average time for HeapSort on " << n << " elements: ";
+        std::cout << BOLDON << heap_avg[i] << "ms.\n" << BOLDOFF << RESET;
+
+        std::cout << YELLOW << "============================================\n" << RESET;
 
     }
 

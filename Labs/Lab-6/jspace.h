@@ -48,6 +48,11 @@ namespace jspace {
 	// Generate an array which will be dynamically allocated.
 	int * generate_array(size_t length);
 
+	// Create a deep copy of an array and return it.
+	// RETURNS A DYNAMICALLY ALLOCATED ARRAY.
+	template <typename T>
+	T * copy(T * arr, size_t length);
+
 }
 
 #include "jspace.cpp"

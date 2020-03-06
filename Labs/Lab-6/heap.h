@@ -22,7 +22,7 @@ public:
 
 	// Destructor.
 	~Heap() {
-		//std::cout << "Heap Destroyed.\n";
+		std::cout << "Heap Destroyed.\n";
 		delete [] arr;
 	}
 

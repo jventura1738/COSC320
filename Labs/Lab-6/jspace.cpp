@@ -138,4 +138,18 @@ namespace jspace {
 
 	}
 
+	template <typename T>
+	T * copy(T * arr, size_t length) {
+
+		T * newarr = new T[length];
+		for (size_t i = 0; i < length; i++) {
+
+			newarr[i] = arr[i];
+
+		}
+
+		return newarr;
+
+	}
+
 }

@@ -166,7 +166,7 @@ void HeapSort(Heap<T> *A) {
 
         // We know A[i] is the largest among A[1,...,i], so move it
         // to the back, and consider it removed from the heap
-        swap(A->arr[0], A->arr[A->heap_size]);
+        jspace::swap(&A->arr[0], &A->arr[A->heap_size]);
         A->heap_size -= 1;
         // We moved one of the smaller elements to the root, so we have to clean up
         MaxHeapify(A, 0);
@@ -235,7 +235,7 @@ size_t hire_assistant(T * pool, size_t poolsize) {
 
     }
 
-    return rehires;
+    return hires;
 
 }
 
@@ -309,7 +309,32 @@ int main () {
 
     }
 
+    std::cout << "SORT COMPARISONS: QS, RQS, MERGE, HEAP:\n";
 
+    for (int size = 10000; size <= 10000; size += 50000) {
+
+        for (int k = 1; k <= 2; k++) {
+
+            int * arr_qs = jspace::generate_array(size);
+            shuffle(arr_qs, size);
+            int * arr_rqs = jspace::copy(arr_qs, size);
+            int * arr_mrg = jspace::copy(arr_qs, size);
+            int * arr_heap = jspace::copy(arr_qs, size);
+
+            Heap<int> heap(arr_heap, size);
+    
+            quick_sort(arr_qs, 0, size - 1);
+            rand_quick_sort(arr_rqs, 0, size - 1);
+            merge_sort(arr_mrg, 0, size - 1);
+            HeapSort(&heap);
+
+            delete [] arr_qs;
+            delete [] arr_rqs;
+            delete [] arr_mrg;
+
+        }
+
+    }
 
     return 0;
 

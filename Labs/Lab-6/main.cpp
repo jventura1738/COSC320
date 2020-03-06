@@ -35,27 +35,16 @@ int partition (int * arr, int start, int end) {
     jspace::swap(&arr[loc + 1], &arr[end]); // insert pivot.
     return (loc + 1);
 }
-int partition (int * arr, int start, int end) {
-    int piv = arr[end];
-    int loc = (start - 1);
-    for (int j = start; j <= end - 1; j++) {
-
-        if (arr[j] < piv) {
-            loc++;
-            jspace::swap(&arr[loc], &arr[j]);
-        }
-    }
-    jspace::swap(&arr[loc + 1], &arr[end]); // insert pivot.
-    return (loc + 1);
-}
-void quick_sort(int * arr, int start, int end) {
+void rand_quick_sort(int * arr, int start, int end) {
     if (start < end) {
         // getting location for pivot.
+        int random = (rand() % (end - start + 1));
+        jspace::swap(&arr[random], &arr[end]);
         int piv = partition(arr, start, end);
 
         // sort before and after the partition.
-        quick_sort(arr, start, piv - 1);
-        quick_sort(arr, piv + 1, end);
+        rand_quick_sort(arr, start, piv - 1);
+        rand_quick_sort(arr, piv + 1, end);
     }
 }
 void quick_sort(int * arr, int start, int end) {
@@ -188,10 +177,6 @@ void HeapSort(Heap<T> *A) {
 
 template <typename T>
 void shuffle(T * arr, int length) {
-
-    // set up the random seed.
-    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-    srand(seed);
     
     // create the bound for random keys, and set up priority queue.
     int bound = pow(length, 3);
@@ -216,10 +201,6 @@ void shuffle(T * arr, int length) {
 template <typename T>
 void random_swaps(T * arr, int length) {
 
-    // set up the random seed.
-    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-    srand(seed);
-
     // indices to be made random.
     int j, k;
 
@@ -237,7 +218,7 @@ template <typename T>
 size_t hire_assistant(T * pool, size_t poolsize) {
 
     // count total rehires.
-    size_t rehires = 0;
+    size_t hires = 1;
     T curr = pool[0];
 
     for (int i = 1; i < poolsize; i++) {
@@ -248,7 +229,7 @@ size_t hire_assistant(T * pool, size_t poolsize) {
         if (pool[i] > curr) {
 
             curr = pool[i];
-            rehires++;
+            hires++;
 
         }
 
@@ -259,6 +240,10 @@ size_t hire_assistant(T * pool, size_t poolsize) {
 }
 
 int main () {
+
+    // Random
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    srand(seed);
 
     // use these to run trials.
     int cap = 10;
@@ -323,6 +308,8 @@ int main () {
         std::cout << "\n";
 
     }
+
+
 
     return 0;
 

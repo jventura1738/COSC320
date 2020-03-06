@@ -152,4 +152,21 @@ namespace jspace {
 
 	}
 
+	template <typename T>
+	bool isSorted(const T * arr, size_t length) {
+
+		for (int i = 1; i < length; i++) {
+
+			if (arr[i] < arr[i - 1]) {
+
+				return false;
+
+			}
+
+		}
+
+		return true;
+
+	}
+
 }

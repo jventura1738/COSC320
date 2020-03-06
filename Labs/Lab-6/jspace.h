@@ -53,6 +53,11 @@ namespace jspace {
 	template <typename T>
 	T * copy(T * arr, size_t length);
 
+	// Check if an array is sorted or not.  This assumes
+	// that comparison operators are properly functional.
+	template <typename T>
+	bool isSorted(const T * arr, size_t length);
+
 }
 
 #include "jspace.cpp"

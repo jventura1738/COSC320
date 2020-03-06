@@ -38,7 +38,7 @@ int partition (int * arr, int start, int end) {
 void rand_quick_sort(int * arr, int start, int end) {
     if (start < end) {
         // getting location for pivot.
-        int random = (rand() % (end - start + 1));
+        int random = (start + (rand() % (end - start)));
         jspace::swap(&arr[random], &arr[end]);
         int piv = partition(arr, start, end);
 
@@ -323,10 +323,18 @@ int main () {
 
             Heap<int> heap(arr_heap, size);
     
+            std::cout << "quicksort\n";
             quick_sort(arr_qs, 0, size - 1);
+            if (!jspace::isSorted(arr_qs, size)) throw std::string("FIX YOUR SH*T\n");
+            std::cout << "rand quicksort\n";
             rand_quick_sort(arr_rqs, 0, size - 1);
+            if (!jspace::isSorted(arr_rqs, size)) throw std::string("FIX YOUR SH*T\n");
+            std::cout << "mergesort\n";
             merge_sort(arr_mrg, 0, size - 1);
+            if (!jspace::isSorted(arr_mrg, size)) throw std::string("FIX YOUR SH*T\n");
+            std::cout << "heapsort\n";
             HeapSort(&heap);
+            if (!jspace::isSorted(heap.arr, size)) throw std::string("FIX YOUR SH*T\n");
 
             delete [] arr_qs;
             delete [] arr_rqs;

@@ -7,7 +7,7 @@
 template <typename T>
 class Heap {
 public:
-	T* arr;					// underlying array
+	T * arr;					// underlying array
 	int length;			// length of the array
 	int heap_size;	// size of the valid heap
 
@@ -22,7 +22,7 @@ public:
 
 	// Destructor.
 	~Heap() {
-		std::cout << "Heap Destroyed.\n";
+		//std::cout << "Heap Destroyed.\n";
 		delete [] arr;
 	}
 

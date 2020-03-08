@@ -269,7 +269,7 @@ Matrix & Matrix::pad() {
 	}
 
 	delete [] oldM;
-	return *this;
+	return * this;
 
 }
 
@@ -281,7 +281,7 @@ Matrix & Matrix::inverse() {
 
 		std::cout << "base of recursion\n";
 		M[0] = 1.0 / M[0];
-		return *this;
+		return * this;
 
 	}
 

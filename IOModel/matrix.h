@@ -1,7 +1,7 @@
 /* 
- * Justin Ventura, 02/23/20
+ * Justin Ventura, 03/07/20
  * COSC320-002, Dr. Anderson
- * Lab-4: Matrix.h
+ * Project 1: matrix.h
 */
 #ifndef MATRIX_H
 #define MATRIX_H
@@ -20,7 +20,7 @@ public:
     // Constructors will take care of allocations,
     // if you free or allocate otherwise, the memory
     // risks are now all up to you.
-    int * M;
+    float * M;
 
     // Keep track of the rows & columns.
     size_t row;
@@ -51,7 +51,7 @@ public:
 
     // Copy Constructor. [MEMORY ALLOCATION]
     // Allocates a copy of a given matrix.
-    Matrix(const Matrix & rhs);
+    Matrix(const Matrix * rhs);
 
     // De-structor. [MEMORY DE-ALLOCATION]
     // Frees memory of a matrix out of scope.
@@ -59,7 +59,7 @@ public:
 
     // Overloaded Assignment operator. [MEMORY ALLOCATION]
     // Allocates a copy matrix by assignment.
-    void operator=(const Matrix & rhs);
+    void operator=(const Matrix * rhs);
 
     /*
      * MATRIX OPERATORS (OVERLOADED):
@@ -76,7 +76,7 @@ public:
     // Require: A(this) = B = Matrix[n x m].
     friend Matrix operator-(const Matrix & A, const Matrix & B);
 
-    // Matrix Scalar Multiply. [EXTRA CREDIT]
+    // Matrix Scalar Multiply.
     // Multiplies the scalar to each element in matrix.
     friend Matrix operator*(const Matrix & A, const float & scalar);
 
@@ -86,12 +86,15 @@ public:
     // Return:  C = Matrix[n x k]
     friend Matrix operator*(const Matrix & A, const Matrix & B);
 
+    // Matrix Transposition Operation.
+    Matrix transpose();
+
     // Strassen's Algorithm for Matrix
     // Multiplication.
     // Require: A = Matrix[n x m]
     //          B = Matrix[m x k]
     // Return:  C = Matrix[n x k]    
-    // Matrix * StrassenMultiply(const Matrix * A, const Matrix * B);
+    // Matrix StrassenMultiply(const Matrix * A, const Matrix * B);
 
     // Additional Print Method.
     // This prints this->M in matrix form, such that

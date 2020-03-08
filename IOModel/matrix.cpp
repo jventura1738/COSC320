@@ -1,7 +1,7 @@
 /* 
  * Justin Ventura, 02/23/20
  * COSC320-002, Dr. Anderson
- * Lab-4: Matrix.cpp
+ * Project 1: matrix.cpp
 */
 
 // Header file.
@@ -22,7 +22,7 @@ Matrix::Matrix() {
 	this->row = 1;
 	this->col = 1;
 	this->len = 1;
-	this->M = new int[1];
+	this->M = new float[1];
 }
 
 // Main Constructor.
@@ -32,40 +32,38 @@ Matrix::Matrix(const size_t & n, const size_t & m) {
 	}
 	//std::cout << YELLOW << "Matrix allocated (main).\n" << RESET;
 	this->len = n * m;
-	this->M = new int[this->len];
+	this->M = new float[this->len];
 	this->row = n;
 	this->col = m;
 }
 
 // Matrix Copy Constructor.
-Matrix::Matrix(const Matrix & rhs) {
+Matrix::Matrix(const Matrix * rhs) {
 	//std::cout << YELLOW << "Matrix allocated (copy construct).\n" << RESET;
-	this->len = rhs.len;
-	this->row = rhs.row;
-	this->col = rhs.col;
+	this->len = rhs->len;
+	this->row = rhs->row;
+	this->col = rhs->col;
 
-	this->M = new int[this->len];
+	this->M = new float[this->len];
 	for (size_t i = 0; i < this->len; i++)
-		this->M[i] = rhs.M[i];
+		this->M[i] = rhs->M[i];
 }
 
 // Matrix Assignment Operation
-void Matrix::operator=(const Matrix & rhs) {
-
-	//std::cout << "this: " << this->len << "rhs: " << rhs.len << "\n";
+void Matrix::operator=(const Matrix * rhs) {
 
 	// De-allocate old matrix pointer.
-	// std::cout << "\n--MATRIX [AO] ALLOCATED--\n";
+	//std::cout << "\n--MATRIX [AO] ALLOCATED--\n";
 	delete [] this->M;
-	this->len = rhs.len;
-	this->row = rhs.row;
-	this->col = rhs.col;
+	this->len = rhs->len;
+	this->row = rhs->row;
+	this->col = rhs->col;
 
 	// Copy A->M to re-allocated this->M.
-	this->M = new int[this->len];
+	this->M = new float[this->len];
 
 	for (size_t i = 0; i < this->len; i++)
-		this->M[i] = rhs.M[i];
+		this->M[i] = rhs->M[i];
 }
 
 // Destructor.
@@ -118,7 +116,7 @@ Matrix operator-(const Matrix & A, const Matrix & B) {
 	return C;
 }
 
-// Scalar Multiplication [EXTRA CREDIT]
+// Scalar Multiplication
 Matrix operator*(const Matrix & A, const float & scalar) {
 
 	Matrix C(A.row, A.col);
@@ -168,6 +166,27 @@ Matrix operator*(const Matrix & A, const Matrix & B) {
 
 	return C;
 
+}
+
+// Matrix Transposition Operation.
+Matrix Matrix::transpose() {
+		
+	Matrix temp(this->col, this->row);
+
+	// Algorithm: simply swap i & j and
+	// row & col. 
+
+	for (int i = 0; i < temp.col; i++) {
+
+		for (int j = 0; j < temp.row; j++) {
+
+			temp.M[i * temp.row + j] = this->M[j * temp.col + i];
+
+		}
+	
+	}
+
+	return temp;
 }
 
 // Matrix print method (PERFECT FORMATTING; SLOW).
@@ -254,6 +273,6 @@ void Matrix::hardreset() {
 	this->row = 1;
 	this->col = 1;
 	this->len = 1;
-	this->M = new int[1];
+	this->M = new float[1];
 
 }

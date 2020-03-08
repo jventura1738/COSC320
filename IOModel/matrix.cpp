@@ -190,6 +190,35 @@ Matrix Matrix::transpose() {
 
 }
 
+// Check if matrix is singular.
+bool Matrix::isSingular() const {
+
+	if (this->row != this->col) {
+
+		return true;
+
+	}
+	else {
+
+		if (this->determinant() == 0) {
+
+			return true;
+
+		}
+
+		return false;
+
+	}
+
+}
+
+int Matrix::determinant() const {
+
+	std::cout << "TODO\n";
+	return 1;
+
+}
+
 // Matrix Padding Method.
 Matrix & Matrix::pad() {
 
@@ -247,20 +276,19 @@ Matrix & Matrix::pad() {
 // Matrix Inversion Method.
 Matrix & Matrix::inverse() {
 
-	// Catch non-square matrices.
-	if(row != col) {
-
-		std::cout << "not square.\n";
-		return *this;
-
-	}
-
 	// Base of Recursion.
 	if(row == 1 && col == 1) {
 
 		std::cout << "base of recursion\n";
 		M[0] = 1.0 / M[0];
 		return *this;
+
+	}
+
+	// Catch non-square matrices.
+	if(this->isSingular()) {
+
+		throw std::string("ERROR: matrix is singular.\n");
 
 	}
 

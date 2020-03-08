@@ -15,6 +15,13 @@
 */
 
 class Matrix {
+private:
+    // Private method to determine whether the matrix is
+    // singular or not.  If it is singular, return true.
+    bool isSingular() const;
+
+    int determinant() const;
+
 public:
     // Pointer to the matrix array.
     // Constructors will take care of allocations, so

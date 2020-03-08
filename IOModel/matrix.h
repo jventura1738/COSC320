@@ -97,10 +97,10 @@ public:
     Matrix transpose();
 
     // Matrix Padding Method.
-    Matrix & pad();
+    Matrix pad();
 
     // Matrix Inversion Method.
-    Matrix & inverse();
+    Matrix inverse();
 
     // Strassen's Algorithm for Matrix
     // Multiplication.

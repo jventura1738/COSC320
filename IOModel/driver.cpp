@@ -131,7 +131,9 @@ int main() {
 	d.print();
 
 	std::cout << "\nresult\n";
-	Matrix result = (I - A).inverse() * (d);
+    Matrix term1 = (I - A);
+    Matrix term2 = term1.inverse();
+	Matrix result = term2 * (d);
 	result.print();
 
 	return 0;

@@ -68,9 +68,8 @@ void Matrix::operator=(const Matrix * rhs) {
 
 // Destructor.
 Matrix::~Matrix() {
-	std::cout << "Matrix de-allocated (destructor).\n";
+	// std::cout << "Matrix de-allocated (destructor).\n";
 	delete [] this->M;
-	std::cout << "we made it \n";
 }
 
 /*
@@ -220,7 +219,7 @@ int Matrix::determinant() const {
 }
 
 // Matrix Padding Method.
-Matrix & Matrix::pad() {
+Matrix Matrix::pad() {
 
 	// Make sure matrix dimensions are power of 2.
 	size_t newSize = 2;
@@ -274,15 +273,14 @@ Matrix & Matrix::pad() {
 }
 
 // Matrix Inversion Method.
-Matrix & Matrix::inverse() {
+Matrix Matrix::inverse() {
 
 	// Base of Recursion.
 	if(row == 1 && col == 1) {
 
 		std::cout << "base of recursion\n";
-		M[0] = 1.0 / M[0];
-		return * this;
-
+		this->M[0] = 1.0 / this->M[0];
+		return *this;
 	}
 
 	// Catch non-square matrices.
@@ -292,11 +290,10 @@ Matrix & Matrix::inverse() {
 
 	}
 
-	int unPadRows = row;
-	int unPadCols = col;
+	int unPaddedRows = row;
+	int unPaddedCols = col;
 
 	if ((this->row % 2) != 0) {
-		//std::cout << "padding dimensions to power of 2\n";
 		this->pad();
 	}
 
@@ -409,8 +406,8 @@ Matrix & Matrix::inverse() {
 	std::cout << "this is not epic\n";
 	delete [] this->M;
 	std::cout << "jk lol this is epic\n";
-	this->row = unPadRows;
-	this->col = unPadCols;
+	this->row = unPaddedRows;
+	this->col = unPaddedCols;
 	this->M = new float[this->row * this->col];
 
 	// Construct Ai as [R, T,

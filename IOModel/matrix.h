@@ -17,7 +17,7 @@
 class Matrix {
 public:
     // Pointer to the matrix array.
-    // Constructors will take care of allocations,
+    // Constructors will take care of allocations, so
     // if you free or allocate otherwise, the memory
     // risks are now all up to you.
     float * M;
@@ -86,8 +86,14 @@ public:
     // Return:  C = Matrix[n x k]
     friend Matrix operator*(const Matrix & A, const Matrix & B);
 
-    // Matrix Transposition Operation.
+    // Matrix Transposition Method.
     Matrix transpose();
+
+    // Matrix Padding Method.
+    Matrix & pad();
+
+    // Matrix Inversion Method.
+    Matrix & inverse();
 
     // Strassen's Algorithm for Matrix
     // Multiplication.

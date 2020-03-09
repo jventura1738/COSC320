@@ -36,7 +36,7 @@ driver.o: driver.cpp matrix.cpp jspace.h jspace.cpp
 
 # Memory checking for driver.
 m_driver:
-	valgrind --leak-check=yes ./driver
+	valgrind --leak-check=yes --track-origins=yes ./driver
 
 # Clean object files and executables.
 clean:

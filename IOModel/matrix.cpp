@@ -9,6 +9,7 @@
 
 // Formatting and terminal colors.
 #include <iomanip>
+#include <cmath>
 #define RESET   "\033[0m"
 #define RED     "\033[31m"      /* Red */
 #define YELLOW  "\033[33m"      /* Yellow */
@@ -18,7 +19,7 @@
 
 // Default Constructor.
 Matrix::Matrix() {
-	//std::cout << YELLOW << "Matrix allocated (default).\n" << RESET;
+	std::cout << YELLOW << "Matrix allocated (default).\n" << RESET;
 	this->row = 1;
 	this->col = 1;
 	this->len = 1;
@@ -30,7 +31,7 @@ Matrix::Matrix(const size_t & n, const size_t & m) {
 	if (n < 1 || m < 1) {
 		throw std::string("\e[1m \033[31m Exception: matrix dimensions must be >= 1.\n \033[0m \e[0m");
 	}
-	//std::cout << YELLOW << "Matrix allocated (main).\n" << RESET;
+	std::cout << YELLOW << "Matrix allocated (main).\n" << RESET;
 	this->len = n * m;
 	this->M = new float[this->len];
 	this->row = n;
@@ -38,37 +39,37 @@ Matrix::Matrix(const size_t & n, const size_t & m) {
 }
 
 // Matrix Copy Constructor.
-Matrix::Matrix(const Matrix * rhs) {
-	//std::cout << YELLOW << "Matrix allocated (copy construct).\n" << RESET;
-	this->len = rhs->len;
-	this->row = rhs->row;
-	this->col = rhs->col;
+Matrix::Matrix(const Matrix & rhs) {
+	std::cout << YELLOW << "Matrix allocated (copy construct).\n" << RESET;
+	this->len = rhs.len;
+	this->row = rhs.row;
+	this->col = rhs.col;
 
 	this->M = new float[this->len];
 	for (size_t i = 0; i < this->len; i++)
-		this->M[i] = rhs->M[i];
+		this->M[i] = rhs.M[i];
 }
 
 // Matrix Assignment Operation
-void Matrix::operator=(const Matrix * rhs) {
+void Matrix::operator=(const Matrix & rhs) {
 
 	// De-allocate old matrix pointer.
-	//std::cout << "\n--MATRIX [AO] ALLOCATED--\n";
+	std::cout << YELLOW << "\n--MATRIX [AO] ALLOCATED--\n" << RESET;
 	delete [] this->M;
-	this->len = rhs->len;
-	this->row = rhs->row;
-	this->col = rhs->col;
+	this->len = rhs.len;
+	this->row = rhs.row;
+	this->col = rhs.col;
 
 	// Copy A->M to re-allocated this->M.
 	this->M = new float[this->len];
 
 	for (size_t i = 0; i < this->len; i++)
-		this->M[i] = rhs->M[i];
+		this->M[i] = rhs.M[i];
 }
 
 // Destructor.
 Matrix::~Matrix() {
-	// std::cout << "Matrix de-allocated (destructor).\n";
+	std::cout << YELLOW << "Matrix de-allocated (destructor).\n" << RESET;
 	delete [] this->M;
 }
 
@@ -211,6 +212,25 @@ bool Matrix::isSingular() const {
 
 }
 
+bool Matrix::isSymmetric() {
+
+
+	Matrix currTrans = this->transpose();
+
+	for (int i = 0; i < this->len; i++) {
+
+		if (currTrans.M[i] != this->M[i]) {
+
+			return false;
+
+		}
+
+	}
+
+	return true;
+
+}
+
 int Matrix::determinant() const {
 
 	std::cout << "TODO\n";
@@ -220,6 +240,12 @@ int Matrix::determinant() const {
 
 // Matrix Padding Method.
 Matrix Matrix::pad() {
+
+	if ((log2(this->row) - (int)log2(this->row)) == 0) {
+
+		return *this;
+
+	}
 
 	// Make sure matrix dimensions are power of 2.
 	size_t newSize = 2;
@@ -234,41 +260,48 @@ Matrix Matrix::pad() {
 
 	int oldRow = this->row;
 	int oldCol = this->col;
-	this->row = newSize;
-	this->col = newSize;
 
-	delete [] this->M;
-	this->M = new float[this->row * this->col];
+	Matrix padded = *this;
+
+	padded.row = newSize;
+	padded.col = newSize;
+
+	delete [] padded.M;
+	padded.M = new float[padded.row * padded.col];
 
 	// In order to pad, the matrix must remain
 	// symmetric, (A.pad = padded A.transpose().pad())
 	// so put 0's on each new pad space but 1's on the
 	// main diagonal.
-	for(size_t i = 0; i < this->row; i++) {
+	for(size_t i = 0; i < padded.row; i++) {
 
-		for(size_t j = 0; j < this->col; j++) {
+		for(size_t j = 0; j < padded.col; j++) {
 
 			// All new padded spaces.
 			if(i >= oldRow || j >= oldCol) {
 
-				// New main diagonal.
-				if(i == j)
-					this->M[i * this->col + j] = 1;
+				if (i == j) {
 
-				// New padded spaces.
-				else
-					this->M[i * this->col + j] = 0;
+					padded.M[i * padded.col + j] = 1;
+
+				} 
+				else {
+					
+					padded.M[i * padded.col + j] = 0;
+
+				}				
+
 			}
 			// Old matrix spaces must remain the same.
 			else
-				this->M[i * this->col + j] = oldM[i * oldCol + j];
+				padded.M[i * padded.col + j] = oldM[i * oldCol + j];
 
 		}
 
 	}
 
 	delete [] oldM;
-	return * this;
+	return padded;
 
 }
 
@@ -276,32 +309,63 @@ Matrix Matrix::pad() {
 Matrix Matrix::inverse() {
 
 	// Base of Recursion.
-	if(row == 1 && col == 1) {
+	if(row == 1 || col == 1) {
 
 		std::cout << "base of recursion\n";
-		this->M[0] = 1.0 / this->M[0];
-		return *this;
+		Matrix base;
+
+		if (this->M[0] != 0) {
+
+			base.M[0] = 1.0 / this->M[0];
+
+		}
+		else {
+
+			base.M[0] = 0;
+
+		}
+
+		return base;
+
 	}
 
-	// Catch non-square matrices.
-	if(this->isSingular()) {
+	// if ((log2(this->row) - (int)log2(this->row)) != 0) {
 
-		throw std::string("ERROR: matrix is singular.\n");
+	// 	Matrix needpad = this->pad();
+	// 	Matrix inverse2 = needpad.inverse();
+	// 	Matrix inverse3(unPadded, unPadded);
+	// 	for (int i = 0; i < unPadded; i++) {
+
+	// 		for (int j = 0; j < unPadded; j++) {
+
+	// 			inverse3.M[i * unPadded + j] = inverse2.M[i * unPadded + j];
+
+	// 		}
+
+	// 	}
+
+	// 	return inverse3;
+
+	// }
+
+	if (!this->isSymmetric()) {
+
+		std::cout << "GAYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY\n";
+		Matrix A = *this;
+		Matrix At = A.transpose();
+		Matrix term = (At * A);
+		Matrix term2 = (term.inverse() * At);
+		return term2;
 
 	}
 
-	int unPaddedRows = row;
-	int unPaddedCols = col;
-
-	if ((this->row % 2) != 0) {
-		this->pad();
-	}
+	Matrix inverse = this->pad();
 
 	// Matrix assumed to be square & symmetric
 	// (n x n) so we will use the ROW dimension
 	// however, it doesn't matter which one we
 	// use.
-	int halfN = row / 2;
+	int halfN = inverse.row / 2;
 
 	// A's submatrices.
 	Matrix B = Matrix(halfN, halfN);
@@ -315,25 +379,25 @@ Matrix Matrix::inverse() {
 	//               i < n/2 & j >= n/2 --> Ct
 	//               i >= n/2 & j < n/2 --> C
 	//               i >= n/2 & j >= n/2 --> D
-	for(int i = 0; i < this->row; i++) {
+	for(int i = 0; i < inverse.row; i++) {
 
-		for(int j = 0; j < this->col; j++) {
+		for(int j = 0; j < inverse.col; j++) {
 
 			// i & j values correspond to: B
 			if(i < halfN && j < halfN)
-				B.M[i * B.col + j] = this->M[i * this->col + j];
+				B.M[i * B.col + j] = inverse.M[i * inverse.col + j];
 
 			// i & j values correspond to: Ct
 			else if(i < halfN && j >= halfN)
-				Ct.M[i * Ct.col + (j - halfN)] = this->M[i * this->col + j];
+				Ct.M[i * Ct.col + (j - halfN)] = inverse.M[i * inverse.col + j];
 
 			// i & j values correspond to: C
 			else if(i >= halfN && j < halfN) 
-				C.M[((i - halfN) * C.col) + j] = this->M[i * this->col + j];
+				C.M[((i - halfN) * C.col) + j] = inverse.M[i * inverse.col + j];
 
 			// i & j values correspond to: D
 			else if(i >= halfN && j >= halfN) 
-				D.M[((i - halfN) * D.col) + (j - halfN)] = this->M[i * this->col + j];
+				D.M[((i - halfN) * D.col) + (j - halfN)] = inverse.M[i * inverse.col + j];
 
 		}
 
@@ -381,7 +445,7 @@ Matrix Matrix::inverse() {
 	// std::cout << "\n--Y TRANSPOSE--\n";
 	// Yt.print();
 
-	Matrix T = (Y*(-1)); // scalar m by -1
+	Matrix T = (Yt*(-1)); // scalar m by -1
 	// std::cout << "\n--T--\n";
 	// T.print();
 
@@ -403,12 +467,12 @@ Matrix Matrix::inverse() {
 	// This will be unpadded though, as the the
 	// padding was simply for keeping powers of 
 	// 2 for the sub-matrices' dimensions.
-	std::cout << "this is not epic\n";
-	delete [] this->M;
-	std::cout << "jk lol this is epic\n";
-	this->row = unPaddedRows;
-	this->col = unPaddedCols;
-	this->M = new float[this->row * this->col];
+
+	inverse.row = this->row;
+	inverse.col = this->col;
+	inverse.len = (this->row * this->col);
+	delete [] inverse.M;
+	inverse.M = new float[inverse.len];
 
 	// Construct Ai as [R, T,
 	//                  U, V]
@@ -422,27 +486,25 @@ Matrix Matrix::inverse() {
 
 			// i & j values correspond to: R
 			if(i < halfN && j < halfN)
-				this->M[i * this->col + j] = R.M[i * R.col + j];
+				inverse.M[i * inverse.col + j] = R.M[i * R.col + j];
 
 			// i & j values correspond to: T
 			else if(i < halfN && j >= halfN)
-				this->M[i * this->col + j] = T.M[i * T.col + (j - halfN)];
+				inverse.M[i * inverse.col + j] = T.M[i * T.col + (j - halfN)];
 
 			// i & j values correspond to: U
 			else if(i >= halfN && j < halfN)
-				this->M[i * this->col + j] = U.M[((i - halfN) * U.col) + j];
+				inverse.M[i * inverse.col + j] = U.M[((i - halfN) * U.col) + j];
 
 			// i & j values correspond to: V
 			else if(i >= halfN && j >= halfN)
-				this->M[i * this->col + j] = V.M[((i - halfN) * V.col) + (j - halfN)];
+				inverse.M[i * inverse.col + j] = V.M[((i - halfN) * V.col) + (j - halfN)];
 
 		}
 
 	}
 
-	std::cout << "--THIS MATRIX--\n";
-	this->print();
-	return *this;
+	return inverse;
 
 }
 
@@ -491,8 +553,7 @@ void Matrix::print() {
 		// print the row of the matrix.
 		for (size_t j = 0; j < this->col; j++) {
             
-			std::cout << std::setfill('0') << std::setw(spacing)
-			<< this->M[i * this->col + j] << " ";
+			std::cout << std::setfill('0') << std::setw(spacing) << this->M[i * this->col + j] << " ";
 
 		}
 
@@ -505,13 +566,33 @@ void Matrix::print() {
 
 }
 
+void Matrix::print2() {
+
+	// Replace all indices of the matrix with zeroes.
+	for (size_t i = 0; i < this->row; i++) {
+
+		// print the row of the matrix.
+		for (size_t j = 0; j < this->col; j++) {
+            
+			std::cout << this->M[i * this->col + j] << " ";
+
+		}
+
+		std::cout << "\n";
+
+	}
+
+	std::cout << "\n";
+
+}
+
 // Soft reset (refresh).
 void Matrix::softreset() {
 
 	// Replace all indices of the matrix with zeroes.
 	for (size_t i = 0; i < this->row; i++) {
 
-		// print the row of the matrix.
+		// set the row of the matrix.
 		for (size_t j = 0; j < this->col; j++) {
             
 			this->M[i * this->col + j] = 0;

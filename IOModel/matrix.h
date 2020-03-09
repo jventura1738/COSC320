@@ -20,9 +20,16 @@ private:
     // singular or not.  If it is singular, return true.
     bool isSingular() const;
 
+    // Private method to determine whether the matrix is
+    // symmetric or not.  If it is symmetric, return true.
+    bool isSymmetric();    
+
+    // Returns the determinant of the matrix.
     int determinant() const;
 
 public:
+
+
     // Pointer to the matrix array.
     // Constructors will take care of allocations, so
     // if you free or allocate otherwise, the memory
@@ -58,7 +65,7 @@ public:
 
     // Copy Constructor. [MEMORY ALLOCATION]
     // Allocates a copy of a given matrix.
-    Matrix(const Matrix * rhs);
+    Matrix(const Matrix & rhs);
 
     // De-structor. [MEMORY DE-ALLOCATION]
     // Frees memory of a matrix out of scope.
@@ -66,7 +73,7 @@ public:
 
     // Overloaded Assignment operator. [MEMORY ALLOCATION]
     // Allocates a copy matrix by assignment.
-    void operator=(const Matrix * rhs);
+    void operator=(const Matrix & rhs);
 
     /*
      * MATRIX OPERATORS (OVERLOADED):
@@ -114,6 +121,8 @@ public:
     // the format is perfect.  This will affect the
     // runtime negatively but looks clean.
     void print();
+
+    void print2();
 
     // Additional method to "soft" reset the matrix values
     // to consist of all zeroes. Initial size remains constant.

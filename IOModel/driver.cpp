@@ -112,7 +112,7 @@ int main() {
 	Matrix d(3, 1);
 
 	A.M[0] = 0.6;
-	A.M[1] = 0.2;
+	A.M[1] = 0.02;
 	A.M[2] = 0.1;
 	A.M[3] = 0.3;
 	A.M[4] = 0.2;
@@ -121,9 +121,13 @@ int main() {
 	A.M[7] = 0.4;
 	A.M[8] = 0.3;
 	init_identity(I);
+    I.print2();
 	d.M[0] = 20;
 	d.M[1] = 34;
 	d.M[2] = 80;
+
+    Matrix temp = (A.pad());
+    temp.print2();
 
 	std::cout << "test:\n";
 	A.print();
@@ -132,8 +136,10 @@ int main() {
 
 	std::cout << "\nresult\n";
     Matrix term1 = (I - A);
+    term1.print();
     Matrix term2 = term1.inverse();
-	Matrix result = term2 * (d);
+    term2.print();
+	Matrix result = term2 * d;
 	result.print();
 
 	return 0;

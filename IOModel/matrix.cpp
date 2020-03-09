@@ -1,5 +1,5 @@
 /* 
- * Justin Ventura, 02/23/20
+ * Justin Ventura, 03/08/20
  * COSC320-002, Dr. Anderson
  * Project 1: matrix.cpp
 */
@@ -135,7 +135,9 @@ Matrix operator*(const Matrix & A, const Matrix & B) {
 	// Matrix A.col must equal B.rows
 
 	if (A.col != B.row) {
+
 		throw std::string("\e[1m \033[31m Exception: matrix A cols must equal matrix B rows for matrix multiplication.\n \033[0m \e[0m");
+
 	}
 
 	Matrix C(A.row, B.col);
@@ -193,6 +195,7 @@ Matrix Matrix::transpose() {
 // Check if matrix is singular.
 bool Matrix::isSingular() const {
 
+	// Cannot invert a non-square matrix.
 	if (this->row != this->col) {
 
 		return true;
@@ -212,12 +215,22 @@ bool Matrix::isSingular() const {
 
 }
 
+// Check is the matrix is symmetric.
 bool Matrix::isSymmetric() {
 
+	// 1 x 1 matrix symmetric by default.
+	if (this->row == 1 && this->col == 1) {
 
+		return true;
+
+	}
+
+	// Run through the matrix and compare it to
+	// its transpose.  If any instance is not 
+	// equal, then the matrix is non symmetric.
 	Matrix currTrans = this->transpose();
 
-	for (int i = 0; i < this->len; i++) {
+	for (size_t i = 0; i < this->len; i++) {
 
 		if (currTrans.M[i] != this->M[i]) {
 
@@ -238,82 +251,95 @@ int Matrix::determinant() const {
 
 }
 
-// Matrix Padding Method.
-Matrix Matrix::pad() {
+bool Matrix::needsPadding() const {
 
-	if ((log2(this->row) - (int)log2(this->row)) == 0) {
+	// Cannot pad a singular matrix.
+	if (this->row != this->col) {
 
-		return *this;
+		throw std::string("ERROR: Cannot pad singular matrix.\n");
+
+	}
+	else {
+
+		// If not a power of two, needs padding.
+		if (log2(this->row) - (int)log2(this->row)) {
+
+			return true;
+
+		}
+
+		return false;
 
 	}
 
-	// Make sure matrix dimensions are power of 2.
+}
+
+// Matrix Padding Method.
+Matrix Matrix::pad() {
+
+	// Just to be sure this algorithm never fails.
+	if (!this->needsPadding()) {
+
+		throw std::string("Error: bruh.\n");
+
+	}
+
+	// If needs padding, pad to the nearest power of
+	// 2 greater than the current size.
 	size_t newSize = 2;
-	while ((newSize < this->row || newSize < this->col) && newSize > 0)
+	while (newSize <= this->row) {
+
 		newSize *= 2;
 
-	// Hold the old Matrix.
-	size_t tempsize = (this->len);
-	float * oldM = new float[tempsize];
-	for (size_t i = 0; i < tempsize; i++) 
-		oldM[i] = this->M[i];
+	}
 
-	int oldRow = this->row;
-	int oldCol = this->col;
+	// Padded matrix we will return.
+	Matrix padded(newSize, newSize);
 
-	Matrix padded = *this;
+	for (size_t i = 0; i < newSize; i++) {
 
-	padded.row = newSize;
-	padded.col = newSize;
+		for (size_t j = 0; j < newSize; j++) {
 
-	delete [] padded.M;
-	padded.M = new float[padded.row * padded.col];
+			// Keep the original matrix the same.
+			if (i < this->row && j < this->row) {
 
-	// In order to pad, the matrix must remain
-	// symmetric, (A.pad = padded A.transpose().pad())
-	// so put 0's on each new pad space but 1's on the
-	// main diagonal.
-	for(size_t i = 0; i < padded.row; i++) {
-
-		for(size_t j = 0; j < padded.col; j++) {
-
-			// All new padded spaces.
-			if(i >= oldRow || j >= oldCol) {
-
-				if (i == j) {
-
-					padded.M[i * padded.col + j] = 1;
-
-				} 
-				else {
-					
-					padded.M[i * padded.col + j] = 0;
-
-				}				
+				padded.M[i * newSize + j] = this->M[i * this->col + j];
 
 			}
-			// Old matrix spaces must remain the same.
-			else
-				padded.M[i * padded.col + j] = oldM[i * oldCol + j];
+			else {
+
+				// Main diagonal for Identity matrix.
+				if (i == j) {
+
+					padded.M[i * newSize + j] = 1;
+
+				}
+				// Otherwise, we will pad zeroes.
+				else {
+
+					padded.M[i * newSize + j] = 0;
+
+				}
+
+			}
 
 		}
 
 	}
 
-	delete [] oldM;
 	return padded;
 
 }
 
-// Matrix Inversion Method.
-Matrix Matrix::inverse() {
+Matrix Matrix::_inverse() {
 
 	// Base of Recursion.
-	if(row == 1 || col == 1) {
+	if(this->row == 1) {
 
 		std::cout << "base of recursion\n";
 		Matrix base;
 
+		// Inverse of a 1 x 1 is simply the reciprocal.
 		if (this->M[0] != 0) {
 
 			base.M[0] = 1.0 / this->M[0];
@@ -329,49 +355,12 @@ Matrix Matrix::inverse() {
 
 	}
 
-	// if ((log2(this->row) - (int)log2(this->row)) != 0) {
-
-	// 	Matrix needpad = this->pad();
-	// 	Matrix inverse2 = needpad.inverse();
-	// 	Matrix inverse3(unPadded, unPadded);
-	// 	for (int i = 0; i < unPadded; i++) {
-
-	// 		for (int j = 0; j < unPadded; j++) {
-
-	// 			inverse3.M[i * unPadded + j] = inverse2.M[i * unPadded + j];
-
-	// 		}
-
-	// 	}
-
-	// 	return inverse3;
-
-	// }
-
-	if (!this->isSymmetric()) {
-
-		std::cout << "GAYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY\n";
-		Matrix A = *this;
-		Matrix At = A.transpose();
-		Matrix term = (At * A);
-		Matrix term2 = (term.inverse() * At);
-		return term2;
-
-	}
-
-	Matrix inverse = this->pad();
-
-	// Matrix assumed to be square & symmetric
-	// (n x n) so we will use the ROW dimension
-	// however, it doesn't matter which one we
-	// use.
-	int halfN = inverse.row / 2;
-
-	// A's submatrices.
-	Matrix B = Matrix(halfN, halfN);
-	Matrix C = Matrix(halfN, halfN);
-	Matrix Ct = Matrix(halfN, halfN);
-	Matrix D = Matrix(halfN, halfN);
+	// Submatrices.
+	size_t halfn = this->row / 2;
+	Matrix B = Matrix(halfn, halfn);
+	Matrix C = Matrix(halfn, halfn);
+	Matrix Ct = Matrix(halfn, halfn);
+	Matrix D = Matrix(halfn, halfn);
 
 	// Divide A into [B, Ct,
 	//                C, D ]
@@ -379,100 +368,44 @@ Matrix Matrix::inverse() {
 	//               i < n/2 & j >= n/2 --> Ct
 	//               i >= n/2 & j < n/2 --> C
 	//               i >= n/2 & j >= n/2 --> D
-	for(int i = 0; i < inverse.row; i++) {
+	for (size_t i = 0; i < this->row; i++) {
 
-		for(int j = 0; j < inverse.col; j++) {
+		for (size_t j = 0; j < this->col; j++) {
 
 			// i & j values correspond to: B
-			if(i < halfN && j < halfN)
-				B.M[i * B.col + j] = inverse.M[i * inverse.col + j];
+			if(i < halfn && j < halfn)
+				B.M[i * B.col + j] = this->M[i * this->col + j];
 
 			// i & j values correspond to: Ct
-			else if(i < halfN && j >= halfN)
-				Ct.M[i * Ct.col + (j - halfN)] = inverse.M[i * inverse.col + j];
+			else if(i < halfn && j >= halfn)
+				Ct.M[i * Ct.col + (j - halfn)] = this->M[i * this->col + j];
 
 			// i & j values correspond to: C
-			else if(i >= halfN && j < halfN) 
-				C.M[((i - halfN) * C.col) + j] = inverse.M[i * inverse.col + j];
+			else if(i >= halfn && j < halfn) 
+				C.M[((i - halfn) * C.col) + j] = this->M[i * this->col + j];
 
 			// i & j values correspond to: D
-			else if(i >= halfN && j >= halfN) 
-				D.M[((i - halfN) * D.col) + (j - halfN)] = inverse.M[i * inverse.col + j];
+			else if(i >= halfn && j >= halfn) 
+				D.M[((i - halfn) * D.col) + (j - halfn)] = this->M[i * this->col + j];
 
 		}
 
 	}
 
-	// Temporary prints for debugging.
-	// std::cout << "--B--\n";
-	// B.print();
-	// std::cout << "--C TRANSPOSE--\n";
-	// Ct.print();
-	// std::cout << "--C--\n";
-	// C.print();
-	// std::cout << "--D--\n";
-	// D.print();
+	// Algorithm
 
-	Matrix Bi = B.inverse(); // recurse
-	// std::cout << "\n--B INVERSE--\n";
-	// Binv.print();
-
-	Matrix W = (C * Bi); // multiply & assign
-	// std::cout << "\n--W--\n";
-	// W.print();
-
-	Matrix Wt = (Bi * Ct); // multily & assign
-	// std::cout << "\n--W TRANSPOSE--\n";
-	// Wt.print();
-
-	Matrix X = (W * Ct); // multiply & assign
-	// std::cout << "\n--X--\n";
-	// X.print();
-
-	Matrix S = (D - X); // subtract & assign
-	// std::cout << "\n--S--\n";
-	// S.print();
-
-	Matrix V = S.inverse(); // recurse
-	// std::cout << "\n--V--\n";
-	// V.print();
-
-	Matrix Y = (V * W); // multiply & assign
-	// std::cout << "\n--Y--\n";
-	// Y.print();
-
-	Matrix Yt = (Y.transpose()); // transposition
-	// std::cout << "\n--Y TRANSPOSE--\n";
-	// Yt.print();
-
-	Matrix T = (Yt*(-1)); // scalar m by -1
-	// std::cout << "\n--T--\n";
-	// T.print();
-
-	Matrix U = (Y*(-1)); // scalar m by -1
-	// std::cout << "\n--U--\n";
-	// U.print();
-
-	Matrix Z = (Wt * Y); // multiply & assign
-	// std::cout << "\n--Z--\n";
-	// Z.print();
-
-	Matrix R = (Bi + Z); // add and assign
-	// std::cout << "\n--R--\n";
-	// R.print();
-	
-	// Now that we have the new split up matrix,
-	// we can delete the old one and form a new
-	// one using the sub-matrices created above.
-	// This will be unpadded though, as the the
-	// padding was simply for keeping powers of 
-	// 2 for the sub-matrices' dimensions.
-
-	inverse.row = this->row;
-	inverse.col = this->col;
-	inverse.len = (this->row * this->col);
-	delete [] inverse.M;
-	inverse.M = new float[inverse.len];
+	Matrix Binv = B.inverse();
+	Matrix W = C * Binv;
+	Matrix Wt = W.transpose();
+	Matrix X = W * C.transpose();
+	Matrix S = D - X;
+	Matrix V = S.inverse();
+	Matrix Y = V * W;
+	Matrix Yt = Y.transpose();
+	Matrix T = Yt * (-1);
+	Matrix U = Y * (-1);
+	Matrix Z = Wt * Y;
+	Matrix R = Binv + Z;
 
 	// Construct Ai as [R, T,
 	//                  U, V]
@@ -480,31 +413,122 @@ Matrix Matrix::inverse() {
 	//               i < n/2 & j >= n/2 --> T
 	//               i >= n/2 & j < n/2 --> U
 	//               i >= n/2 & j >= n/2 --> V
-	for(int i = 0; i < this->row; i++) {
+	Matrix Ainv(this->row, this->row);
 
-		for(int j = 0; j < this->col; j++) {
+	for (size_t i = 0; i < this->row; i++) {
 
-			// i & j values correspond to: R
-			if(i < halfN && j < halfN)
-				inverse.M[i * inverse.col + j] = R.M[i * R.col + j];
+		for (size_t j = 0; j < this->row; j++) {
 
-			// i & j values correspond to: T
-			else if(i < halfN && j >= halfN)
-				inverse.M[i * inverse.col + j] = T.M[i * T.col + (j - halfN)];
+			// R is the top left corner.
+			if (i < halfn && j < halfn) {
 
-			// i & j values correspond to: U
-			else if(i >= halfN && j < halfN)
-				inverse.M[i * inverse.col + j] = U.M[((i - halfN) * U.col) + j];
+				Ainv.M[i * Ainv.row + j] = R.M[i * R.row + j];
 
-			// i & j values correspond to: V
-			else if(i >= halfN && j >= halfN)
-				inverse.M[i * inverse.col + j] = V.M[((i - halfN) * V.col) + (j - halfN)];
+			}
+			// T is the top right corner.
+			else if (i < halfn && j >= halfn) {
+
+				Ainv.M[i * Ainv.row + j] = T.M[i * T.row + (j - halfn)];
+
+			}
+			// U is the bottom left corner.
+			else if (i >= halfn && j < halfn) {
+
+				Ainv.M[i * Ainv.row + j] = U.M[(i - halfn) * U.row + j];
+
+			}
+			// V is the bottom right corner.
+			else {
+
+				Ainv.M[i * Ainv.row + j] = V.M[(i - halfn) * V.row + (j - halfn)];
+
+			}
 
 		}
 
 	}
 
-	return inverse;
+	return Ainv;
+
+}
+
+Matrix Matrix::inverse() {
+
+	// Cannot invert singular matrices.
+	if (this->isSingular()) {
+
+		throw std::string("ERROR: Matrix is singular, idiot.");
+
+	}
+
+	Matrix inv = *this;
+
+	// If matrix is not symmetric, then we can
+	// use this trick to invert it correctly.
+	// Ainv = (At * A)inv * At.
+	if (!this->isSymmetric()) {
+
+		Matrix At = this->transpose();
+		inv = (At) * inv;
+		inv = inv.inverse();
+		inv = inv * At;
+		return inv;
+
+	}
+
+	// If not a power of two, pad the matrix and
+	// note that it was padded to be sure of a 
+	// safe extraction at the end of the function.
+	bool padded = false;
+	if (inv.needsPadding()) {
+
+		inv = inv.pad();
+		padded = true;
+
+	}
+
+	// Just to guarantee that we have no errors.
+	if (!inv.isSymmetric() || inv.row != inv.col) {
+
+		throw std::string("bruh.\n");
+
+	}
+
+	// Begin the actual inversion now that the 
+	// candidate is qualified.
+	inv = inv._inverse();
+
+	// If the matrix was padded, then we must extract
+	// the matrix from the n x n corner and ignore the
+	// padded section.
+	if (padded) {
+
+		Matrix unPadded(this->row, this->row);
+
+		for (size_t i = 0; i < inv.row; i++) {
+
+			for (size_t j = 0; j < inv.row; j++) {
+
+				if (i < this->row && j < this->row) {
+
+					unPadded.M[i * this->row + j] = inv.M[i * inv.row + j];
+
+				}
+
+			}
+
+		}
+
+		return unPadded;
+
+	}
+
+	// Otherwise we can just return the inverse as is.
+	else {
+
+		return inv;
+
+	}
 
 }
 
@@ -518,15 +542,24 @@ void Matrix::print() {
 	 * find the number with the most digits,
 	 * then count it's total digits, and format
 	 * the matrix accordingly.
+	 * 
+	 * We will do some gamer moves to take into
+	 * account negative signs.
 	*/
 
 	// Find the largest number.
 	size_t maxIndex = 0;
+	bool negative = false;
 	for (size_t i = 1; i < this->len; i++) {
 
 		if (this->M[i] > this->M[maxIndex]){
 
 			maxIndex = i;
+
+		}
+		if (this->M[i] < 0) {
+
+			negative = true;
 
 		}
 
@@ -535,8 +568,9 @@ void Matrix::print() {
 	// Now count it's digits then use this to
 	// generalize the matrix's spacing format.
 	int max = this->M[maxIndex];
-	size_t spacing = 0;
+	size_t spacing = (negative) ? 1 : 0;
 
+	// Spacing for largest digits.
 	while (max >= 1) {
 
 		// division hacks
@@ -545,7 +579,8 @@ void Matrix::print() {
 
 	}
 
-	std::cout << WHITE; //<< std::setfill('0') << std::setw(spacing);
+	std::cout << WHITE;
+	std::cout << std::fixed << std::setprecision(2);
 
 	// Nested looping begins.
 	for (size_t i = 0; i < this->row; i++) {
@@ -566,6 +601,7 @@ void Matrix::print() {
 
 }
 
+// Basic matrix print, no formatting.
 void Matrix::print2() {
 
 	// Replace all indices of the matrix with zeroes.

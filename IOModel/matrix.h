@@ -22,10 +22,17 @@ private:
 
     // Private method to determine whether the matrix is
     // symmetric or not.  If it is symmetric, return true.
-    bool isSymmetric();    
+    bool isSymmetric();
+
+    // Private mthod to determine if this matrix is in
+    // need of padding.  True if needs padding.
+    bool needsPadding() const;
 
     // Returns the determinant of the matrix.
     int determinant() const;
+
+    // Inverse of matrix.
+    Matrix _inverse();
 
 public:
 

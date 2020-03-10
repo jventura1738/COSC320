@@ -42,6 +42,12 @@ private:
     // in this function.
     Matrix _inverse();
 
+    // Strassen's algorithm.  This method does all
+    // the "dirty" work.  The public version asserts
+    // that the matrices can indeed be multiplied
+    // before the actual algorithm takes place.
+    friend Matrix _strassen(const Matrix & A, const Matrix & B);
+
 public:
 
     // Pointer to the matrix array.
@@ -132,7 +138,7 @@ public:
     // Require: A = Matrix[n x m]
     //          B = Matrix[m x k]
     // Return:  C = Matrix[n x k]    
-    // Matrix StrassenMultiply(const Matrix * A, const Matrix * B);
+    friend Matrix StrassenMultiply(const Matrix & A, const Matrix & B);
 
     // Additional Print Method.
     // This prints this->M in matrix form, such that

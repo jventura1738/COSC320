@@ -107,6 +107,41 @@ void init_identity(Matrix & A) {
 
 int main() {
 
+    int size = 3;
+    Matrix P(size,size);
+    Matrix Q(size,size);
+
+    for (int i = 0; i < (size * size); i++) {
+
+        P.M[i] = i;
+        Q.M[i] = i;
+
+    }
+
+    Matrix result1, result2;
+    try {
+
+        result1 = P * Q;
+        result2 = StrassenMultiply(P, Q);
+
+    }
+    catch(std::string errmsg) {
+
+        std::cout << errmsg << "\n";
+
+    }
+
+    std::cout << "Matrix P: \n";
+    P.print();
+    std::cout << "Matrix Q: \n";
+    Q.print();
+    std::cout << "Matrix P * Q: \n";
+    result1.print();
+    std::cout << "Matrix P * Q strassen: \n";
+    result2.print();
+    return 0;
+
+
 	Matrix A(3,3);
 	Matrix I(3,3);
 	Matrix d(3, 1);

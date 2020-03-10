@@ -586,6 +586,201 @@ Matrix Matrix::inverse() {
 
 }
 
+Matrix _strassen(const Matrix & A, const Matrix & B) {
+
+	// Base of recursion.
+	if (A.row == 2) {
+
+		// returned matrix.
+		Matrix C(2, 2);
+
+		C = A * B;
+		return C;
+
+	}
+	// General recursive case:
+	else {
+
+	std::cout << A.row << "\n";
+
+	size_t halfn = A.row / 2;
+	Matrix A11(halfn, halfn), A12(halfn, halfn);
+	Matrix A21(halfn, halfn), A22(halfn, halfn);
+	Matrix B11(halfn, halfn), B12(halfn, halfn);
+	Matrix B21(halfn, halfn), B22(halfn, halfn);
+
+	// Split the A matrix.
+	for (size_t i = 0; i < A.row; i++) {
+
+		for (size_t j = 0; j < A.row; j++) {
+
+			// i & j values correspond to: A0
+			if(i < halfn && j < halfn)
+				A11.M[i * A11.col + j] = A.M[i * A.col + j];
+
+			// i & j values correspond to: A1
+			else if(i < halfn && j >= halfn)
+				A12.M[i * A12.col + (j - halfn)] = A.M[i * A.col + j];
+
+			// i & j values correspond to: A2
+			else if(i >= halfn && j < halfn) 
+				A21.M[((i - halfn) * A21.col) + j] = A.M[i * A.col + j];
+
+			// i & j values correspond to: A3
+			else if(i >= halfn && j >= halfn) 
+				A22.M[((i - halfn) * A22.col) + (j - halfn)] = A.M[i * A.col + j];
+
+		}
+
+	}
+
+	// Split the B matrix.
+	for (size_t i = 0; i < B.row; i++) {
+
+		for (size_t j = 0; j < B.row; j++) {
+
+			// i & j values correspond to: A0
+			if(i < halfn && j < halfn)
+				B11.M[i * B11.col + j] = B.M[i * B.col + j];
+
+			// i & j values correspond to: A1
+			else if(i < halfn && j >= halfn)
+				B12.M[i * B12.col + (j - halfn)] = B.M[i * B.col + j];
+
+			// i & j values correspond to: A2
+			else if(i >= halfn && j < halfn) 
+				B21.M[((i - halfn) * B21.col) + j] = B.M[i * B.col + j];
+
+			// i & j values correspond to: A3
+			else if(i >= halfn && j >= halfn) 
+				B22.M[((i - halfn) * B22.col) + (j - halfn)] = B.M[i * B.col + j];
+
+		}
+
+	}
+
+	// Matrix C to return.
+	Matrix C(A.row, A.row);
+
+	// Submatrices for recurion.
+	Matrix P1(halfn, halfn), P2(halfn, halfn), P3(halfn, halfn),
+	P4(halfn, halfn), P5(halfn, halfn),
+	P6(halfn, halfn), P7(halfn, halfn);
+
+	// C submatrices for stitching.
+	Matrix C11(halfn, halfn), C12(halfn, halfn);
+	Matrix C21(halfn, halfn), C22(halfn, halfn);
+
+	// Products for stitching.
+	P1 = _strassen((A11 + A22), (B11 + B22));
+	P2 = _strassen((A21 + A22), B11);
+	P3 = _strassen(A11, (B12 - B22));
+	P4 = _strassen(A22, (B21 - B11));
+	P5 = _strassen((A11 + A12), B22);
+	P6 = _strassen((A21 - A11), (B11 + B12));
+	P7 = _strassen((A12 - A22), (B21 + B22));
+
+	// Submatrices to be stitched.
+	C11 = P1 + P4 - P5 + P7;
+	C12 = P3 + P5;
+	C21 = P2 + P4;
+	C22 = P1 - P2 + P3 + P6;
+
+	// Stitch the C matrix.
+	for (size_t i = 0; i < C.row; i++) {
+
+		for (size_t j = 0; j < C.row; j++) {
+
+			// i & j values correspond to: A0
+			if(i < halfn && j < halfn)
+				C.M[i * C.col + j] = C11.M[i * C11.col + j];
+
+			// i & j values correspond to: A1
+			else if(i < halfn && j >= halfn)
+				C.M[i * C.col + (j - halfn)] = C12.M[i * C12.col + j];
+
+			// i & j values correspond to: A2
+			else if(i >= halfn && j < halfn) 
+				C.M[((i - halfn) * C.col) + j] = C21.M[i * C21.col + j];
+
+			// i & j values correspond to: A3
+			else if(i >= halfn && j >= halfn) 
+				C.M[((i - halfn) * C.col) + (j - halfn)] = C22.M[i * C22.col + j];
+
+		}
+
+	}
+
+	return C;
+
+	}
+
+
+}
+
+Matrix StrassenMultiply(const Matrix & A, const Matrix & B) {
+
+	Matrix left = A;
+	Matrix right = B;
+	bool padded = false;
+	// Get rid of non-square matrices.
+	if (left.col != left.row) {
+
+		throw std::string("Error: strassen multiplication not defined (non-square).\n");
+
+	}
+	// Now make sure A & B are both sqaure and (n x n).
+	else if (left.row != right.row && left.col != right.col) {
+
+		throw std::string("Error: matrices are not same dimensions.\n");
+
+	}
+	// If matrix is a 1 x 1, simply return.
+	else if (left.row == 1) {
+
+		Matrix C(1, 1);
+		C.M[0] = A.M[0] * B.M[0];
+		return C;
+
+	}
+	// Now pad if the matrix is square but not power of 2.
+	else if (left.needsPadding()) {
+
+		left = left.pad();
+		right = right.pad();
+		padded = true;
+
+	}
+
+	// Now matrices qualify to be strassen'd.
+	Matrix result = _strassen(left, right);
+
+	if (padded) {
+
+		Matrix unPadded(A.row, A.row);
+
+		for (size_t i = 0; i < left.row; i++) {
+
+			for (size_t j = 0; j < left.row; j++) {
+
+				if (i < A.row && j < A.row) {
+
+					unPadded.M[i * unPadded.row + j] = result.M[i * result.row + j];
+
+				}
+
+			}
+
+		}
+
+		return unPadded;
+
+	}
+
+	return result;
+
+}
+
 // Matrix print method (PERFECT FORMATTING; SLOW).
 void Matrix::print() {
 

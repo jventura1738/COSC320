@@ -19,7 +19,7 @@
 
 // Default Constructor.
 Matrix::Matrix() {
-	std::cout << YELLOW << "Matrix allocated (default).\n" << RESET;
+	//std::cout << YELLOW << "Matrix allocated (default).\n" << RESET;
 	this->row = 1;
 	this->col = 1;
 	this->len = 1;
@@ -31,7 +31,7 @@ Matrix::Matrix(const size_t & n, const size_t & m) {
 	if (n < 1 || m < 1) {
 		throw std::string("\e[1m \033[31m Exception: matrix dimensions must be >= 1.\n \033[0m \e[0m");
 	}
-	std::cout << YELLOW << "Matrix allocated (main).\n" << RESET;
+	//std::cout << YELLOW << "Matrix allocated (main).\n" << RESET;
 	this->len = n * m;
 	this->M = new float[this->len];
 	this->row = n;
@@ -40,7 +40,7 @@ Matrix::Matrix(const size_t & n, const size_t & m) {
 
 // Matrix Copy Constructor.
 Matrix::Matrix(const Matrix & rhs) {
-	std::cout << YELLOW << "Matrix allocated (copy construct).\n" << RESET;
+	//std::cout << YELLOW << "Matrix allocated (copy construct).\n" << RESET;
 	this->len = rhs.len;
 	this->row = rhs.row;
 	this->col = rhs.col;
@@ -54,7 +54,7 @@ Matrix::Matrix(const Matrix & rhs) {
 void Matrix::operator=(const Matrix & rhs) {
 
 	// De-allocate old matrix pointer.
-	std::cout << YELLOW << "\n--MATRIX [AO] ALLOCATED--\n" << RESET;
+	//std::cout << YELLOW << "\n--MATRIX [AO] ALLOCATED--\n" << RESET;
 	delete [] this->M;
 	this->len = rhs.len;
 	this->row = rhs.row;
@@ -69,7 +69,7 @@ void Matrix::operator=(const Matrix & rhs) {
 
 // Destructor.
 Matrix::~Matrix() {
-	std::cout << YELLOW << "Matrix de-allocated (destructor).\n" << RESET;
+	//std::cout << YELLOW << "Matrix de-allocated (destructor).\n" << RESET;
 	delete [] this->M;
 }
 
@@ -203,7 +203,8 @@ bool Matrix::isSingular() const {
 	}
 	else {
 
-		if (this->determinant() == 0) {
+		// Assumes row == col.
+		if (this->determinant(0, 0) == 0) {
 
 			return true;
 
@@ -244,10 +245,85 @@ bool Matrix::isSymmetric() {
 
 }
 
-int Matrix::determinant() const {
+float Matrix::determinant() const {
 
-	std::cout << "TODO\n";
-	return 1;
+	// RECURSIVE DEFINITION OF DET(A).
+	// 
+	// For n >= 2, the DETERMINANT of an n x n matrix
+	// A = [aij] is the sum of n terms of the form
+	// +-a1j detA11 with plus and minuses alternating,
+	// where the entries a11, a12, ... ,a1n are from
+	// the first row of A. In symbols:
+	//
+	// detA = a11 detA11 - a12 det A12 + ... + (-1)^(1+n) a1n detA1n
+	//
+	// Given A = [aij], the i-j cofactor of A is the number
+	// Cij given by the following:
+	//
+	// Cij = (-1)^(i + j) detAij, then,
+	//
+	// det A = a11C11 + a12C12 + ... + a1nC1n
+	//
+	// OFFICIAL ALGORITHM:
+	//
+	// detA = a11C11 + a12C12 + ... + a1nC1n.
+
+	if (this->row == 1) {
+
+		return *this;
+
+	}
+	else if (this->row == 2) {
+
+		return (this->M[0] * this->M[3] - 
+						this->M[1] * this->M[2]);
+
+	}
+	// else if (this->row == 3) {
+
+	// 	size_t det = 0;
+
+	// 	for (size_t i = 0; i < this->row; i++) {
+
+	// 		det += this->M[i] * 
+
+	// 	}
+
+	// 	return det;
+
+	// }
+
+	int det = 0;
+
+	for (size_t j = 0; j < this->row; j++) {
+
+		det += this->M[j] * cofactorAt(0, j);
+
+	}
+
+	return det;
+
+}
+
+// Get cofactor at this->M[ij]
+float Matrix::cofactorAt(size_t i, size_t j) {
+
+	Matrix disected(this->row - 1, this->row - 1);
+
+	for (size_t k = 0; k < disected.row; k++) {
+
+		for (size_t l = 0; l < disected.row; l++) {
+
+			if (k != i && l != j) {
+
+				disected.M[k * this->row + l];
+
+			}
+
+		}
+
+	}
+	return pow(-1, i + j) * disected.determinant();
 
 }
 

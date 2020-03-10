@@ -18,6 +18,7 @@ class Matrix {
 private:
     // Private method to determine whether the matrix is
     // singular or not.  If it is singular, return true.
+    // [EXTRA CREDIT, GIVE ME POINTS PLSSSSSS]
     bool isSingular() const;
 
     // Private method to determine whether the matrix is
@@ -28,10 +29,17 @@ private:
     // need of padding.  True if needs padding.
     bool needsPadding() const;
 
-    // Returns the determinant of the matrix.
-    int determinant() const;
+    // Returns the cofactor at given dimensions.
+    float cofactorAt(size_t i, size_t j);
 
-    // Inverse of matrix.
+    // Returns the determinant of the matrix.
+    float determinant(size_t i, size_t j) const;
+
+    // Inverse of matrix.  This version does all
+    // the "dirty" work.  The public version
+    // asserts that the matrix is invertible 
+    // before the actual inversion takes place, 
+    // in this function.
     Matrix _inverse();
 
 public:
@@ -113,7 +121,11 @@ public:
     // Matrix Padding Method.
     Matrix pad();
 
-    // Matrix Inversion Method.
+    // Matrix Inversion Method.  This will calculate
+    // the inverse of the matrix which calles this
+    // method.
+    // Throws various std::strings for errors in
+    // which the inverse is not defined.
     Matrix inverse();
 
     // Strassen's Algorithm for Matrix
@@ -129,6 +141,7 @@ public:
     // runtime negatively but looks clean.
     void print();
 
+    // Prints with no format.
     void print2();
 
     // Additional method to "soft" reset the matrix values

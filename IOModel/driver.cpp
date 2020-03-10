@@ -5,6 +5,7 @@
 */
 
 #include <iostream>
+#include <iomanip>
 #include "matrix.h"
 #include "jspace.h"
 
@@ -107,41 +108,6 @@ void init_identity(Matrix & A) {
 
 int main() {
 
-    int size = 3;
-    Matrix P(size,size);
-    Matrix Q(size,size);
-
-    for (int i = 0; i < (size * size); i++) {
-
-        P.M[i] = i;
-        Q.M[i] = i;
-
-    }
-
-    Matrix result1, result2;
-    try {
-
-        result1 = P * Q;
-        result2 = StrassenMultiply(P, Q);
-
-    }
-    catch(std::string errmsg) {
-
-        std::cout << errmsg << "\n";
-
-    }
-
-    std::cout << "Matrix P: \n";
-    P.print();
-    std::cout << "Matrix Q: \n";
-    Q.print();
-    std::cout << "Matrix P * Q: \n";
-    result1.print();
-    std::cout << "Matrix P * Q strassen: \n";
-    result2.print();
-    return 0;
-
-
 	Matrix A(3,3);
 	Matrix I(3,3);
 	Matrix d(3, 1);
@@ -160,18 +126,29 @@ int main() {
 	d.M[1] = 34;
 	d.M[2] = 80;
 
-	std::cout << "test:\n";
+	std::cout << "Matrix A:\n";
 	A.print();
+    std::cout << "Identity Matrix I:\n";
 	I.print();
+    std::cout << "Demand Vector d:\n";
 	d.print();
 
-	std::cout << "\nresult\n";
+	std::cout << "\nSAMPLE RESULT\n";
     Matrix term1 = (I - A);
+    std::cout << "Term 1 -> In - A:\n";
     term1.print();
     Matrix term2 = term1.inverse();
+    std::cout << "Term 2 -> (In - 1)inv:\n";
     term2.print();
 	Matrix result = term2 * d;
+    std::cout << "Final term -> (In - A)inv * d:\n";
 	result.print();
+
+    std::cout << std::fixed << std::setprecision(2);
+    std::cout << "Amount of each product needed:\n";
+    std::cout << "Coal: " << result.M[0] << " units\n";
+    std::cout << "Electricity: " << result.M[1] << " units\n"; 
+    std::cout << "Produce: " << result.M[2] << " units\n\n";
 
 	return 0;
 

@@ -76,7 +76,7 @@ public:
     // Require: A(this) = B = Matrix[n x m].
     friend Matrix operator-(const Matrix & A, const Matrix & B);
 
-    // Matrix Scalar Multiply. [EXTRA CREDIT]
+    // Matrix Scalar Multiply.
     // Multiplies the scalar to each element in matrix.
     friend Matrix operator*(const Matrix & A, const float & scalar);
 

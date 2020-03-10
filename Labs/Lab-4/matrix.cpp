@@ -52,8 +52,6 @@ Matrix::Matrix(const Matrix & rhs) {
 // Matrix Assignment Operation
 void Matrix::operator=(const Matrix & rhs) {
 
-	//std::cout << "this: " << this->len << "rhs: " << rhs.len << "\n";
-
 	// De-allocate old matrix pointer.
 	// std::cout << "\n--MATRIX [AO] ALLOCATED--\n";
 	delete [] this->M;

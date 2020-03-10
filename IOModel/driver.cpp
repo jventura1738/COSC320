@@ -121,13 +121,9 @@ int main() {
 	A.M[7] = 0.4;
 	A.M[8] = 0.3;
 	init_identity(I);
-    I.print2();
 	d.M[0] = 20;
 	d.M[1] = 34;
 	d.M[2] = 80;
-
-    Matrix temp = (A.pad());
-    temp.print2();
 
 	std::cout << "test:\n";
 	A.print();

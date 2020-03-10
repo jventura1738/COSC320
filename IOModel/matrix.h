@@ -19,7 +19,7 @@ private:
     // Private method to determine whether the matrix is
     // singular or not.  If it is singular, return true.
     // [EXTRA CREDIT, GIVE ME POINTS PLSSSSSS]
-    bool isSingular() const;
+    bool isSingular();
 
     // Private method to determine whether the matrix is
     // symmetric or not.  If it is symmetric, return true.
@@ -33,7 +33,7 @@ private:
     float cofactorAt(size_t i, size_t j);
 
     // Returns the determinant of the matrix.
-    float determinant(size_t i, size_t j) const;
+    float determinant();
 
     // Inverse of matrix.  This version does all
     // the "dirty" work.  The public version
@@ -43,7 +43,6 @@ private:
     Matrix _inverse();
 
 public:
-
 
     // Pointer to the matrix array.
     // Constructors will take care of allocations, so

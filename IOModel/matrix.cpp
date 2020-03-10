@@ -99,6 +99,7 @@ Matrix operator+(const Matrix & A, const Matrix & B) {
 	return C;
 }
 
+// Matrix Subtraction Operation.
 Matrix operator-(const Matrix & A, const Matrix & B) {
 
 	// Matrices must have same dimensions.
@@ -193,7 +194,7 @@ Matrix Matrix::transpose() {
 }
 
 // Check if matrix is singular.
-bool Matrix::isSingular() const {
+bool Matrix::isSingular() {
 
 	// Cannot invert a non-square matrix.
 	if (this->row != this->col) {
@@ -204,7 +205,7 @@ bool Matrix::isSingular() const {
 	else {
 
 		// Assumes row == col.
-		if (this->determinant(0, 0) == 0) {
+		if (this->determinant() == 0) {
 
 			return true;
 
@@ -245,59 +246,27 @@ bool Matrix::isSymmetric() {
 
 }
 
-float Matrix::determinant() const {
+// Calculate the determinant.
+float Matrix::determinant() {
 
-	// RECURSIVE DEFINITION OF DET(A).
-	// 
-	// For n >= 2, the DETERMINANT of an n x n matrix
-	// A = [aij] is the sum of n terms of the form
-	// +-a1j detA11 with plus and minuses alternating,
-	// where the entries a11, a12, ... ,a1n are from
-	// the first row of A. In symbols:
-	//
-	// detA = a11 detA11 - a12 det A12 + ... + (-1)^(1+n) a1n detA1n
-	//
-	// Given A = [aij], the i-j cofactor of A is the number
-	// Cij given by the following:
-	//
-	// Cij = (-1)^(i + j) detAij, then,
-	//
-	// det A = a11C11 + a12C12 + ... + a1nC1n
-	//
-	// OFFICIAL ALGORITHM:
-	//
-	// detA = a11C11 + a12C12 + ... + a1nC1n.
-
+	// Base cases of easy to evaluate determinants which
+	// correspond to n = 1, 2.
 	if (this->row == 1) {
 
-		return *this;
+		return this->M[0];
 
 	}
 	else if (this->row == 2) {
 
-		return (this->M[0] * this->M[3] - 
-						this->M[1] * this->M[2]);
+		return ((this->M[0] * this->M[3]) - (this->M[1] * this->M[2]));
 
 	}
-	// else if (this->row == 3) {
 
-	// 	size_t det = 0;
-
-	// 	for (size_t i = 0; i < this->row; i++) {
-
-	// 		det += this->M[i] * 
-
-	// 	}
-
-	// 	return det;
-
-	// }
-
-	int det = 0;
-
+	// General recursive case:
+	float det = 0;
 	for (size_t j = 0; j < this->row; j++) {
 
-		det += this->M[j] * cofactorAt(0, j);
+		det += this->M[j] * this->cofactorAt(0, j);
 
 	}
 
@@ -308,25 +277,33 @@ float Matrix::determinant() const {
 // Get cofactor at this->M[ij]
 float Matrix::cofactorAt(size_t i, size_t j) {
 
+	// Create the disected matrix (to get rid of
+	// the ith row and jth col).
 	Matrix disected(this->row - 1, this->row - 1);
+	size_t traverse = 0;
 
-	for (size_t k = 0; k < disected.row; k++) {
+	for (size_t k = 0; k < this->row; k++) {
 
-		for (size_t l = 0; l < disected.row; l++) {
+		for (size_t l = 0; l < this->row; l++) {
 
-			if (k != i && l != j) {
+			// "Disect" *this by cutting ith row & jth col.
+			if ((k != i && l != j)) {
 
-				disected.M[k * this->row + l];
+				disected.M[traverse++] = this->M[k * this->row + l];
 
 			}
 
 		}
 
 	}
-	return pow(-1, i + j) * disected.determinant();
+
+	// This is to alternate the signs, complete the definition
+	// of a cofactor, and finish the recursion.
+	return (pow(-1, i + j) * disected.determinant());
 
 }
 
+// Checks if the matrix needs padding.
 bool Matrix::needsPadding() const {
 
 	// Cannot pad a singular matrix.
@@ -407,12 +384,13 @@ Matrix Matrix::pad() {
 
 }
 
+// Private inversion method.
 Matrix Matrix::_inverse() {
 
 	// Base of Recursion.
 	if(this->row == 1) {
 
-		std::cout << "base of recursion\n";
+		//std::cout << "base of recursion\n";
 		Matrix base;
 
 		// Inverse of a 1 x 1 is simply the reciprocal.
@@ -469,7 +447,6 @@ Matrix Matrix::_inverse() {
 	}
 
 	// Algorithm
-
 	Matrix Binv = B.inverse();
 	Matrix W = C * Binv;
 	Matrix Wt = W.transpose();
@@ -528,12 +505,13 @@ Matrix Matrix::_inverse() {
 
 }
 
+// Public inverse function.
 Matrix Matrix::inverse() {
 
 	// Cannot invert singular matrices.
 	if (this->isSingular()) {
 
-		throw std::string("ERROR: Matrix is singular, idiot.");
+		throw std::string("ERROR: Matrix is singular, idiot.\n");
 
 	}
 
@@ -626,7 +604,7 @@ void Matrix::print() {
 	// Find the largest number.
 	size_t maxIndex = 0;
 	bool negative = false;
-	for (size_t i = 1; i < this->len; i++) {
+	for (size_t i = 0; i < this->len; i++) {
 
 		if (this->M[i] > this->M[maxIndex]){
 
@@ -641,10 +619,11 @@ void Matrix::print() {
 
 	}
 
+
 	// Now count it's digits then use this to
 	// generalize the matrix's spacing format.
 	int max = this->M[maxIndex];
-	size_t spacing = (negative) ? 1 : 0;
+	size_t spacing = (negative) ? 2 : 1;
 
 	// Spacing for largest digits.
 	while (max >= 1) {

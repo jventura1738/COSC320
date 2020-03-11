@@ -812,7 +812,7 @@ void Matrix::print() {
 	// Now count it's digits then use this to
 	// generalize the matrix's spacing format.
 	int max = this->M[maxIndex];
-	size_t spacing = 0;
+	size_t spacing = 1;
 
 	// Spacing for largest digits.
 	while (max >= 1) {

@@ -7,7 +7,17 @@
 #include <iostream>
 #include <iomanip>
 #include "matrix.h"
+#include "heapq.h"
 #include "jspace.h"
+#include <chrono>
+
+// Colors to be cool.
+#define RESET   "\033[0m"
+#define RED     "\033[31m"      /* Red */
+#define YELLOW  "\033[33m"      /* Yellow */
+#define WHITE   "\033[37m"      /* White */
+#define BOLDON  "\e[1m"
+#define BOLDOFF "\e[0m"
 
 // Makes all elements above diagonal 0's.
 void uppertri(Matrix & A) {
@@ -106,7 +116,82 @@ void init_identity(Matrix & A) {
     }
 }
 
+template <typename T>
+void shuffle(T * arr, int length) {
+    
+    // create the bound for random keys, and set up priority queue.
+    int bound = pow(length, 3);
+    HeapQ<T> pqueue(length);
+
+    // assign the random keys to each value in the array.
+    for (int i = 0; i < length; i++) {
+
+        pqueue.enqueue(arr[i], (rand() % bound) + 1);
+
+    }
+
+    // randomly select the elements by priority.
+    for (int i = 0; i < length; i++) {
+
+        arr[i] = pqueue.dequeue();
+
+    }
+
+}
+
+// Randomly generates matrix of the given object dimensions.
+void init_matrix(Matrix & A) {
+
+    for (size_t i = 0; i < A.len; i++) {
+
+        A.M[i] = (rand() % 99) + 1;
+
+    }
+
+    // Shuffle the array in a random order.
+    shuffle(A.M, A.len);
+}
+
+void specificprint(Matrix & A) {
+
+    // rounds the number due to precision loss.
+    std::cout << WHITE;
+
+    for (size_t i = 0; i < A.row; i++) {
+
+        for (size_t j = 0; j < A.col; j++) {
+
+            if (A.M[i * A.col + j] > .90 && A.M[i * A.col + j] <= 1) {
+
+                std::cout << "1 ";
+
+            }
+            else if (A.M[i * A.col + j] > (-.1) && A.M[i * A.col + j] <= 0) {
+
+                std::cout << "0 ";
+
+            }
+            else {
+
+                std::cout << int(A.M[i * A.col + j]) << " ";
+
+            }
+
+        }
+
+        std::cout << "\n";
+
+    }
+
+    std::cout << RESET << "\n";
+
+}
+
 int main() {
+
+     // Random seed for generating random matrix.
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    srand(seed);
 
 	Matrix A(3,3);
 	Matrix I(3,3);
@@ -149,6 +234,18 @@ int main() {
     std::cout << "Coal: " << result.M[0] << " units\n";
     std::cout << "Electricity: " << result.M[1] << " units\n"; 
     std::cout << "Produce: " << result.M[2] << " units\n\n";
+
+    std::cout << "INVERSION CORRECTNESS CHECK:\n";
+    Matrix X(5, 5);
+    init_matrix(X);
+    std::cout << "MATRIX X:\n";
+    X.print();
+    Matrix Xinv = X.inverse();
+    std::cout << "MATRIX Xinv:\n";
+    Xinv.print();
+    Matrix sampleresult = X * Xinv;
+    std::cout << "MATRIX X * Xinv = I:\n";
+    specificprint(sampleresult);
 
 	return 0;
 

@@ -46,7 +46,7 @@ namespace jspace {
 	void merge(T *, int, int, int);
 
 	// Generate an array which will be dynamically allocated.
-	int * generate_array(size_t length);
+	size_t * generate_array(size_t length);
 
 	// Create a deep copy of an array and return it.
 	// RETURNS A DYNAMICALLY ALLOCATED ARRAY.

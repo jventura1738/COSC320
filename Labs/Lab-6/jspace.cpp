@@ -125,9 +125,9 @@ namespace jspace {
 	}
 
 
-	int * generate_array(size_t length) {
+	size_t * generate_array(size_t length) {
 
-		int * arr = new int[length];
+		size_t * arr = new size_t[length];
 		for (int i = 0; i < length; i++) {
 
 			arr[i] = i;

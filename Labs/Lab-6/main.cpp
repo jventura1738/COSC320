@@ -1,7 +1,6 @@
 // Justin Ventura COSC320
 // Dr. Anderson Lab-6: main.cpp
 #include <iostream>
-#include "heap.h"
 #include "heapq.h"
 #include "timer.h"
 #include "jspace.h"
@@ -22,10 +21,10 @@
 #define BOLDON  "\e[1m"
 #define BOLDOFF "\e[0m"
 
-int partition (int * arr, int start, int end) {
+int partition (size_t * arr, int start, int end) {
     int piv = arr[end];
     int loc = (start - 1);
-    for (int j = start; j <= end - 1; j++) {
+    for (int j = start; j < end; j++) {
 
         if (arr[j] < piv) {
             loc++;
@@ -35,10 +34,10 @@ int partition (int * arr, int start, int end) {
     jspace::swap(&arr[loc + 1], &arr[end]); // insert pivot.
     return (loc + 1);
 }
-void rand_quick_sort(int * arr, int start, int end) {
+void rand_quick_sort(size_t * arr, int start, int end) {
     if (start < end) {
         // getting location for pivot.
-        int random = (start + (rand() % (end - start)));
+        int random = start + (rand() % (end - start));
         jspace::swap(&arr[random], &arr[end]);
         int piv = partition(arr, start, end);
 
@@ -47,7 +46,7 @@ void rand_quick_sort(int * arr, int start, int end) {
         rand_quick_sort(arr, piv + 1, end);
     }
 }
-void quick_sort(int * arr, int start, int end) {
+void quick_sort(size_t * arr, int start, int end) {
     if (start < end) {
         // getting location for pivot.
         int piv = partition(arr, start, end);
@@ -57,7 +56,7 @@ void quick_sort(int * arr, int start, int end) {
         quick_sort(arr, piv + 1, end);
     }
 }
-void merge(int * arr, int leftmost, int mid, int rightmost) {
+void merge(size_t * arr, int leftmost, int mid, int rightmost) {
     // size of leftmost and right sub-arrays
     int sub1 = mid - leftmost + 1;
     int sub2 = rightmost - mid;
@@ -97,7 +96,7 @@ void merge(int * arr, int leftmost, int mid, int rightmost) {
     delete [] subArr2;
 
 }
-void merge_sort(int * array, int start, int end) {
+void merge_sort(size_t * array, int start, int end) {
    int mid;
    if(start < end) {
       mid = start + (end - start) / 2;
@@ -109,72 +108,35 @@ void merge_sort(int * array, int start, int end) {
       merge(array, start, mid, end);
    }
 }
-// Max Heapify.  This function will be used
-// To "heapify" part of a tree given an index
-// i.  It will recurse down the tree in case
-// of breaking the properties of a "Max Heap."
-// Complexity: O(logn) with pessimism.
-template <typename T>
-void MaxHeapify(Heap<T>* A, int i) {
-    int l = 2 * i;
-    int r = ((2 * i) + 1);
-    int max;
-    if (l <= A->heap_size && A->arr[l] > A->arr[i]) {
-        max = l;
-    }
-    else {
-        max = i;
-    }
-    if (r <= A->heap_size && A->arr[r] > A->arr[max]) {
-        max = r;
-    }
-    if (max != i) {
+void heapify(size_t * arr, int n, int i) { 
+    int largest = i; 
+    int l = 2*i + 1;  
+    int r = 2*i + 2; 
 
-        jspace::swap(&A->arr[i], &A->arr[max]);
-        MaxHeapify(A, max);
+    if (l < n && arr[l] > arr[largest]) 
+        largest = l; 
+  
+    if (r < n && arr[r] > arr[largest]) 
+        largest = r; 
 
-    }
+    if (largest != i) 
+    { 
+        jspace::swap(&arr[i], &arr[largest]); 
+  
+        heapify(arr, n, largest); 
+    } 
+} 
+void heapSort(size_t * arr, int n) { 
+    for (int i = n / 2 - 1; i >= 0; i--) 
+        heapify(arr, n, i); 
+  
+    for (int i=n-1; i>=0; i--) 
+    { 
 
-}
-
-// Build Max-Heap.  This will call Max Heapify
-// to create a "Max Heap" out of the Heap obj
-// passed into the function.
-// Complexity: O(n * logn).
-template <typename T>
-void BuildMaxHeap(Heap<T> *A) {
-    A->heap_size = A->length - 1;
-    // length/2 is already floored, so we can
-    // subtract 1 from the result safely.
-    for (int i = (A->length/2) - 1; i >= 0; i--) {
-
-        MaxHeapify(A, i);
-
-    }
-
-}
-
-// Take advantage of the Max Heap structure
-// to sort an array.  Pass in any ordered heap
-// and it will be sorted.he first
-// Complexity: (nlogn).
-template <typename T>
-void HeapSort(Heap<T> *A) {
-
-    BuildMaxHeap(A);
-    for (int i = A->length - 1; i >= 1; i--) {
-
-        // We know A[i] is the largest among A[1,...,i], so move it
-        // to the back, and consider it removed from the heap
-        jspace::swap(&A->arr[0], &A->arr[A->heap_size]);
-        A->heap_size -= 1;
-        // We moved one of the smaller elements to the root, so we have to clean up
-        MaxHeapify(A, 0);
-
-    }
-
-}
-
+        jspace::swap(&arr[0], &arr[i]); 
+        heapify(arr, i, 0); 
+    } 
+} 
 template <typename T>
 void shuffle(T * arr, int length) {
     
@@ -197,7 +159,6 @@ void shuffle(T * arr, int length) {
     }
 
 }
-
 template <typename T>
 void random_swaps(T * arr, int length) {
 
@@ -213,7 +174,6 @@ void random_swaps(T * arr, int length) {
     }
 
 }
-
 template <typename T>
 size_t hire_assistant(T * pool, size_t poolsize) {
 
@@ -250,7 +210,7 @@ int main () {
     bool hiring = true;
     int candidates = 1000;
     int hires1, hires2;
-    int * group1, * group2;
+    size_t * group1, * group2;
     float group1avg = 0, group2avg = 0;
     float totalavg;
 
@@ -313,7 +273,7 @@ int main () {
     std::cout << YELLOW << "SORT COMPARISONS: QS, RQS, MERGE, HEAP:\n";
     std::cout << YELLOW << "=======================================\n";
     std::cout << RESET;
-    int trials = 10;
+    int trials = 5;
     Timer timer;
     int index = 0;
     double * qs_avg = new double[9];
@@ -321,7 +281,7 @@ int main () {
     double * mrg_avg = new double[9];
     double * heap_avg = new double[9];
 
-    for (int size = 50000; size <= 1000000; size += 50000) {
+    for (int size = 10000; size <= 50000; size += 5000) {
 
         qs_avg[index] = 0;
         rqs_avg[index] = 0;
@@ -330,45 +290,53 @@ int main () {
 
         for (int k = 1; k <= trials; k++) {
 
-            int * arr_qs = jspace::generate_array(size);
-            shuffle(arr_qs, size);
-            int * arr_rqs = jspace::copy(arr_qs, size);
-            int * arr_mrg = jspace::copy(arr_qs, size);
-            int * arr_heap = jspace::copy(arr_qs, size);
+            size_t * arr_qs = jspace::generate_array(size);
+            random_swaps(arr_qs, size);
+            size_t * arr_rqs = new size_t[size];
+            size_t * arr_mrg = new size_t[size];
+            size_t * arr_heap = new size_t[size];
+            for (int i = 0; i < size; i++) {
+                arr_rqs[i] = arr_qs[i];
+                arr_mrg[i] = arr_qs[i];
+                arr_heap[i] = arr_qs[i];
+            }
 
-            Heap<int> heap(arr_heap, size);
-
+            std::cout << "QS:\n";
             timer.start_timer();
             quick_sort(arr_qs, 0, size - 1);
             timer.end_timer();
             qs_avg[index] += timer.get_time();
+            timer.display_time();
             timer.reset_time();
-            if (!jspace::isSorted(arr_qs, size)) throw std::string("FIX YOUR SH*T\n");
 
+            std::cout << "RQS:\n";
             timer.start_timer();
             rand_quick_sort(arr_rqs, 0, size - 1);
             timer.end_timer();
             rqs_avg[index] += timer.get_time();
+            timer.display_time();
             timer.reset_time();
-            if (!jspace::isSorted(arr_rqs, size)) throw std::string("FIX YOUR SH*T\n");
 
+            std::cout << "MERGE:\n";
             timer.start_timer();
             merge_sort(arr_mrg, 0, size - 1);
             timer.end_timer();
             mrg_avg[index] += timer.get_time();
+            timer.display_time();
             timer.reset_time();
-            if (!jspace::isSorted(arr_mrg, size)) throw std::string("FIX YOUR SH*T\n");
 
+            std::cout << "HEAP:\n";
             timer.start_timer();
-            HeapSort(&heap);
+            heapSort(arr_heap, size);
             timer.end_timer();
             heap_avg[index] += timer.get_time();
+            timer.display_time();
             timer.reset_time();
-            if (!jspace::isSorted(heap.arr, size)) throw std::string("FIX YOUR SH*T\n");
 
             delete [] arr_qs;
             delete [] arr_rqs;
             delete [] arr_mrg;
+            delete [] arr_heap;
 
         }
 
@@ -382,7 +350,7 @@ int main () {
 
     int n = 50000;
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < trials; i++) {
 
         std::cout << CYAN << "Average time for QuickSort on " << n << " elements: ";
         std::cout << BOLDON << qs_avg[i] << "ms.\n" << BOLDOFF << RESET;
@@ -398,7 +366,14 @@ int main () {
 
         std::cout << YELLOW << "============================================\n" << RESET;
 
+        n += 50000;
+
     }
+
+    delete [] qs_avg;   
+    delete [] rqs_avg;  
+    delete [] mrg_avg;
+    delete [] heap_avg;
 
     return 0;
 

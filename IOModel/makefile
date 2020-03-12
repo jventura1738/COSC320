@@ -26,18 +26,31 @@
 gc = g++ -c -std=c++11
 go = g++ -o
 
+iomodel: iomodel.o matrix.o
+	$(go) iomodel iomodel.o matrix.o
+
+iomodel.o: iomodel.cpp matrix.cpp jspace.h jspace.cpp
+	$(gc) iomodel.cpp
+
 # Creates executable for driver test.
 driver: driver.o matrix.o
 	$(go) driver matrix.o driver.o
 
 # Creates driver object file.
-driver.o: driver.cpp matrix.cpp jspace.h jspace.cpp
-	$(gc) driver.cpp matrix.cpp
+driver.o: driver.cpp matrix.o jspace.h jspace.cpp
+	$(gc) driver.cpp
+
+matrix.o: matrix.h matrix.cpp
+	$(gc) matrix.cpp
 
 # Memory checking for driver.
 m_driver:
 	valgrind --leak-check=yes --track-origins=yes ./driver
 
+	# Memory checking for driver.
+m_iomodel:
+	valgrind --leak-check=yes --track-origins=yes ./iomodel data.txt
+
 # Clean object files and executables.
 clean:
-	rm *.o driver 
+	rm *.o driver iomodel

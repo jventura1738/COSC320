@@ -697,15 +697,15 @@ Matrix _strassen(const Matrix & A, const Matrix & B) {
 
 			// i & j values correspond to: A1
 			else if(i < halfn && j >= halfn)
-				C.M[i * C.col + (j - halfn)] = C12.M[i * C12.col + j];
+				C.M[i * C.col + j] = C12.M[i * C12.col + (j - halfn)];
 
 			// i & j values correspond to: A2
 			else if(i >= halfn && j < halfn) 
-				C.M[((i - halfn) * C.col) + j] = C21.M[i * C21.col + j];
+				C.M[i * C.col + j] = C21.M[(i - halfn) * C21.col + j];
 
 			// i & j values correspond to: A3
 			else if(i >= halfn && j >= halfn) 
-				C.M[((i - halfn) * C.col) + (j - halfn)] = C22.M[i * C22.col + j];
+				C.M[i * C.col + j] = C22.M[(i - halfn) * C22.col + (j - halfn)];
 
 		}
 
@@ -798,17 +798,11 @@ void Matrix::print() {
 
 	// Find the largest number.
 	size_t maxIndex = 0;
-	bool negative = false;
 	for (size_t i = 0; i < this->len; i++) {
 
 		if (this->M[i] > this->M[maxIndex]){
 
 			maxIndex = i;
-
-		}
-		if (this->M[i] < 0) {
-
-			negative = true;
 
 		}
 
@@ -818,7 +812,7 @@ void Matrix::print() {
 	// Now count it's digits then use this to
 	// generalize the matrix's spacing format.
 	int max = this->M[maxIndex];
-	size_t spacing = (negative) ? 2 : 1;
+	size_t spacing = 1;
 
 	// Spacing for largest digits.
 	while (max >= 1) {

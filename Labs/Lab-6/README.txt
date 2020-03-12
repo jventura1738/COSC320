@@ -6,4 +6,8 @@ A) I used the code we went over in lecture and also the code from previous labs 
 
 B) HIRE ASSISTANT: Best case O(1hire), worst: O(n hires) for n candidates.  Each sort had an average case of O(nlogn), but quick and rand quick had a worst case of O(n^2), with rand quick being slightly better.  In general, merge and heapsort were pretty fast and were not affected much by the inputs, but quick and rand quick were sensitive to the ordering and did not do well with arrays that were close to pre/backward sorted arrays.
 
-C) Hire assistant was sort of logarithmic in growth, and was nowhere near its worst case.  The sorts were relatively close to O(nlogn) except for quick sort which was closer to O(n^2).
+C) Hire assistant was sort of logarithmic in growth, and was nowhere near its worst case.  The sorts were relatively close to O(nlogn) except for quick sort which was closer to O(n^2).  The Hire-assistant and rand quick sort both ended up performing better than the expected performance proved in class, especially the Hire-Assistant based on my data.
+
+D) The worst case swaps for the Hire-Assistant is O(n) where n is the number of candidates, and this worst case was NEVER even close to being reached from my data.
+
+E) 

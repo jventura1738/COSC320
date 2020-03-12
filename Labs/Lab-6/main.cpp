@@ -382,7 +382,7 @@ int main () {
 
     int n = 50000;
 
-    for (int i = 0; i < 9; i++) {
+    for (int i = 0; i < 10; i++) {
 
         std::cout << CYAN << "Average time for QuickSort on " << n << " elements: ";
         std::cout << BOLDON << qs_avg[i] << "ms.\n" << BOLDOFF << RESET;

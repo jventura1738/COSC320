@@ -18,4 +18,8 @@ The following implementations were included in order to go through with this who
 - This inversion requires the matrix to be a matrix of dimensions n x n where n is a power of 2. If it is not a power of 2, then the matrix will be padded to the nearest power of 2 greater than n, then unpadded when the inversion is complete.
 - EXTRA CREDIT: (20pts) Strassen's Algorithm for Matrix Multiplication, (5pts) Determinant/Cofactor Calculation involved in finding Non-Singular Matrices
 
-## README 
+## README:
+
+Instructions to run the programs (also located in makefile):
+- To create the object files & executables: 'make all' or simply 'make'
+- To run memory checks for the driver & iomodel: 'make m_driver' & 'make m_iomodel' respectively.  The latter will run with my data.txt by default.  If you wish to use your own files, simply use your own commands such as: 'valgrind ./iomodel <filename>' or 'valgrind ./iomodel <file1> <file2> <file n>'

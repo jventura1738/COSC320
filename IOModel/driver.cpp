@@ -247,6 +247,28 @@ int main() {
     std::cout << "MATRIX X * Xinv = I:\n";
     specificprint(sampleresult);
 
+    std::cout << "=========================\n";
+    std::cout << "TEST ON 100 x 100 MATRIX:\n";
+    std::cout << "=========================\n";
+
+    Matrix I2(100, 100);
+    Matrix A2(100, 100);
+    Matrix d2(100, 1);
+    init_identity(I2);
+    init_matrix(A2);
+    init_matrix(d2);
+
+    std::cout << "Matrix A:\n";
+    A.print();
+    std::cout << "Identity Matrix I:\n";
+    I.print();
+    std::cout << "Demand Vector d:\n";
+    d.print();
+
+    result = ((I2 - A2).inverse()) * d2;
+    std::cout << "\nSAMPLE RESULT\n";
+    result.print();
+
 	return 0;
 
 }

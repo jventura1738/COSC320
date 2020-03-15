@@ -4,6 +4,11 @@
 
 # ========== INSTRUCTIONS FOR IOMODEL ===========
 #                                               |
+#               --- MAKE ALL ---                |
+#                                               |
+# Run: 'make all' to create each executable if  |
+# you wish to manually valgrind each one.       |
+#                                               |
 #                --- driver ---                 |
 #                                               |
 # Command to build demo: 'make driver'          |
@@ -15,6 +20,7 @@
 # Command to build IOModel: 'make iomodel'.     |
 # Command to run IOmodel: './iomodel <filename>'|
 # Memory check IOModel: valgrind --leak-check   |
+#      (runs with 'data.txt' by default)        |
 #                                               |
 #                 --- Clean ---                 |
 #                                               |
@@ -25,6 +31,8 @@
 # Makefile variables.
 gc = g++ -c -std=c++11
 go = g++ -o
+
+all: iomodel driver
 
 iomodel: iomodel.o matrix.o
 	$(go) iomodel iomodel.o matrix.o

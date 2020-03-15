@@ -252,9 +252,9 @@ int main() {
     std::cout << "TEST ON 10 x 10 MATRIX:\n";
     std::cout << "=========================\n";
 
-    Matrix I2(100, 100);
-    Matrix A2(100, 100);
-    Matrix d2(100, 1);
+    Matrix I2(10, 10);
+    Matrix A2(10, 10);
+    Matrix d2(10, 1);
     init_identity(I2);
     init_matrix(A2);
     init_matrix(d2);

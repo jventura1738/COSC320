@@ -9,6 +9,7 @@
 #include "matrix.h"
 #include "heapq.h"
 #include "jspace.h"
+#include "timer.h"
 #include <chrono>
 
 // Colors to be cool.
@@ -248,7 +249,7 @@ int main() {
     specificprint(sampleresult);
 
     std::cout << "=========================\n";
-    std::cout << "TEST ON 100 x 100 MATRIX:\n";
+    std::cout << "TEST ON 10 x 10 MATRIX:\n";
     std::cout << "=========================\n";
 
     Matrix I2(100, 100);
@@ -259,15 +260,91 @@ int main() {
     init_matrix(d2);
 
     std::cout << "Matrix A:\n";
-    A.print();
+    A2.print();
     std::cout << "Identity Matrix I:\n";
-    I.print();
+    I2.print();
     std::cout << "Demand Vector d:\n";
-    d.print();
+    d2.print();
 
     result = ((I2 - A2).inverse()) * d2;
     std::cout << "\nSAMPLE RESULT\n";
     result.print();
+
+    std::cout << "=========================\n";
+    std::cout << "      TIMING TESTS       \n";
+    std::cout << "   Random IOModel Ex's   \n";
+    std::cout << "=========================\n";
+    Timer timer;
+
+    Matrix A3(100, 100);
+    Matrix I3(100, 100);
+    Matrix d3(100, 1);
+    init_identity(I3);
+    init_matrix(A3);
+    init_matrix(d3);
+
+    timer.start_timer();
+    std::cout << "IOMODEL TEST ON 100 x 100:\n";
+    result = ((I3 - A3).inverse()) * d3;
+    timer.end_timer();
+    timer.display_time();
+    timer.reset_time();
+
+    Matrix A4(200, 200);
+    Matrix I4(200, 200);
+    Matrix d4(200, 1);
+    init_identity(I4);
+    init_matrix(A4);
+    init_matrix(d4);
+
+    timer.start_timer();
+    std::cout << "IOMODEL TEST ON 200 x 200:\n";
+    result = ((I4 - A4).inverse()) * d4;
+    timer.end_timer();
+    timer.display_time();
+    timer.reset_time();
+
+    Matrix A5(300, 300);
+    Matrix I5(300, 300);
+    Matrix d5(300, 1);
+    init_identity(I5);
+    init_matrix(A5);
+    init_matrix(d5);
+
+    timer.start_timer();
+    std::cout << "IOMODEL TEST ON 300 x 300:\n";
+    result = ((I5 - A5).inverse()) * d5;
+    timer.end_timer();
+    timer.display_time();
+    timer.reset_time();
+
+    Matrix A6(400, 400);
+    Matrix I6(400, 400);
+    Matrix d6(400, 1);
+    init_identity(I6);
+    init_matrix(A6);
+    init_matrix(d6);
+
+    timer.start_timer();
+    std::cout << "IOMODEL TEST ON 400 x 400:\n";
+    result = ((I6 - A6).inverse()) * d6;
+    timer.end_timer();
+    timer.display_time();
+    timer.reset_time();
+
+    Matrix A7(500, 500);
+    Matrix I7(500, 500);
+    Matrix d7(500, 1);
+    init_identity(I7);
+    init_matrix(A7);
+    init_matrix(d7);
+
+    timer.start_timer();
+    std::cout << "IOMODEL TEST ON 500 x 500:\n";
+    result = ((I7 - A7).inverse()) * d7;
+    timer.end_timer();
+    timer.display_time();
+    timer.reset_time();
 
 	return 0;
 

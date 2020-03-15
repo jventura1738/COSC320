@@ -31,8 +31,9 @@
 # Makefile variables.
 gc = g++ -c -std=c++11
 go = g++ -o
+binaries = iomodel driver
 
-all: iomodel driver
+all: clean iomodel driver
 
 iomodel: iomodel.o matrix.o
 	$(go) iomodel iomodel.o matrix.o
@@ -42,14 +43,19 @@ iomodel.o: iomodel.cpp matrix.cpp jspace.h jspace.cpp
 
 # Creates executable for driver test.
 driver: driver.o matrix.o
-	$(go) driver matrix.o driver.o
+	$(go) driver matrix.o driver.o timer.o
 
 # Creates driver object file.
-driver.o: driver.cpp matrix.o jspace.h jspace.cpp
+driver.o: driver.cpp matrix.o jspace.h jspace.cpp timer.o
 	$(gc) driver.cpp
 
+# Creates matrix object file.
 matrix.o: matrix.h matrix.cpp
 	$(gc) matrix.cpp
+
+# Creates timer object file.
+timer.o: timer.h timer.cpp
+	$(gc) timer.cpp
 
 # Memory checking for driver.
 m_driver:
@@ -61,4 +67,4 @@ m_iomodel:
 
 # Clean object files and executables.
 clean:
-	rm *.o driver iomodel
+	rm -f *.o $(binaries)

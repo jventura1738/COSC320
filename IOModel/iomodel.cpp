@@ -122,6 +122,7 @@ int main (int argc, char **argv) {
 
     size_t argNumber = 1;
 
+    std::cout << "\n";
     std::cout << WHITE << "===========================================\n";
     std::cout << WHITE << "| Justin Ventura's total output calculator|\n";
     std::cout << WHITE << "| based on Leontif's I/O model which uses |\n";
@@ -137,89 +138,148 @@ int main (int argc, char **argv) {
     std::cout << WHITE << "===========================================\n\n" << RESET;
 
     if (argc < 2) {
+
         // Should be in the form: ./IOModel <filename.txt>
         std::cout << RED << "at least 2 arguments expected, " << argc << " arguments recieved.\n" << RESET;
         return 0;
+
     }
+
     else {
+
         while (argNumber < argc) {
+
             std::ifstream IOModel(argv[argNumber]);
+
             try {
+
                 if (!IOModel.is_open()) {
+
                     throw std::string("File missing/corrupted.\n");
+
                 }
+
             }
+
             catch(std::string errmsg) {
+
                 std::cout << errmsg << "\n";
                 return 0;
+
             }
             size_t dimensions = 0;
+
             std::string *traverse = new std::string[10000]; // Assumed max.
-            while (IOModel >> traverse[dimensions]) {
+
+            while (std::getline(IOModel, traverse[dimensions])) {
+
                 if (traverse[dimensions] == "---") {
+
                     break;
+
                 }
+
                 else if (dimensions >= 10000) {
+
                     std::cout << "Slow down buddy, matrix too big.\n";
                     return 0;
+
                 }
+
                 dimensions++;
+
             }
+
             Matrix A(dimensions, dimensions);
             Matrix I(dimensions, dimensions);
             Matrix d(dimensions, 1);
             float data = 0;
             size_t count = 0;
+
             while (IOModel >> data) {
+
                 if (count == A.len) {
+
                     std::cout << "Error: sector count does not match given matrix.\n";
                     std::cout << "Aborting required output calculation.\n";
                     delete [] traverse;
                     return 0;
+
                 }
+
                 A.M[count] = data;
                 count++;
+
             }
             IOModel.clear();
+
             while (IOModel >> traverse[dimensions]) {
+
                 if (traverse[dimensions] == "--") {
+
                     break;
+
                 }
+
             }
+
             count = 0;
+
             while (IOModel >> data) {
+
                 if (count == d.len) {
+
                     std::cout << "Error: sector count does not match given demand.\n";
                     std::cout << "Aborting required output calculation.\n";
                     delete [] traverse;
                     return 0;
+
                 }
+
                 d.M[count] = data;
                 count++;
             }
+
             init_identity(I);
             Matrix outputVector(dimensions, 1);
+
             try {
+
                 outputVector = ((I - A).inverse()) * d;
+
             }
+
             catch(std::string errmsg) {
+
                 std::cout << RED << errmsg << "\n";
                 std::cout << "Inversion aborted, fix your shit. (input file)\n" << RESET;
                 IOModel.close();
                 delete [] traverse;
                 continue;
+
             }
             IOModel.close();
-            std::cout << "Resources needed for data in: " << argv[argNumber] << ":\n\n";
+
+            std::cout << "For demand vector (d): \n\n";
+            d.print();
+            std::cout << "Resources needed for data in --> " << argv[argNumber] << " (x):\n\n";
             std::cout << WHITE << "===========================================\n" << RESET;
+            
             for (size_t i = 0; i < outputVector.len; i++) {
+
                 std::cout << std::setfill(' ') << std::setw(15) << traverse[i] << ": " WHITE
                 << BOLDON << outputVector.M[i] << BOLDOFF << RESET << " units.\n";
+
             }
+
             std::cout << WHITE << "===========================================\n\n" << RESET;
             delete [] traverse;
             argNumber++;
+
         }
+
     }
+
     return 0;
+
 }

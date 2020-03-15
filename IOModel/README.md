@@ -18,8 +18,25 @@ The following implementations were included in order to go through with this who
 - This inversion requires the matrix to be a matrix of dimensions n x n where n is a power of 2. If it is not a power of 2, then the matrix will be padded to the nearest power of 2 greater than n, then unpadded when the inversion is complete.
 - EXTRA CREDIT: (20pts) Strassen's Algorithm for Matrix Multiplication, (5pts) Determinant/Cofactor Calculation involved in finding Non-Singular Matrices
 
+
+Also note that my matrix inversion is not very fast due to the determinant calculation which has a worst case of O(n!).
+
 ## README:
 
 Instructions to run the programs (also located in makefile):
 - To create the object files & executables: 'make all' or simply 'make'
 - To run memory checks for the driver & iomodel: 'make m_driver' & 'make m_iomodel' respectively.  The latter will run with my data.txt by default.  If you wish to use your own files, simply use your own commands such as: 'valgrind ./iomodel <filename>' or 'valgrind ./iomodel <file1> <file2> <file n>'
+- NOTE: you can put each .txt file consecutively and the iomodel will do one file at a time.
+  
+### Data Collection & Tests:
+
+Time complexities on valid matrices of dimensions (m x n):
+- Addition & Subtraction -> O(m * n)
+- Scalar Multiplication -> O(m * n)
+- Matrix Multiplication -> O(m^3)
+- Strassen's Algorithm -> O(m^2.8)
+- Matrix Determinant -> O(n!)
+
+### EXTRA CREDIT!
+
+- Determinant calculation (O(n!)): this was very apparent in my tests as where each increase in the number of rows (or cols) made the calulation take MUCH longer.  This method uses the Laplace Expansions which is a simple but feasible divide & conquer algorithm for calculating a matrix's determinant.

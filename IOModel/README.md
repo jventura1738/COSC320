@@ -1,8 +1,10 @@
 # Leontief Input-Output Model Calculation
 
+Project 1: COSC320 - 002.
+
 by Justin Ventura (for Dr. Joe T. Anderson)
 
-Project 1 COSC320 - 002
+ALL EXTRA CREDIT COMPLETED.
 
 ## Specifications.
 
@@ -10,7 +12,6 @@ This Project uses linear algebra to go through calculating the total output requ
 
 
 The following implementations were included in order to go through with this whole process of modeling and calculating the output required in, the IOModel.
-
 
 - asodjfldkf
 - sldfals

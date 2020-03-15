@@ -13,5 +13,9 @@ This Project uses linear algebra to go through calculating the total output requ
 
 The following implementations were included in order to go through with this whole process of modeling and calculating the output required in, the IOModel.
 
-- asodjfldkf
-- sldfals
+- Matrix class (n x m) with functions/overloads included for Matrix Addition, Subtraction, Scalar Multiplication, Matrix Multiplication, "isSymmetric" method, and Matrix Transposition.
+- Matrix Inversion function which accurately calculates the inverse of a given matrix (assuming it is non-singular, otherwise gracefully throws an error of std::string) using a divide & conquer algorithm which was explained in the project prompt. This function calls the "isSingular" method which does a check for A being square, symmetric (if not symmetric it will undergo a process to fix this), and a non-zero determinant.
+- This inversion requires the matrix to be a matrix of dimensions n x n where n is a power of 2. If it is not a power of 2, then the matrix will be padded to the nearest power of 2 greater than n, then unpadded when the inversion is complete.
+- EXTRA CREDIT: (20pts) Strassen's Algorithm for Matrix Multiplication, (5pts) Determinant/Cofactor Calculation involved in finding Non-Singular Matrices
+
+## README 

@@ -249,12 +249,12 @@ int main() {
     specificprint(sampleresult);
 
     std::cout << "=========================\n";
-    std::cout << "TEST ON 10 x 10 MATRIX:\n";
+    std::cout << "TEST ON 7 x 7 MATRIX:\n";
     std::cout << "=========================\n";
 
-    Matrix I2(10, 10);
-    Matrix A2(10, 10);
-    Matrix d2(10, 1);
+    Matrix I2(7, 7);
+    Matrix A2(7, 7);
+    Matrix d2(7, 1);
     init_identity(I2);
     init_matrix(A2);
     init_matrix(d2);
@@ -290,58 +290,72 @@ int main() {
     timer.display_time();
     timer.reset_time();
 
-    Matrix A4(20, 20);
-    Matrix I4(20, 20);
-    Matrix d4(20, 1);
+    Matrix A4(11, 11);
+    Matrix I4(11, 11);
+    Matrix d4(11, 1);
     init_identity(I4);
     init_matrix(A4);
     init_matrix(d4);
 
     timer.start_timer();
-    std::cout << "IOMODEL TEST ON 20 x 20:\n";
+    std::cout << "IOMODEL TEST ON 11 x 11:\n";
     result = ((I4 - A4).inverse()) * d4;
     timer.end_timer();
     timer.display_time();
     timer.reset_time();
 
-    Matrix A5(30, 30);
-    Matrix I5(30, 30);
-    Matrix d5(30, 1);
+    Matrix A5(12, 12);
+    Matrix I5(12, 12);
+    Matrix d5(12, 1);
     init_identity(I5);
     init_matrix(A5);
     init_matrix(d5);
 
     timer.start_timer();
-    std::cout << "IOMODEL TEST ON 30 x 30:\n";
+    std::cout << "IOMODEL TEST ON 12 x 12:\n";
     result = ((I5 - A5).inverse()) * d5;
     timer.end_timer();
     timer.display_time();
     timer.reset_time();
 
-    Matrix A6(40, 40);
-    Matrix I6(40, 40);
-    Matrix d6(40, 1);
+    Matrix A6(13, 13);
+    Matrix I6(13, 13);
+    Matrix d6(13, 1);
     init_identity(I6);
     init_matrix(A6);
     init_matrix(d6);
 
     timer.start_timer();
-    std::cout << "IOMODEL TEST ON 40 x 40:\n";
+    std::cout << "IOMODEL TEST ON 13 x 13:\n";
     result = ((I6 - A6).inverse()) * d6;
     timer.end_timer();
     timer.display_time();
     timer.reset_time();
 
-    Matrix A7(50, 50);
-    Matrix I7(50, 50);
-    Matrix d7(50, 1);
+    Matrix A7(14, 14);
+    Matrix I7(14, 14);
+    Matrix d7(14, 1);
     init_identity(I7);
     init_matrix(A7);
     init_matrix(d7);
 
     timer.start_timer();
-    std::cout << "IOMODEL TEST ON 50 x 50:\n";
+    std::cout << "IOMODEL TEST ON 14 x 14:\n";
     result = ((I7 - A7).inverse()) * d7;
+    timer.end_timer();
+    timer.display_time();
+    timer.reset_time();
+
+    Matrix A8(15, 15);
+    Matrix I8(15, 15);
+    Matrix d8(15, 1);
+    init_identity(I8);
+    init_matrix(A8);
+    init_matrix(d8);
+
+    timer.start_timer();
+    std::cout << "IOMODEL TEST ON 15 x 15:\n";
+    result = ((I8 - A8).inverse()) * d8;
     timer.end_timer();
     timer.display_time();
     timer.reset_time();

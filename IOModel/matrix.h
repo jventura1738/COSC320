@@ -140,6 +140,9 @@ public:
     // Return:  C = Matrix[n x k]    
     friend Matrix StrassenMultiply(const Matrix & A, const Matrix & B);
 
+    // Get determinant of this->M.
+    float getDeterminant();
+
     // Additional Print Method.
     // This prints this->M in matrix form, such that
     // the format is perfect.  This will affect the
@@ -156,6 +159,10 @@ public:
     // Additional method to "hard" reset the matrix back to an
     // empty 1 x 1.
     void hardreset();
+
+    // Additonal method to reset a matrix to be of a new size
+    // in terms of rows and columns through parameters.
+    void newmatrix(size_t r, size_t c);
 };
 
 #endif

@@ -145,7 +145,7 @@ void init_matrix(Matrix & A) {
 
     for (size_t i = 0; i < A.len; i++) {
 
-        A.M[i] = (rand() % 99) + 1;
+        A.M[i] = (rand() % 9) + 1;
 
     }
 
@@ -275,6 +275,7 @@ int main() {
     std::cout << "   Random IOModel Ex's   \n";
     std::cout << "=========================\n";
     Timer timer;
+    float determinant = 0;
 
     Matrix A3(5, 5);
     Matrix I3(5, 5);
@@ -284,8 +285,16 @@ int main() {
     init_matrix(d3);
 
     timer.start_timer();
-    std::cout << "IOMODEL TEST ON 5 x 5:\n";
+    std::cout << "\nIOMODEL TEST ON 5 x 5:\n";
     result = ((I3 - A3).inverse()) * d3;
+    timer.end_timer();
+    timer.display_time();
+    timer.reset_time();
+
+    std::cout << "5 x 5 determinant: \n";
+    timer.start_timer();
+    determinant = A3.getDeterminant();
+    std::cout << "--> " << determinant << "\n";
     timer.end_timer();
     timer.display_time();
     timer.reset_time();
@@ -298,8 +307,16 @@ int main() {
     init_matrix(d4);
 
     timer.start_timer();
-    std::cout << "IOMODEL TEST ON 6 x 6:\n";
+    std::cout << "\nIOMODEL TEST ON 6 x 6:\n";
     result = ((I4 - A4).inverse()) * d4;
+    timer.end_timer();
+    timer.display_time();
+    timer.reset_time();
+
+    std::cout << "6 x 6 determinant: \n";
+    timer.start_timer();
+    determinant = A4.getDeterminant();
+    std::cout << "--> " << determinant << "\n";
     timer.end_timer();
     timer.display_time();
     timer.reset_time();
@@ -312,8 +329,16 @@ int main() {
     init_matrix(d5);
 
     timer.start_timer();
-    std::cout << "IOMODEL TEST ON 7 x 7:\n";
+    std::cout << "\nIOMODEL TEST ON 7 x 7:\n";
     result = ((I5 - A5).inverse()) * d5;
+    timer.end_timer();
+    timer.display_time();
+    timer.reset_time();
+
+    std::cout << "7 x 7 determinant: \n";
+    timer.start_timer();
+    determinant = A5.getDeterminant();
+    std::cout << "--> " << determinant << "\n";
     timer.end_timer();
     timer.display_time();
     timer.reset_time();
@@ -326,8 +351,16 @@ int main() {
     init_matrix(d6);
 
     timer.start_timer();
-    std::cout << "IOMODEL TEST ON 8 x 8:\n";
+    std::cout << "\nIOMODEL TEST ON 8 x 8:\n";
     result = ((I6 - A6).inverse()) * d6;
+    timer.end_timer();
+    timer.display_time();
+    timer.reset_time();
+
+    std::cout << "8 x 8 determinant: \n";
+    timer.start_timer();
+    determinant = A6.getDeterminant();
+    std::cout << "--> " << determinant << "\n";
     timer.end_timer();
     timer.display_time();
     timer.reset_time();
@@ -340,8 +373,16 @@ int main() {
     init_matrix(d7);
 
     timer.start_timer();
-    std::cout << "IOMODEL TEST ON 9 x 9:\n";
+    std::cout << "\nIOMODEL TEST ON 9 x 9:\n";
     result = ((I7 - A7).inverse()) * d7;
+    timer.end_timer();
+    timer.display_time();
+    timer.reset_time();
+
+    std::cout << "9 x 9 determinant: \n";
+    timer.start_timer();
+    determinant = A7.getDeterminant();
+    std::cout << "--> " << determinant << "\n";
     timer.end_timer();
     timer.display_time();
     timer.reset_time();
@@ -354,12 +395,204 @@ int main() {
     init_matrix(d8);
 
     timer.start_timer();
-    std::cout << "IOMODEL TEST ON 10 x 10:\n";
+    std::cout << "\nIOMODEL TEST ON 10 x 10:\n";
     result = ((I8 - A8).inverse()) * d8;
     timer.end_timer();
     timer.display_time();
     timer.reset_time();
 
+    std::cout << "10 x 10 determinant: \n";
+    timer.start_timer();
+    determinant = A8.getDeterminant();
+    std::cout << "--> " << determinant << "\n";
+    timer.end_timer();
+    timer.display_time();
+    timer.reset_time();
+
+    std::cout << "\n--- MATRIX MULTIPLICATIONS ---\n\n";
+    Matrix gamer3;
+    std::cout << "NAIVE VS STRASSEN 100x100: \n";
+    Matrix gamer1(100,100);
+    Matrix gamer2(100,100);
+    init_matrix(gamer1);
+    gamer2 = gamer1;
+    timer.start_timer();
+    gamer3 = gamer1 * gamer2;
+    timer.end_timer();
+    std::cout << YELLOW << "NAIVE:\n";
+    timer.display_time();
+    timer.reset_time();
+    timer.start_timer();
+    gamer3 = StrassenMultiply(gamer1, gamer2);
+    timer.end_timer();
+    std::cout << RED << "STRASSEN:\n";
+    timer.display_time();
+    timer.reset_time();
+
+    std::cout << WHITE << "NAIVE VS STRASSEN 200x200: \n";
+    gamer1.newmatrix(200,200);
+    gamer2.newmatrix(200,200);
+    init_matrix(gamer1);
+    gamer2 = gamer1;
+    timer.start_timer();
+    gamer3 = gamer1 * gamer2;
+    timer.end_timer();
+    std::cout << YELLOW << "NAIVE:\n";
+    timer.display_time();
+    timer.reset_time();
+    timer.start_timer();
+    gamer3 = StrassenMultiply(gamer1, gamer2);
+    timer.end_timer();
+    std::cout << RED << "STRASSEN:\n";
+    timer.display_time();
+    timer.reset_time();
+
+    std::cout << WHITE << "NAIVE VS STRASSEN 300x300: \n";
+    gamer1.newmatrix(300,300);
+    gamer2.newmatrix(300,300);
+    init_matrix(gamer1);
+    gamer2 = gamer1;
+    timer.start_timer();
+    gamer3 = gamer1 * gamer2;
+    timer.end_timer();
+    std::cout << YELLOW << "NAIVE:\n";
+    timer.display_time();
+    timer.reset_time();
+    timer.start_timer();
+    gamer3 = StrassenMultiply(gamer1, gamer2);
+    timer.end_timer();
+    std::cout << RED << "STRASSEN:\n";
+    timer.display_time();
+    timer.reset_time();
+
+    std::cout << WHITE << "NAIVE VS STRASSEN 400x400: \n";
+    gamer1.newmatrix(400,400);
+    gamer2.newmatrix(400,400);
+    init_matrix(gamer1);
+    gamer2 = gamer1;
+    timer.start_timer();
+    gamer3 = gamer1 * gamer2;
+    timer.end_timer();
+    std::cout << YELLOW << "NAIVE:\n";
+    timer.display_time();
+    timer.reset_time();
+    timer.start_timer();
+    gamer3 = StrassenMultiply(gamer1, gamer2);
+    timer.end_timer();
+    std::cout << RED << "STRASSEN:\n";
+    timer.display_time();
+    timer.reset_time();
+
+    std::cout << WHITE << "NAIVE VS STRASSEN 500x500: \n";
+    gamer1.newmatrix(500,500);
+    gamer2.newmatrix(500,500);
+    init_matrix(gamer1);
+    gamer2 = gamer1;
+    timer.start_timer();
+    gamer3 = gamer1 * gamer2;
+    timer.end_timer();
+    std::cout << YELLOW << "NAIVE:\n";
+    timer.display_time();
+    timer.reset_time();
+    timer.start_timer();
+    gamer3 = StrassenMultiply(gamer1, gamer2);
+    timer.end_timer();
+    std::cout << RED << "STRASSEN:\n";
+    timer.display_time();
+    timer.reset_time();
+
+    std::cout << WHITE << "NAIVE VS STRASSEN 600x600: \n";
+    gamer1.newmatrix(600,600);
+    gamer2.newmatrix(600,600);
+    init_matrix(gamer1);
+    gamer2 = gamer1;
+    timer.start_timer();
+    gamer3 = gamer1 * gamer2;
+    timer.end_timer();
+    std::cout << YELLOW << "NAIVE:\n";
+    timer.display_time();
+    timer.reset_time();
+    timer.start_timer();
+    gamer3 = StrassenMultiply(gamer1, gamer2);
+    timer.end_timer();
+    std::cout << RED << "STRASSEN:\n";
+    timer.display_time();
+    timer.reset_time();
+
+    std::cout << WHITE << "NAIVE VS STRASSEN 700x700: \n";
+    gamer1.newmatrix(700,700);
+    gamer2.newmatrix(700,700);
+    init_matrix(gamer1);
+    gamer2 = gamer1;
+    timer.start_timer();
+    gamer3 = gamer1 * gamer2;
+    timer.end_timer();
+    std::cout << YELLOW << "NAIVE:\n";
+    timer.display_time();
+    timer.reset_time();
+    timer.start_timer();
+    gamer3 = StrassenMultiply(gamer1, gamer2);
+    timer.end_timer();
+    std::cout << RED << "STRASSEN:\n";
+    timer.display_time();
+    timer.reset_time();
+
+    std::cout << WHITE << "NAIVE VS STRASSEN 800x800: \n";
+    gamer1.newmatrix(800,800);
+    gamer2.newmatrix(800,800);
+    init_matrix(gamer1);
+    gamer2 = gamer1;
+    timer.start_timer();
+    gamer3 = gamer1 * gamer2;
+    timer.end_timer();
+    std::cout << YELLOW << "NAIVE:\n";
+    timer.display_time();
+    timer.reset_time();
+    timer.start_timer();
+    gamer3 = StrassenMultiply(gamer1, gamer2);
+    timer.end_timer();
+    std::cout << RED << "STRASSEN:\n";
+    timer.display_time();
+    timer.reset_time();
+
+    std::cout << WHITE << "NAIVE VS STRASSEN 900x900: \n";
+    gamer1.newmatrix(900,900);
+    gamer2.newmatrix(900,900);
+    init_matrix(gamer1);
+    gamer2 = gamer1;
+    timer.start_timer();
+    gamer3 = gamer1 * gamer2;
+    timer.end_timer();
+    std::cout << YELLOW << "NAIVE:\n";
+    timer.display_time();
+    timer.reset_time();
+    timer.start_timer();
+    gamer3 = StrassenMultiply(gamer1, gamer2);
+    timer.end_timer();
+    std::cout << RED << "STRASSEN:\n";
+    timer.display_time();
+    timer.reset_time();
+
+
+    std::cout << WHITE << "\nNAIVE VS STRASSEN 1000x1000: \n";
+    gamer1.newmatrix(1000,1000);
+    gamer2.newmatrix(1000,1000);
+    init_matrix(gamer1);
+    gamer2 = gamer1;
+    timer.start_timer();
+    gamer3 = gamer1 * gamer2;
+    timer.end_timer();
+    std::cout << YELLOW << "NAIVE:\n";
+    timer.display_time();
+    timer.reset_time();
+    timer.start_timer();
+    gamer3 = StrassenMultiply(gamer1, gamer2);
+    timer.end_timer();
+    std::cout << RED << "STRASSEN:\n";
+    timer.display_time();
+    timer.reset_time();
+
+    std::cout << RESET;
 	return 0;
 
 }

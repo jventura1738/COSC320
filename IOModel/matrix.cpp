@@ -601,8 +601,6 @@ Matrix _strassen(const Matrix & A, const Matrix & B) {
 	// General recursive case:
 	else {
 
-	std::cout << A.row << "\n";
-
 	size_t halfn = A.row / 2;
 	Matrix A11(halfn, halfn), A12(halfn, halfn);
 	Matrix A21(halfn, halfn), A22(halfn, halfn);
@@ -781,6 +779,13 @@ Matrix StrassenMultiply(const Matrix & A, const Matrix & B) {
 
 }
 
+// Get determinant of matrix.
+float Matrix::getDeterminant() {
+
+	return this->determinant();
+	
+}
+
 // Matrix print method (PERFECT FORMATTING; SLOW).
 void Matrix::print() {
 
@@ -892,5 +897,16 @@ void Matrix::hardreset() {
 	this->col = 1;
 	this->len = 1;
 	this->M = new float[1];
+
+}
+
+// New matrix / resize.
+void Matrix::newmatrix(size_t r, size_t c) {
+
+	delete [] this->M;
+	this->row = r;
+	this->col = c;
+	this->len = (r * c);
+	this->M = new float[r * c];
 
 }

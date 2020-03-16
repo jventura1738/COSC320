@@ -40,5 +40,5 @@ Time complexities on valid matrices of dimensions (m x n):
 ### EXTRA CREDIT!
 
 - Determinant calculation (O(n!)): this was very apparent in my tests as where each increase in the number of rows (or cols) made the calulation take MUCH longer.  This method uses the Laplace Expansions which is a simple but feasible divide & conquer algorithm for calculating a matrix's determinant.
-- Strassen's Algorithm for Matrix Multiplication (O(n^2.8)): while this complexity is better than the complexity of the Naive algorithm (O(N^3)), it performs much much worse until the dimensions are greater or equal to that of very large matrix such as  (5000x5000).  For smaller matrices, the naive algorithm is much more practical.
+- Strassen's Algorithm for Matrix Multiplication (O(n^2.8)): while this complexity is better than the complexity of the Naive algorithm (O(N^3)), it performs much much worse until the dimensions are greater or equal to that of very large matrix such as  (1000x1000).  For smaller matrices, the naive algorithm is much more practical.
 - See attached graph for my data supporting the previous conclusions I have come to.

@@ -6,11 +6,18 @@
 #include <fstream>
 #include "jspace.h"
 
-// 
+// Function to load the txt database into
+// the Dictionary hash table.
 void loadDatabase();
 
 int main() {
 
 
 	return 0;
+}
+
+void loadDatabase() {
+
+	std::cout << "gamers\n";
+
 }

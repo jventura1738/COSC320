@@ -147,10 +147,10 @@ int main() {
 
 	std::cout << "These two strings were put out of order to see if unique hashes.\n";
 
-	std::cout << "\n --- EXTRA CREDIT CORRECTNESS CHECK --- \n\n";
+	std::cout << BACKWHT << "\n --- EXTRA CREDIT CORRECTNESS CHECK --- \n\n";
 	std::cout << "My extra credit hash is the same as stringhash1.\n";
 	std::cout << "I will hash a string twice and they should have\n";
-	std::cout << "the same hash from both functions.\n";
+	std::cout << "the same hash from both functions.\n" << RESET;
 
 	str = "This is extra credit!";
 	std::cout << "Pre hash(str hash): " << str << "\n";

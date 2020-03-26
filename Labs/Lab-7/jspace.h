@@ -84,26 +84,26 @@ namespace jspace {
 #define BACKWHT "\x1B[47m"
 
 // These will set the text color and then set it back to normal afterwards.
-#define BLK(x) FOREBLK x RESETTEXT
-#define RED(x) FORERED x RESETTEXT
-#define GRN(x) FOREGRN x RESETTEXT
-#define YEL(x) FOREYEL x RESETTEXT
-#define BLU(x) FOREBLU x RESETTEXT
-#define MAG(x) FOREMAG x RESETTEXT
-#define CYN(x) FORECYN x RESETTEXT
-#define WHT(x) FOREWHT x RESETTEXT
+#define BLK(x) FOREBLK x RESET
+#define RED(x) FORERED x RESET
+#define GRN(x) FOREGRN x RESET
+#define YEL(x) FOREYEL x RESET
+#define BLU(x) FOREBLU x RESET
+#define MAG(x) FOREMAG x RESET
+#define CYN(x) FORECYN x RESET
+#define WHT(x) FOREWHT x RESET
 
 // Example usage: cout << BLU("This text's color is now blue!") << endl;
 
 // These will set the text's background color then reset it back.
-#define BackBLK(x) BACKBLK x RESETTEXT
-#define BackRED(x) BACKRED x RESETTEXT
-#define BackGRN(x) BACKGRN x RESETTEXT
-#define BackYEL(x) BACKYEL x RESETTEXT
-#define BackBLU(x) BACKBLU x RESETTEXT
-#define BackMAG(x) BACKMAG x RESETTEXT
-#define BackCYN(x) BACKCYN x RESETTEXT
-#define BackWHT(x) BACKWHT x RESETTEXT
+#define BackBLK(x) BACKBLK x RESET
+#define BackRED(x) BACKRED x RESET
+#define BackGRN(x) BACKGRN x RESET
+#define BackYEL(x) BACKYEL x RESET
+#define BackBLU(x) BACKBLU x RESET
+#define BackMAG(x) BACKMAG x RESET
+#define BackCYN(x) BACKCYN x RESET
+#define BackWHT(x) BACKWHT x RESET
 
 // Example usage: cout << BACKRED(FOREBLU("I am blue text on a red background!")) << endl;
 

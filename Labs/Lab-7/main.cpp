@@ -147,10 +147,10 @@ int main() {
 
 	std::cout << "These two strings were put out of order to see if unique hashes.\n";
 
-	std::cout << BACKWHT << "\n --- EXTRA CREDIT CORRECTNESS CHECK --- \n\n";
+	std::cout << BACKWHT << FOREBLK "\n --- EXTRA CREDIT CORRECTNESS CHECK --- \n\n";
 	std::cout << "My extra credit hash is the same as stringhash1.\n";
 	std::cout << "I will hash a string twice and they should have\n";
-	std::cout << "the same hash from both functions.\n" << RESET;
+	std::cout << "the same hash from both functions." << RESET << "\n";
 
 	str = "This is extra credit!";
 	std::cout << "Pre hash(str hash): " << str << "\n";
@@ -164,6 +164,9 @@ int main() {
 	std::cout << "Post hash(EC hash): ";
 	printHash(hashedString);
 	std::cout << "\n";
+
+	std::cout << "^ both of the above should be: 6db83a.\n";
+	std::cout << "(Or at least be the same hash; if machine word size varies)\n";
 
 	std::cout << "Template correctness.\n";
 	std::cout << "Sos we'll try a random type: float.\n";

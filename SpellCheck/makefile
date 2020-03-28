@@ -27,12 +27,16 @@ memchk = 	valgrind --leak-check=yes --track-origins=yes
 binaries = spellcheck
 
 # Link the main object file to create executable.
-spellcheck: main.o
-	$(go) spellcheck main.o
+spellcheck: main.o chain.o
+	$(go) spellcheck main.o chain.o
 
 # Make the main object file.
 main.o: main.cpp jspace.h jspace.cpp
 	$(gc) main.cpp
+
+# Make the chain object file.
+chain.o: chain.h chain.cpp
+	$(gc) chain.cpp
 
 memcheck: spellcheck
 	$(memchk) ./spellcheck

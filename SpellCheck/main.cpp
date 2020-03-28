@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include "jspace.h"
+#include "chain.h"
 
 // Function to load the txt database into
 // the Dictionary hash table.
@@ -12,6 +13,10 @@ void loadDatabase();
 
 int main() {
 
+	chain c;
+	c.prepend("Justin");
+	c.prepend("Jacob");
+	std::cout << c.head->data << "\n";
 
 	return 0;
 }

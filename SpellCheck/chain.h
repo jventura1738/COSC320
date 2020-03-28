@@ -21,6 +21,17 @@ public:
 		// Constructor.
 		link(std::string s) {
 			data = s;
+			this->next = nullptr;
+			this->prev = nullptr;
+		}
+
+		// Copy Constructor.
+		link(link & l) {
+
+			this->data = l.data;
+			this->next = l.next;
+			this->prev = l.prev;
+
 		}
 
 	};
@@ -37,7 +48,7 @@ public:
 	// Chain constructor.
 	chain();
 	// Chain copy constructor.
-	chain(chain & obj);
+	chain(const chain & obj);
 	// Destructor.
 	~chain();
 
@@ -46,13 +57,14 @@ public:
 	 * the chain class.
 	*/
 
-	// Method to insert a word.
-	void insert(std::string & word);
+	// Method to insert a word at front.
+	void prepend(const std::string & word);
 
-	// Method to remove a link.
-	void remove(struct link * l);
+	// Method to insert a word at back.
+	void append(const std::string & word);
 
-	// 
+	// Overloaded assignment operator.
+	chain & operator=(const chain & obj);
 
 };
 

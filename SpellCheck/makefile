@@ -28,11 +28,15 @@ binaries = spellcheck
 
 # Link the main object file to create executable.
 spellcheck: main.o chain.o
-	$(go) spellcheck main.o chain.o
+	$(go) spellcheck main.o chain.o Dictionary.o
 
 # Make the main object file.
 main.o: main.cpp jspace.h jspace.cpp
 	$(gc) main.cpp
+
+# Make the Dictionary object file.
+Dictionary.o: Dictionary.h Dictionary.cpp chain.o
+	$(gc) Dictionary.cpp
 
 # Make the chain object file.
 chain.o: chain.h chain.cpp

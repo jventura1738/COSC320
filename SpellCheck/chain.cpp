@@ -10,3 +10,9 @@ chain::chain() {
 	this->head = nullptr;
 
 }
+
+chain::chain(chain & link) {
+
+	
+	
+}

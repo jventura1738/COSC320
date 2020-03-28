@@ -28,15 +28,31 @@ public:
 	// Head of the chain.
 	link * head;
 
+	/*
+	 * Chain class constructor(s) and
+	 * destructors for dynamic memory
+	 * management.
+	*/
+
 	// Chain constructor.
 	chain();
-
 	// Chain copy constructor.
-	chain();
-
+	chain(chain & obj);
 	// Destructor.
 	~chain();
 
+	/*
+	 * Necessary member functions for
+	 * the chain class.
+	*/
+
+	// Method to insert a word.
+	void insert(std::string & word);
+
+	// Method to remove a link.
+	void remove(struct link * l);
+
+	// 
 
 };
 

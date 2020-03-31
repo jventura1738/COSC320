@@ -13,10 +13,7 @@ void loadDatabase();
 
 int main() {
 
-	chain c;
-	c.prepend("Justin");
-	c.prepend("Jacob");
-	std::cout << c.head->data << "\n";
+	std::cout << sizeof(unsigned) << "\n";
 
 	return 0;
 }

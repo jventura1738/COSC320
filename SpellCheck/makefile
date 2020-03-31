@@ -25,6 +25,7 @@ gc = g++ -c -std=c++11
 go = g++ -o
 memchk = 	valgrind --leak-check=yes --track-origins=yes
 binaries = spellcheck
+data1 = english.txt
 
 # Link the main object file to create executable.
 spellcheck: main.o chain.o
@@ -46,7 +47,7 @@ timer.o: timer.h timer.cpp
 	$(gc) timer.cpp
 
 memcheck: spellcheck
-	$(memchk) ./spellcheck
+	$(memchk) ./$(binaries) $(data1)
 
 # Clean object files and executables.
 clean:

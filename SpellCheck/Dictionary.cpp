@@ -12,7 +12,6 @@ Dictionary::Dictionary(unsigned dictionarysize) {
 	this->T_SIZE = dictionarysize;
 
 	for (unsigned i = 0; i < T_SIZE; i++) {
-		this->table[i] = nullptr;
 		this->chainlength[i] = 0;
 	}
 
@@ -49,9 +48,9 @@ size_t Dictionary::_hash(std::string & word) {
 	// Generated from my python script
 	const size_t PRIME1 = 1299709;
 	const size_t PRIME2 = 10007;
-	while(key[i]) {
+	while(word[i]) {
 
-		sum4hash += (size_t(key[i]) * (i+1));
+		sum4hash += (size_t(word[i]) * (i+1));
 		i++;
 
 	}
@@ -84,4 +83,5 @@ Dictionary & Dictionary::operator=(const Dictionary & dict) {
 		this->chainlength[i] = dict.chainlength[i];
 	}
 
+	return *this;
 }

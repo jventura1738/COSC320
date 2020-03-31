@@ -6,6 +6,7 @@
 #include <fstream>
 #include "jspace.h"
 #include "chain.h"
+#include "Dictionary.h"
 
 // Function to load the txt database into
 // the Dictionary hash table.

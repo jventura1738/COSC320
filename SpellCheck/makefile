@@ -31,7 +31,7 @@ spellcheck: main.o chain.o
 	$(go) spellcheck main.o chain.o Dictionary.o
 
 # Make the main object file.
-main.o: main.cpp jspace.h jspace.cpp
+main.o: main.cpp jspace.h jspace.cpp Dictionary.o
 	$(gc) main.cpp
 
 # Make the Dictionary object file.

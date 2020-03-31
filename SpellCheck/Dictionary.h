@@ -6,7 +6,6 @@
 #define DICTIONARY_H
 
 #include <iostream>
-#include <cmath.h>
 #include "chain.h"
 
 class Dictionary {
@@ -57,7 +56,7 @@ public:
 	 * as mentioned in the prompt.
 	*/
 
-
+	//unsigned largest_bucket
 
 };
 

@@ -28,10 +28,10 @@ binaries = spellcheck
 
 # Link the main object file to create executable.
 spellcheck: main.o chain.o
-	$(go) spellcheck main.o chain.o Dictionary.o
+	$(go) spellcheck main.o chain.o Dictionary.o timer.o
 
 # Make the main object file.
-main.o: main.cpp jspace.h jspace.cpp Dictionary.o
+main.o: main.cpp jspace.h jspace.cpp Dictionary.o timer.o
 	$(gc) main.cpp
 
 # Make the Dictionary object file.
@@ -41,6 +41,9 @@ Dictionary.o: Dictionary.h Dictionary.cpp chain.o
 # Make the chain object file.
 chain.o: chain.h chain.cpp
 	$(gc) chain.cpp
+
+timer.o: timer.h timer.cpp
+	$(gc) timer.cpp
 
 memcheck: spellcheck
 	$(memchk) ./spellcheck

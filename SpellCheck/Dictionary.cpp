@@ -11,7 +11,7 @@ Dictionary::Dictionary(unsigned dictionarysize) {
 	this->chainlength = new unsigned[dictionarysize];
 	this->T_SIZE = dictionarysize;
 
-	for (unsigned i = 0; i < T_SIZE; i++) {
+	for (unsigned i = 0; i < this->T_SIZE; i++) {
 		this->chainlength[i] = 0;
 	}
 
@@ -24,7 +24,7 @@ Dictionary::Dictionary(const Dictionary & dict) {
 	this->chainlength = new unsigned[dict.T_SIZE];
 	this->T_SIZE = dict.T_SIZE;
 
-	for (unsigned i = 0; i < T_SIZE; i++) {
+	for (unsigned i = 0; i < this->T_SIZE; i++) {
 		this->table[i] = dict.table[i];
 		this->chainlength[i] = dict.chainlength[i];
 	}
@@ -60,7 +60,7 @@ size_t Dictionary::_hash(std::string & word) {
 }
 
 // Insert a word into the hash table O(1).
-void Dictionary::insert(std::string & word) {
+void Dictionary::inscribe(std::string & word) {
 
 	unsigned hashval = _hash(word);
 	this->table[hashval].prepend(word);
@@ -78,10 +78,82 @@ Dictionary & Dictionary::operator=(const Dictionary & dict) {
 	this->chainlength = new unsigned[dict.T_SIZE];
 	this->T_SIZE = dict.T_SIZE;
 
-	for (unsigned i = 0; i < T_SIZE; i++) {
+	for (unsigned i = 0; i < this->T_SIZE; i++) {
 		this->table[i] = dict.table[i];
 		this->chainlength[i] = dict.chainlength[i];
 	}
 
 	return *this;
+}
+
+unsigned Dictionary::_totalWords() const {
+
+	unsigned total = 0;
+	for (unsigned i = 0; i < this->T_SIZE; i++) {
+		total += this->chainlength[i];
+	}
+	return total;
+
+}
+unsigned Dictionary::_largestBucket() const {
+
+	unsigned largest = 0;
+	for (unsigned i = 1; i < this->T_SIZE; i++) {
+
+		if (this->chainlength[i] > this->chainlength[largest]) {
+			largest = i;
+		}
+
+	}
+	return largest;
+
+}
+unsigned Dictionary::_smallestBucket() const {
+
+	unsigned smallest = 0;
+	for (unsigned i = 1; i < this->T_SIZE; i++) {
+
+		if (this->chainlength[i] < this->chainlength[smallest]) {
+			smallest = i;
+		}
+
+	}
+	return smallest;
+
+}
+
+unsigned Dictionary::_usedBuckets() const {
+
+	unsigned used = 0;
+	for (unsigned i = 0; i < this->T_SIZE; i++) {
+
+		if (this->chainlength[i] > 0) {
+			used++;
+		}
+
+	}
+	return used;
+
+}
+float Dictionary::_avgBucketSize() const {
+
+	float avg = 0;
+	for (unsigned i = 0; i < this->T_SIZE; i++) {
+
+		avg += this->chainlength[i];
+
+	}
+	return (avg /= static_cast<float>(this->T_SIZE));
+
+}
+
+void Dictionary::printStats() const {
+
+	std::cout << "Total words = " << this->_totalWords() << ".\n";
+	std::cout << "Biggest bucket size = " << this->_largestBucket() << ".\n";
+	std::cout << "Smallest bucket size = " << this->_smallestBucket() << ".\n";
+	std::cout << "Total number of buckets = " << this->T_SIZE << ".\n";
+	std::cout << "Number of used buckets = " << this->_usedBuckets() << ".\n";
+	std::cout << "Average number of nodes in each bucket = " << this->_avgBucketSize() << ".\n"; 
+
 }

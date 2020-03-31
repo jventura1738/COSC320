@@ -25,6 +25,20 @@ private:
 	// unsigned long integer.
 	size_t _hash(std::string & word);
 
+	/*
+	 * Private methods to calculate the statistics
+	 * necessary as mentioned in the prompt.
+	*/
+
+	unsigned _totalWords()     const;
+	unsigned _largestBucket()  const;
+	unsigned _smallestBucket() const;
+	unsigned _usedBuckets()    const;
+	float    _avgBucketSize()  const;
+	unsigned _totalBuckets()   const {
+		return this->T_SIZE;
+	}
+
 public:
 	/*
 	 * Constructors and Destructors for proper
@@ -46,17 +60,12 @@ public:
 	*/
 
 	// Insert a word into the hash table O(1).
-	void insert(std::string & word);
+	void inscribe(std::string & word);
 
 	// Assignment operator overload.
 	Dictionary & operator=(const Dictionary & dict);
 
-	/*
-	 * Methods to calculate the statistics necessary
-	 * as mentioned in the prompt.
-	*/
-
-	//unsigned largest_bucket
+	void printStats() const;
 
 };
 

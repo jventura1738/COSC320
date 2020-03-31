@@ -7,7 +7,7 @@
 // Constructor.
 chain::chain() {
 
-	std::cout << "chain constructed.\n";
+	//std::cout << "chain constructed.\n";
 	this->head = nullptr;
 
 }

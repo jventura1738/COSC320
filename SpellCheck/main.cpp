@@ -54,6 +54,25 @@ int main(int argc, char ** argv) {
 			timer.display_time();
 			timer.reset_time();
 
+			unsigned largest = dict._largestBucket();
+			unsigned largeidx = 0;
+			for (unsigned i = 1; i < 10007; i++) {
+
+				if (dict.chainlength[i] > dict.chainlength[largeidx]) {
+					largeidx = i;
+				}
+
+			}
+
+			chain::link * curr = dict.table[largeidx].head;
+
+			for (unsigned i = 0; i < largest; i++) {
+
+				std::cout << curr->data << "\n";
+				curr = curr->next;
+
+			}
+
 		}
 
 	}

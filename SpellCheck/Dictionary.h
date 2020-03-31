@@ -11,13 +11,6 @@
 class Dictionary {
 private:
 
-	// Array of pointers to the chains.
-	chain * table;
-
-	// Corresponding bucket size tracker array
-	// to the table.
-	unsigned * chainlength;
-
 	// Size of the table.
 	unsigned T_SIZE;
 
@@ -31,7 +24,6 @@ private:
 	*/
 
 	unsigned _totalWords()     const;
-	unsigned _largestBucket()  const;
 	unsigned _smallestBucket() const;
 	unsigned _usedBuckets()    const;
 	float    _avgBucketSize()  const;
@@ -40,6 +32,16 @@ private:
 	}
 
 public:
+
+	// Array of pointers to the chains.
+	chain * table;
+
+	// Corresponding bucket size tracker array
+	// to the table.
+	unsigned * chainlength;
+
+	unsigned _largestBucket()  const;
+
 	/*
 	 * Constructors and Destructors for proper
 	 * management of resources.
@@ -65,6 +67,8 @@ public:
 	// Assignment operator overload.
 	Dictionary & operator=(const Dictionary & dict);
 
+	// Method to print the stats as prompted
+	// in the project instructions.
 	void printStats() const;
 
 };

@@ -50,7 +50,7 @@ size_t Dictionary::_hash(std::string & word) {
 	const size_t PRIME2 = 10007;
 	while(word[i]) {
 
-		sum4hash += (size_t(word[i]) * (i+1));
+		sum4hash += (size_t(word[i]) * (PRIME1 - (i * sizeof(word) + 1)));
 		i++;
 
 	}
@@ -105,7 +105,7 @@ unsigned Dictionary::_largestBucket() const {
 		}
 
 	}
-	return largest;
+	return this->chainlength[largest];
 
 }
 unsigned Dictionary::_smallestBucket() const {
@@ -118,7 +118,7 @@ unsigned Dictionary::_smallestBucket() const {
 		}
 
 	}
-	return smallest;
+	return this->chainlength[smallest];
 
 }
 

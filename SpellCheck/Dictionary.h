@@ -16,7 +16,7 @@ private:
 
 	// Private method to hash a string to an
 	// unsigned long integer.
-	size_t _hash(std::string & word);
+	size_t _hash(std::string & word) const;
 
 	/*
 	 * Private methods to calculate the statistics
@@ -63,6 +63,9 @@ public:
 
 	// Insert a word into the hash table O(1).
 	void inscribe(std::string & word);
+
+	// Checks if a given word is in the dictionary.
+	bool inDictionary(std::string & word) const;
 
 	// Assignment operator overload.
 	Dictionary & operator=(const Dictionary & dict);

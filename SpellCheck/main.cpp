@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <cctype>
 #include "jspace.h"
 #include "chain.h"
 #include "Dictionary.h"
@@ -13,7 +14,12 @@
 // the Dictionary hash table.
 void loadDatabase(std::ifstream & txtfile, Dictionary & dict);
 
+bool * needsCorrection(Dictionary & dict, std::string * words, unsigned len);
+
 int main(int argc, char ** argv) {
+
+	// Create the hash table with 10007 buckets.
+	Dictionary dict(10007);
 
 	// Incorrect arguments error.
 	if (argc != 2) {
@@ -26,9 +32,6 @@ int main(int argc, char ** argv) {
 
 		// File stream for loading the database.
 		std::ifstream infile(argv[1]);
-
-		// Create the hash table with 10007 buckets.
-		Dictionary dict(10007);
 
 		// Timer object to time the operations.
 		Timer timer;
@@ -54,29 +57,46 @@ int main(int argc, char ** argv) {
 			timer.display_time();
 			timer.reset_time();
 
-			unsigned largest = dict._largestBucket();
-			unsigned largeidx = 0;
-			for (unsigned i = 1; i < 10007; i++) {
-
-				if (dict.chainlength[i] > dict.chainlength[largeidx]) {
-					largeidx = i;
-				}
-
-			}
-
-			chain::link * curr = dict.table[largeidx].head;
-
-			for (unsigned i = 0; i < largest; i++) {
-
-				std::cout << curr->data << "\n";
-				curr = curr->next;
-
-			}
-
 		}
+
+		infile.close();
+
+	}
+	std::string unparsable;
+	std::cout << "\n---------------------------------------------------\n";
+	std::cout << "Please enter some text: ";
+	std::getline(std::cin, unparsable);
+
+	// File tricks for parsing >:)
+	std::ofstream outfile("temp.txt");
+	outfile << unparsable;
+	outfile.close();
+	std::ifstream infile("temp.txt");
+	std::string word;
+	unsigned numWords = 0;
+
+	// Count the words.
+	while(infile >> word) {
+		numWords++;
+	}
+
+	// Collect the words for correction.
+	infile.clear();
+	infile.seekg(0, std::ios::beg);
+	std::string * words = new std::string[numWords];
+	unsigned l = 0;
+	while(infile >> word) {
+
+		words[l++] = word;
 
 	}
 
+	// TODO: check for suggestions.
+	bool * needsSuggestion = needsCorrection(dict, words, numWords);
+	
+
+	delete [] words;
+	delete [] needsSuggestion;
 	return 0;
 }
 
@@ -88,5 +108,49 @@ void loadDatabase(std::ifstream & txtfile, Dictionary & dict) {
 		dict.inscribe(word);
 
 	}
+
+}
+
+bool * needsCorrection(Dictionary & dict, std::string * words, unsigned len) {
+
+	bool * arr = new bool[len];
+
+	if (!dict.inDictionary(words[0])) {
+
+		words[0][0] = isupper(words[0][0]) ? tolower(words[0][0]) : toupper(words[0][0]);
+
+		if (!dict.inDictionary(words[0])) {
+
+			arr[0] = true;
+
+		}
+		else {
+
+			arr[0] = false;
+
+		}
+
+		words[0][0] = isupper(words[0][0]) ? tolower(words[0][0]) : toupper(words[0][0]);
+
+	}
+
+	for (unsigned i = 1; i < len; i++) {
+
+		std::cout << "i: " << i << "\n";
+
+		if (!dict.inDictionary(words[i])) {
+
+			arr[i] = true;
+
+		}
+		else {
+
+			arr[i] = false;
+
+		}
+
+	}
+
+	return arr;
 
 }

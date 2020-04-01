@@ -41,7 +41,7 @@ Dictionary::~Dictionary() {
 }
 
 
-size_t Dictionary::_hash(std::string & word) {
+size_t Dictionary::_hash(std::string & word) const {
 
 	size_t i = 0;
 	size_t sum4hash = 0;
@@ -65,6 +65,27 @@ void Dictionary::inscribe(std::string & word) {
 	unsigned hashval = _hash(word);
 	this->table[hashval].prepend(word);
 	this->chainlength[hashval]++;
+
+}
+
+// Checks if a given word is in the dictionary.
+bool Dictionary::inDictionary(std::string & word) const {
+
+	chain::link * cursor = this->table[_hash(word)].head;
+	
+	while (cursor) {
+
+		if (cursor->data == word) {
+
+			return true;
+
+		}
+
+		cursor = cursor->next;
+
+	}
+
+	return false;
 
 }
 
@@ -110,10 +131,15 @@ unsigned Dictionary::_largestBucket() const {
 }
 unsigned Dictionary::_smallestBucket() const {
 
+	// To ensure we only check used buckets.
 	unsigned smallest = 0;
-	for (unsigned i = 1; i < this->T_SIZE; i++) {
+	while (this->chainlength[smallest] == 0) {
+		smallest++;
+	}
 
-		if (this->chainlength[i] < this->chainlength[smallest]) {
+	for (unsigned i = 0; i < this->T_SIZE; i++) {
+
+		if (this->chainlength[i] < this->chainlength[smallest] && this->chainlength[i] != 0) {
 			smallest = i;
 		}
 

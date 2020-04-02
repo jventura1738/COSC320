@@ -25,6 +25,20 @@ BST & BST::operator=(const BST & oldtree) {
 	return *this;
 }
 
+BST::TreeNode::TreeNode() {
+	this->left = nullptr;
+	this->right = nullptr;
+	this->parent = nullptr;
+}
+
+// Regular constructor.
+BST::TreeNode::TreeNode(const int & val) {
+	this->key = val;
+	this->left = nullptr;
+	this->right = nullptr;
+	this->parent = nullptr;
+}
+
 // Recursive deletion. L R N
 void BST::subtreeRemoval(TreeNode * root) {
 

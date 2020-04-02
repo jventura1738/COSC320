@@ -10,7 +10,6 @@
 #define BST_H
 
 #include<iostream>
-#include<stdio.h>
 
 class BST {
 

@@ -8,6 +8,23 @@
 
 #include "BST.h"
 
+BST::BST() {
+	this->root = nullptr;
+}
+BST::BST(const BST & oldtree) {
+	this->root = nullptr;
+	subtreeCopy(oldtree.root);
+}
+BST::~BST() {
+	subtreeRemoval(this->root);
+}
+BST & BST::operator=(const BST & oldtree) {
+	subtreeRemoval(this->root);
+	this->root = nullptr;
+	subtreeCopy(oldtree.root);
+	return *this;
+}
+
 // Recursive deletion. L R N
 void BST::subtreeRemoval(TreeNode * root) {
 

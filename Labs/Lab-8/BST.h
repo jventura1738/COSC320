@@ -21,19 +21,10 @@ private:
 		TreeNode * parent;
 
 		// Default constuctor.
-		TreeNode() {
-			this->left = nullptr;
-			this->right = nullptr;
-			this->parent = nullptr;
-		}
+		TreeNode();
 
 		// Regular constructor.
-		TreeNode(const int & val) {
-			this->key = val;
-			this->left = nullptr;
-			this->right = nullptr;
-			this->parent = nullptr;
-		}
+		TreeNode(const int & val);
 	};
 	TreeNode * root;
 

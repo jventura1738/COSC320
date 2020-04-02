@@ -68,94 +68,79 @@ void BST::subtreeCopy(TreeNode * head) {
 // Revised inserion method.
 void BST::insertion(const int & val) {
 
-	TreeNode * newnode = new TreeNode(val);
+	TreeNode * z = new TreeNode(val);
+	TreeNode * x = this->root;
+	TreeNode * y = nullptr;
+	while(x) {
 
-	TreeNode * cursor = this->root;
-	TreeNode * prev = nullptr;
+		y = x;
+		if (z->key < x->key) {
 
-	while (cursor) {
+			x = x->left;
 
-		prev = cursor;
-
-		if (newnode->key < cursor->key) {
-
-			cursor = cursor->left;
-
-		} 
+		}
 		else {
 
-			cursor = cursor->right;
+			x = x->right;
 
 		}
 
 	}
+	z->parent = y;
+	if (!y) {
 
-	if (!prev) {
-
-		this->root = newnode;
-		return;
+		this->root = z;
 
 	}
-	else if (newnode->key < prev->key) {
+	else if (z->key < y->key) {
 
-		prev->left = newnode;
+		y->left = z;
 
-	} 
+	}
 	else {
 
-		prev->right = newnode;
+		y->right = z;
 
 	}
 
-	newnode->parent = prev;
 
 }
 
 // Revised removal method.
 void BST::removal(const int & val) {
 
-	TreeNode * target = _search(val);
-	if (!target) {
+	TreeNode * z = this->_search(val);
+	if (!z->left) {
 
-		throw std::string("Node with given key not found.\n");
+		this->transplant(z, z->right);
+		delete z;
 
 	}
-	else if (!target->left) {
+	else if (!z->right) {
 
-		transplant(target, target->right);
-		delete target;
+		transplant(z, z->left);
+		delete z;
 
-	} 
-	else if (!target->right) {
-
-		transplant(target, target->left);
-		delete target;
-
-	} 
+	}
 	else {
 
-		TreeNode * cursor = target->right;
+		TreeNode * y = z->right;
+		while (y->left) {
 
-		while (cursor->left) {
-
-			cursor = cursor->left;
-
-		}
-
-		TreeNode * insert = cursor;
-
-		if (insert != target->right) {
-
-			transplant(insert, insert->right);
-			insert->right = target->right;
-			insert->right->parent = insert;
+			y = y->left;
 
 		}
+		if(y->parent != z) {
 
-		transplant(target, insert);
-		insert->left = target->left;
-		insert->left->parent = insert;
-		delete target;
+			this->transplant(y, y->right);
+			y->right = z->right;
+			y->right->parent = y;
+
+		}
+		transplant(z, y);
+		y->left = z->left;
+		y->left->parent = y;
+		delete z;
 
 	}
 
@@ -297,40 +282,40 @@ void BST::inOrder() {
 
 }
 
-// Private recursive inorder print.
+// Private recursive inorder print. L N R
 void BST::_inOrder(TreeNode * root) {
 
 	if (root) {
 
-		_preOrder(root->left);
+		_inOrder(root->left);
 		std::cout << root->key << " ";
-		_preOrder(root->right);
+		_inOrder(root->right);
 
 	}
 
 }
 
 // Transplant method.
-void BST::transplant(TreeNode * oldnode, TreeNode * newnode) {
+void BST::transplant(TreeNode * u, TreeNode * v) {
 
-	if (oldnode == this->root && !oldnode->parent) {
+	if (!u->parent) {
 
-		root = newnode;
-
-	} 
-	else if (oldnode->parent->right == oldnode) {
-
-		oldnode->parent->right = newnode;
-
-	} 
-	else {
-
-		oldnode->parent->left = newnode;
+		this->root = v;
 
 	}
-	if (newnode) {
+	else if (u == u->parent->left) {
 
-		newnode->parent = oldnode->parent;
+		u->parent->left = v;
+
+	}
+	else {
+
+		u->parent->right = v;
+
+	}
+	if (v) {
+
+		v->parent = u->parent;
 
 	}
 

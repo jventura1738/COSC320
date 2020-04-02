@@ -35,19 +35,30 @@ int main() {
 	std::cout << "Minimum of tree is : " << tree.minimum() << "\n";
 	std::cout << "Maximum of tree is : " << tree.maximum() << "\n";
 
+	std::cout << "Inserting 0, 6.\n";
+	tree.insertion(0);
+	tree.insertion(6);
+
+	std::cout << "Should preorder (NLR) print: 3 1 0 2 5 4 6 -> ";
+	tree.preOrder();
+	std::cout << "Should inorder (LNR) print: 0 1 2 3 4 5 6 -> ";
+	tree.inOrder();
+
 	std::cout << "Successor of 1 is : " << tree.successor(1) << "\n";
 	std::cout << "Removing 1.\n";
 	tree.removal(1);
 
-	std::cout << "Should preorder (NLR) print: 3 2 5 4 -> ";
+	std::cout << "Should preorder (NLR) print: 3 2 0 5 4 6 -> ";
 	tree.preOrder();
+	std::cout << "Should inorder (LNR) print: 0 2 3 4 5 6 -> ";
+	tree.inOrder();
 
 	std::cout << "Removing 5.\n";
 	tree.removal(5);
 
-	std::cout << "Should preorder (NLR) print: 3 2 4 -> ";
+	std::cout << "Should preorder (NLR) print: 3 2 0 4 6 -> ";
 	tree.preOrder();
-	std::cout << "Should inorder (LNR) print: 2 3 4 -> ";
+	std::cout << "Should inorder (LNR) print: 0 2 3 4 6 -> ";
 	tree.inOrder();
 
 

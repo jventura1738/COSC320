@@ -50,22 +50,10 @@ public:
 	/*
 	 * CONSTRUCTORS ETC
 	*/
-	BST() {
-		this->root = nullptr;
-	}
-	BST(const BST & oldtree) {
-		this->root = nullptr;
-		subtreeCopy(oldtree.root);
-	}
-	~BST() {
-		subtreeRemoval(this->root);
-	}
-	BST & operator=(const BST & oldtree) {
-		subtreeRemoval(this->root);
-		this->root = nullptr;
-		subtreeCopy(oldtree.root);
-		return *this;
-	}
+	BST();
+	BST(const BST & oldtree);
+	~BST();
+	BST & operator=(const BST & oldtree);
 
 	/*
 	 * EVERYTHING ELSE LOL

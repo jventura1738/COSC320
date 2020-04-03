@@ -67,20 +67,23 @@ void chain::prepend(const std::string & word) {
 void chain::append(const std::string & word) {
 
 	link * insert = new link(word);
-	link * cursor = this->head;
 	if (!this->head) {
 
 		this->head = insert;
-		return;
 
 	}
-	while(cursor->next) {
+	else {
 
-		cursor = cursor->next;
+		link * cursor = this->head;
+		while(cursor->next) {
+
+			cursor = cursor->next;
+
+		}
+
+		cursor->next = insert;
 
 	}
-
-	cursor->next = insert;
 
 }
 

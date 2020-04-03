@@ -162,7 +162,7 @@ int main(int argc, char ** argv) {
 		chain corrections = correctionResults(dict, words2[i]);
 		std::cout << "\n---------------------------------------------------\n";
 		std::cout << "Here are all suggestions within 2 edit distances...\n";
-		std::cout << "Suggestions for: " << words2[i] "\n";
+		std::cout << "Suggestions for: " << words2[i] << "\n";
 		corrections.print();
 
 	}

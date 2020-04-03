@@ -128,25 +128,9 @@ int main(int argc, char ** argv) {
 	timer.start_timer();
 	bool * needsSuggestion = needsCorrection(dict, words, numWords);
 	timer.end_timer();
-	std::cout << "NUM WORDS = " << numWords << "\n";
-	for (unsigned i = 0; i < numWords; i++) {
-
-		if (!needsSuggestion[i]) {
-
-			std::cout << words[i] << " ";
-
-		}
-		else {
-
-			std::cout << FORERED << words[i] << RESET << " ";
-			incorrectWords++;
-
-		}
-
-	}
 
 	std::cout << "\n";
-	//extraCreditHighlight(words, needsSuggestion, numWords);
+	extraCreditHighlight(words, needsSuggestion, numWords);
 
 	chain done;
 	unsigned twoeditcount = 0;

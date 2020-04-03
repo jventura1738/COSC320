@@ -138,7 +138,7 @@ int main(int argc, char ** argv) {
 			std::cout << "before\n";
 			chain corrections = correctionResults(dict, words[i]);
 			std::cout << "after\n";
-			//done->append(words[i]);
+			//done->prepend(words[i]);
 			std::cout << "\n---------------------------------------------------\n";
 			std::cout << "\nThe following word is mispelled: " << words[i] << "\n";
 			std::cout << "Here are some suggestions...\n";
@@ -304,7 +304,7 @@ void showSuggestions(chain * suggestions, std::string * words, unsigned len) {
 
 			}
 			i--;
-			done.append(words[i]);
+			done.prepend(words[i]);
 
 		}
 
@@ -395,7 +395,7 @@ void repChar(chain * list, Dictionary & dict, std::string & word) {
 				if (!list->inChain(word)) {
 
 					suggestionscnt++;
-					list->append(word);
+					list->prepend(word);
 
 				}
 
@@ -411,7 +411,7 @@ void repChar(chain * list, Dictionary & dict, std::string & word) {
 				if (!list->inChain(word)) {
 
 					suggestionscnt++;
-					list->append(word);
+					list->prepend(word);
 
 				}
 
@@ -451,7 +451,7 @@ void addChar(chain * list, Dictionary & dict, std::string & word) {
 				if (!list->inChain(dummy2)) {
 
 					suggestionscnt++;
-					list->append(dummy2);
+					list->prepend(dummy2);
 
 				}
 
@@ -467,7 +467,7 @@ void addChar(chain * list, Dictionary & dict, std::string & word) {
 				if (!list->inChain(dummy2)) {
 
 					suggestionscnt++;
-					list->append(dummy2);
+					list->prepend(dummy2);
 
 				}
 
@@ -511,7 +511,7 @@ void remChar(chain * list, Dictionary & dict, std::string & word) {
 			if (!list->inChain(dummy2)) {
 
 				suggestionscnt++;
-				list->append(dummy2);
+				list->prepend(dummy2);
 
 			}
 
@@ -539,7 +539,7 @@ void swpChar(chain * list, Dictionary & dict, std::string & word) {
 				if (!list->inChain(dummy)) {
 
 					suggestionscnt++;
-					list->append(dummy);
+					list->prepend(dummy);
 
 				}
 

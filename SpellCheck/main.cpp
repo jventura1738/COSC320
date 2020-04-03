@@ -142,9 +142,9 @@ int main(int argc, char ** argv) {
 			twoeditcount++;
 			std::cout << "\n---------------------------------------------------\n";
 			std::cout << "\nThe following word is mispelled: " << words[i] << "\n";
-			if (correction.head) {
+			if (corrections.head) {
 
-			std::cout << "Suggestions for: " << words2[i] << "\n";
+			std::cout << "Suggestions for: " << words[i] << "\n";
 			corrections.print();
 
 			}
@@ -183,7 +183,7 @@ int main(int argc, char ** argv) {
 	for (unsigned i = 0; i < twoeditcount - duppies; i++) {
 
 		chain corrections = correctionResults(dict, words2[i]);
-		if (correction.head) {
+		if (corrections.head) {
 
 			std::cout << "Suggestions for: " << words2[i] << "\n";
 			corrections.print();

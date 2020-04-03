@@ -226,6 +226,7 @@ int main(int argc, char ** argv) {
 	timer.reset_time();
 
 	delete [] words;
+	delete [] words2;
 	delete [] needsSuggestion;
 
 	return 0;

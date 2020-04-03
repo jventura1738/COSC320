@@ -172,6 +172,7 @@ int main(int argc, char ** argv) {
 	chain::link * cursor = done.head;
 	chain done2;
 	unsigned idx = 0;
+	done.print();
 	std::cout << "gamers\n";
 	while(cursor) {
 

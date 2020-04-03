@@ -184,6 +184,7 @@ int main(int argc, char ** argv) {
 			std::cout << "index: " << idx << "\n";
 
 		}
+		std::cout << "moving next...\n";
 		cursor = cursor->next;
 
 	}

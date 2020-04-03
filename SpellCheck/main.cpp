@@ -136,51 +136,51 @@ int main(int argc, char ** argv) {
 	std::cout << "BRUH\n";
 	showSuggestions(&corrections, words, numWords);
 
-	chain::link * cursor = corrections.head;
-	unsigned twoeditcount = 0;
-	while(cursor) {
+	// chain::link * cursor = corrections.head;
+	// unsigned twoeditcount = 0;
+	// while(cursor) {
 
-		if (cursor->data != "_SPACER-BOI_") {
+	// 	if (cursor->data != "_SPACER-BOI_") {
 
-			twoeditcount++;
+	// 		twoeditcount++;
 
-		}
-		cursor = cursor->next;
+	// 	}
+	// 	cursor = cursor->next;
 
-	}
-	std::cout << "BRUH2\n";
-	cursor = nullptr;
-	std::string * words2 = new std::string[twoeditcount];
-	bool * needsSuggestion2 = new bool[twoeditcount];
+	// }
+	// std::cout << "BRUH2\n";
+	// cursor = nullptr;
+	// std::string * words2 = new std::string[twoeditcount];
+	// bool * needsSuggestion2 = new bool[twoeditcount];
 
-	std::cout << "BEFORE\n";
-	chain::link * cursor2 = (corrections.head);
-	std::cout << "AFTER\n";
-	std::cout << "\nCURSOR: " << cursor->data << "\n";
-	unsigned idx = 0;
-	while(cursor2) {
+	// std::cout << "BEFORE\n";
+	// chain::link * cursor2 = (corrections.head);
+	// std::cout << "AFTER\n";
+	// std::cout << "\nCURSOR: " << cursor->data << "\n";
+	// unsigned idx = 0;
+	// while(cursor2) {
 
-		if (cursor2->data != "_SPACER-BOI_") {
+	// 	if (cursor2->data != "_SPACER-BOI_") {
 
-			words2[idx] = cursor2->data;
-			needsSuggestion2[idx++] = true;
+	// 		words2[idx] = cursor2->data;
+	// 		needsSuggestion2[idx++] = true;
 
-		}
-		cursor2 = cursor2->next;
+	// 	}
+	// 	cursor2 = cursor2->next;
 
-	}
+	// }
 
-	std::cout << "\n---------------------------------------------------\n";
-	for (unsigned i = 0; i < twoeditcount; i++) {
+	// std::cout << "\n---------------------------------------------------\n";
+	// for (unsigned i = 0; i < twoeditcount; i++) {
 
-		std::cout << words[i] << " ";
+	// 	std::cout << words[i] << " ";
 
-	}
-	std::cout << "\n\n---------------------------------------------------\n";
+	// }
+	// std::cout << "\n\n---------------------------------------------------\n";
 
-	timer.start_timer();
-	chain corrections2 = correctionResults(dict, words2, needsSuggestion2, twoeditcount);
-	timer.end_timer();
+	// timer.start_timer();
+	// chain corrections2 = correctionResults(dict, words2, needsSuggestion2, twoeditcount);
+	// timer.end_timer();
 
 	// std::cout << "\n---------------------------------------------------\n";
 	// std::cout << "\nThe following words are mispelled! \n";
@@ -188,9 +188,9 @@ int main(int argc, char ** argv) {
 
 	// std::cout << "---------------------------------------------------\n";
 	// showSuggestions(&corrections, words, numWords);
-	std::cout << "Two edit distances: \n";
-	std::cout << "\n---------------------------------------------------\n";
-	showSuggestions(&corrections2, words2, twoeditcount);
+	// std::cout << "Two edit distances: \n";
+	// std::cout << "\n---------------------------------------------------\n";
+	// showSuggestions(&corrections2, words2, twoeditcount);
 
 	std::cout << "\n---------------------------------------------------\n";
 	std::cout << "Summary\n";
@@ -253,7 +253,6 @@ void printMispelled(std::string * words, bool * fix, unsigned len) {
 void showSuggestions(chain * suggestions, std::string * words, unsigned len) {
 
 	chain done;
-	//suggestions->print();
 
 	chain::link * cursor = suggestions->head;
 	for (int i = 0; i < len; i++) {
@@ -274,8 +273,6 @@ void showSuggestions(chain * suggestions, std::string * words, unsigned len) {
 
 			}
 			i--;
-			std::cout << "\n";
-			std::cout << "appending: " << words[i] << "\n";
 			done.append(words[i]);
 
 		}

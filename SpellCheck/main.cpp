@@ -173,7 +173,7 @@ int main(int argc, char ** argv) {
 	chain done2;
 	unsigned idx = 0;
 	std::cout << "gamers\n";
-	while(cursor) {
+	while(cursor->data) {
 
 		std::cout << "cursor: " << cursor->data << "\n";
 		if (!done2.inChain(cursor->data)) {

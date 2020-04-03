@@ -59,6 +59,25 @@ size_t Dictionary::_hash(std::string & word) const {
 
 }
 
+// Hash test.
+size_t Dictionary::hash(char * word) const {
+
+	size_t i = 0;
+	size_t sum4hash = 0;
+	// Generated from my python script
+	const size_t PRIME1 = 1299709;
+	const size_t PRIME2 = 10007;
+	while(word[i]) {
+
+		sum4hash += (size_t(word[i]) * (PRIME1 - (i * sizeof(word) + 1)));
+		i++;
+
+	}
+	// Stop copying my code, buddy.
+	return (sum4hash * PRIME1) % PRIME2;
+
+}
+
 // Insert a word into the hash table O(1).
 void Dictionary::inscribe(std::string & word) {
 

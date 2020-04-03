@@ -10,11 +10,35 @@
 #include "Dictionary.h"
 #include "timer.h"
 
+// EXTRA CREDIT HIGHLIGHT INCORRECT WORDS.
+void extraCreditHighlight(std::string * words, bool * fix, unsigned len);
+
+// Show all suggestions.
+void showSuggestions(chain * suggestions);
+
 // Function to load the txt database into
 // the Dictionary hash table.
 void loadDatabase(std::ifstream & txtfile, Dictionary & dict);
 
+// Function that returns a boolean to whether or not
+// a word in the passed array needs correction.
 bool * needsCorrection(Dictionary & dict, std::string * words, unsigned len);
+
+// Function which returns a chain containing all suggestions for the given
+// words.
+chain correctionResults(Dictionary & dict, std::string * words, bool * fix, unsigned len);
+
+// Prepends new suggestions to the chain.
+void repChar(chain * list, Dictionary & dict, std::string & word);
+
+// Prepends new suggestions to the chain.
+void addChar(chain * list, Dictionary & dict, std::string & word);
+
+// Prepends new suggestions to the chain.
+void remChar(chain * list, Dictionary & dict, std::string & word);
+
+// Prepends new suggestions to the chain.
+void swpChar(chain * list, Dictionary & dict, std::string & word);
 
 int main(int argc, char ** argv) {
 
@@ -66,6 +90,7 @@ int main(int argc, char ** argv) {
 	std::cout << "\n---------------------------------------------------\n";
 	std::cout << "Please enter some text: ";
 	std::getline(std::cin, unparsable);
+	std::cout << "---------------------------------------------------\n";
 
 	// File tricks for parsing >:)
 	std::ofstream outfile("temp.txt");
@@ -93,11 +118,44 @@ int main(int argc, char ** argv) {
 
 	// TODO: check for suggestions.
 	bool * needsSuggestion = needsCorrection(dict, words, numWords);
-	
+	extraCreditHighlight(words, needsSuggestion, numWords);
+	chain corrections = correctionResults(dict, words, needsSuggestion, numWords);
+
 
 	delete [] words;
 	delete [] needsSuggestion;
 	return 0;
+
+}
+
+
+// EXTRA CREDIT HIGHLIGHT INCORRECT WORDS.
+void extraCreditHighlight(std::string * words, bool * fix, unsigned len) {
+
+	for (unsigned i = 0; i < len; i++) {
+
+		if (!fix[i]) {
+
+			std::cout << words[i] << " ";
+
+		}
+		else {
+
+			std::cout << FORERED << words[i] << RESET << " ";
+
+		}
+
+	}
+
+	std::cout << "\n";
+
+}
+
+// Show all suggestions.
+void showSuggestions(chain * suggestions) {
+
+	
+	
 }
 
 void loadDatabase(std::ifstream & txtfile, Dictionary & dict) {
@@ -136,8 +194,6 @@ bool * needsCorrection(Dictionary & dict, std::string * words, unsigned len) {
 
 	for (unsigned i = 1; i < len; i++) {
 
-		std::cout << "i: " << i << "\n";
-
 		if (!dict.inDictionary(words[i])) {
 
 			arr[i] = true;
@@ -154,3 +210,193 @@ bool * needsCorrection(Dictionary & dict, std::string * words, unsigned len) {
 	return arr;
 
 }
+
+chain correctionResults(Dictionary & dict, std::string * words, bool * fix, unsigned len) {
+
+	chain corrections;
+
+	for (unsigned i = 0; i < len; i++) {
+
+		if(fix[i]) {
+
+			repChar(&corrections, dict, words[i]);
+			addChar(&corrections, dict, words[i]);
+			remChar(&corrections, dict, words[i]);
+			swpChar(&corrections, dict, words[i]);
+
+		}
+
+	}
+
+	return corrections;
+
+}
+
+// Prepends new suggestions to the chain.
+void repChar(chain * list, Dictionary & dict, std::string & word) {
+
+	// Replace one char of the word at a time.
+	for (unsigned i = 0; i < word.length(); i++) {
+
+		char temp = word[i];
+
+		// Brute force the ascii table for matches [UPPER].
+		for (unsigned j = 65; j <= 90; j++) {
+
+			word[i] = j;
+			if (dict.inDictionary(word)) {
+
+				if (!list->inChain(word)) {
+
+					list->prepend(word);
+
+				}
+
+			}
+
+		}
+		// Brute force the ascii table for matches [lower].
+		for (unsigned j = 97; j <= 122; j++) {
+
+			word[i] = j;
+			if (dict.inDictionary(word)) {
+
+				if (!list->inChain(word)) {
+
+					list->prepend(word);
+
+				}
+
+			}
+
+		}
+
+		word[i] = temp;
+
+	}
+
+}
+
+// Prepends new suggestions to the chain.
+void addChar(chain * list, Dictionary & dict, std::string & word) {
+
+	char dummy[word.length() + 1];
+	unsigned k = 1;
+	unsigned f = 0;
+	dummy[0] = 'A';
+	while(word[f]) {
+
+		dummy[k++] = word[f++];
+
+	}
+	std::string dummy2(dummy, k);
+
+	// Replace one char of the word at a time.
+	for (unsigned i = 0; i < k; i++) {
+
+		// Brute force the ascii table for matches [UPPER].
+		for (unsigned j = 65; j <= 90; j++) {
+
+			dummy2[i] = j;
+			if (dict.inDictionary(dummy2)) {
+
+				if (!list->inChain(dummy2)) {
+
+					list->prepend(dummy2);
+
+				}
+
+			}
+
+		}
+		// Brute force the ascii table for matches [lower].
+		for (unsigned j = 97; j <= 122; j++) {
+
+			dummy2[i] = j;
+			if (dict.inDictionary(dummy2)) {
+
+				if (!list->inChain(dummy2)) {
+
+					list->prepend(dummy2);
+
+				}
+
+			}
+
+		}
+
+		 if (i+1 != k) {
+
+			jspace::swap(&dummy2[i], &dummy2[i+1]);
+
+		}
+
+	}
+
+}
+
+// Prepends new suggestions to the chain.
+void remChar(chain * list, Dictionary & dict, std::string & word) {
+
+	// Delete a char one at a time.
+	for (unsigned i = 0; i < word.length(); i++) {
+
+		char dummy[word.length() - 1];
+		unsigned j = 0, k = 0;
+		while(word[j]) {
+
+			if (j != i) {
+
+				dummy[k++] = word[j];
+
+			}
+			j++;
+
+		}
+		std::string dummy2(dummy, j-1);
+
+		// Check if char removal worked.
+		if (dict.inDictionary(dummy2)) {
+
+			if (!list->inChain(dummy2)) {
+
+				list->prepend(dummy2);
+
+			}
+
+		}
+
+	}
+
+}
+
+// Prepends new suggestions to the chain.
+void swpChar(chain * list, Dictionary & dict, std::string & word) {
+
+	for (unsigned i = 0; i < word.length(); i++) {
+
+		std::string dummy = word;
+
+		for (unsigned j = 0; j < word.length(); j++) {
+
+			if (i == j) continue;
+
+			jspace::swap(&dummy[i], &dummy[j]);
+
+			if (dict.inDictionary(dummy)) {
+
+				if (!list->inChain(dummy)) {
+
+					list->prepend(dummy);
+
+				}
+
+			}
+
+		}
+
+	}
+
+}
+
+

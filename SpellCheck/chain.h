@@ -19,6 +19,12 @@ public:
 		link * prev;
 
 		// Constructor.
+		link() {
+			this->next = nullptr;
+			this->prev = nullptr;
+		}
+
+		// Constructor.
 		link(std::string s) {
 			data = s;
 			this->next = nullptr;
@@ -62,6 +68,12 @@ public:
 
 	// Method to insert a word at back.
 	void append(const std::string & word);
+
+	// Method to check if a word is a link.
+	bool inChain(const std::string & word);
+
+	// Method to print the chain from head to end;
+	void print();
 
 	// Overloaded assignment operator.
 	chain & operator=(const chain & obj);

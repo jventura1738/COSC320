@@ -78,6 +78,39 @@ void chain::append(const std::string & word) {
 
 }
 
+// Method to check if a word is a link.
+bool chain::inChain(const std::string & word) {
+
+	link * cursor = this->head;
+	while (cursor) {
+
+		if (cursor->data == word) {
+
+			return true;
+
+		}
+
+		cursor = cursor->next;
+
+	}
+
+	return false;
+
+}
+
+// Method to print the chain from head to end;
+void chain::print() {
+
+	link * cursor = this->head;
+	while(cursor) {
+
+		std::cout << "*" << cursor->data << "* ";
+		cursor = cursor->next; 
+
+	}
+
+}
+
 // Assignment operator overload.
 chain & chain::operator=(const chain & obj) {
 

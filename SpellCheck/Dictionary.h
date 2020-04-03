@@ -14,10 +14,6 @@ private:
 	// Size of the table.
 	unsigned T_SIZE;
 
-	// Private method to hash a string to an
-	// unsigned long integer.
-	size_t _hash(std::string & word) const;
-
 	/*
 	 * Private methods to calculate the statistics
 	 * necessary as mentioned in the prompt.
@@ -32,6 +28,13 @@ private:
 	}
 
 public:
+
+	// Private method to hash a string to an
+	// unsigned long integer.
+	size_t _hash(std::string & word) const;
+
+	// Hash test.
+	size_t hash(char * word) const;
 
 	// Array of pointers to the chains.
 	chain * table;

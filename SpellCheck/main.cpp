@@ -177,14 +177,14 @@ int main(int argc, char ** argv) {
 	while(cursor) {
 
 		std::cout << "cursor: " << cursor->data << "\n";
-		if (!done2.inChain(cursor->data)) {
+		// if (!done2.inChain(cursor->data)) {
 
 			words2[idx] = cursor->data;
 			done2.prepend(words2[idx]);
 			idx++;
 			std::cout << "index: " << idx << "\n";
 
-		}
+		//}
 		std::cout << "moving next...\n";
 		cursor = cursor->next;
 		std::cout << "onto next\n";

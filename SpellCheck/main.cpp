@@ -133,6 +133,7 @@ int main(int argc, char ** argv) {
 	printMispelled(words, needsSuggestion, numWords);
 
 	std::cout << "---------------------------------------------------\n";
+	std::cout << "BRUH\n";
 	showSuggestions(&corrections, words, numWords);
 
 	chain::link * cursor = corrections.head;
@@ -147,6 +148,7 @@ int main(int argc, char ** argv) {
 		cursor = cursor->next;
 
 	}
+	std::cout << "BRUH2\n";
 	cursor = nullptr;
 	std::string * words2 = new std::string[twoeditcount];
 	bool * needsSuggestion2 = new bool[twoeditcount];

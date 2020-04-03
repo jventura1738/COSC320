@@ -13,8 +13,11 @@
 // EXTRA CREDIT HIGHLIGHT INCORRECT WORDS.
 void extraCreditHighlight(std::string * words, bool * fix, unsigned len);
 
+// Prints all mispelled words.
+void printMispelled(std::string * words, bool * fix, unsigned len);
+
 // Show all suggestions.
-void showSuggestions(chain * suggestions);
+void showSuggestions(chain * suggestions, std::string * words, unsigned len);
 
 // Function to load the txt database into
 // the Dictionary hash table.
@@ -39,6 +42,8 @@ void remChar(chain * list, Dictionary & dict, std::string & word);
 
 // Prepends new suggestions to the chain.
 void swpChar(chain * list, Dictionary & dict, std::string & word);
+
+unsigned suggestionscnt = 0;
 
 int main(int argc, char ** argv) {
 
@@ -90,7 +95,7 @@ int main(int argc, char ** argv) {
 	std::cout << "\n---------------------------------------------------\n";
 	std::cout << "Please enter some text: ";
 	std::getline(std::cin, unparsable);
-	std::cout << "---------------------------------------------------\n";
+	std::cout << "---------------------------------------------------\n\n";
 
 	// File tricks for parsing >:)
 	std::ofstream outfile("temp.txt");
@@ -121,6 +126,16 @@ int main(int argc, char ** argv) {
 	extraCreditHighlight(words, needsSuggestion, numWords);
 	chain corrections = correctionResults(dict, words, needsSuggestion, numWords);
 
+	std::cout << "The following words are mispelled! \n";
+	printMispelled(words, needsSuggestion, numWords);
+
+	std::cout << "\n---------------------------------------------------\n";
+	showSuggestions(&corrections, words, numWords);
+	std::cout << "\n---------------------------------------------------\n";
+	std::cout << "Total suggestions found: " << suggestionscnt << "\n";
+
+
+	// TODO 2 EDITS.
 
 	delete [] words;
 	delete [] needsSuggestion;
@@ -151,11 +166,55 @@ void extraCreditHighlight(std::string * words, bool * fix, unsigned len) {
 
 }
 
-// Show all suggestions.
-void showSuggestions(chain * suggestions) {
+// Prints all mispelled words.
+void printMispelled(std::string * words, bool * fix, unsigned len) {
 
-	
-	
+	for (unsigned i = 0; i < len; i++) {
+
+		if (fix[i]) {
+
+			std::cout << words[i] << " ";
+
+		}
+
+	}
+
+	std::cout << "\n\n";
+
+}
+
+// Show all suggestions.
+void showSuggestions(chain * suggestions, std::string * words, unsigned len) {
+
+	chain done;
+	std::cout << "\n";
+
+	chain::link * cursor = suggestions->head;
+	for (unsigned i = 0; i < len; i++) {
+
+		if (cursor->data == "_SPACER-BOI_") {
+
+			cursor = cursor->next;
+			continue;
+
+		}
+		else if (!done.inChain(words[i])){
+
+			std::cout << "\nSuggestions for " << words[i] << ": ";
+			while(cursor->data != "_SPACER-BOI_") {
+
+				std::cout << "*" <<  cursor->data << "* ";
+				cursor = cursor->next;
+
+			}
+			i--;
+			std::cout << "\n";
+			done.append(words[i]);
+
+		}
+
+	}
+
 }
 
 void loadDatabase(std::ifstream & txtfile, Dictionary & dict) {
@@ -219,12 +278,22 @@ chain correctionResults(Dictionary & dict, std::string * words, bool * fix, unsi
 
 		if(fix[i]) {
 
+			unsigned tempboi = suggestionscnt;
+
 			repChar(&corrections, dict, words[i]);
 			addChar(&corrections, dict, words[i]);
 			remChar(&corrections, dict, words[i]);
 			swpChar(&corrections, dict, words[i]);
 
+			if (suggestionscnt == tempboi) {
+
+				corrections.append("No suggestions found.");
+
+			}
+
 		}
+
+		corrections.append("_SPACER-BOI_");
 
 	}
 
@@ -248,7 +317,8 @@ void repChar(chain * list, Dictionary & dict, std::string & word) {
 
 				if (!list->inChain(word)) {
 
-					list->prepend(word);
+					suggestionscnt++;
+					list->append(word);
 
 				}
 
@@ -263,7 +333,8 @@ void repChar(chain * list, Dictionary & dict, std::string & word) {
 
 				if (!list->inChain(word)) {
 
-					list->prepend(word);
+					suggestionscnt++;
+					list->append(word);
 
 				}
 
@@ -302,7 +373,8 @@ void addChar(chain * list, Dictionary & dict, std::string & word) {
 
 				if (!list->inChain(dummy2)) {
 
-					list->prepend(dummy2);
+					suggestionscnt++;
+					list->append(dummy2);
 
 				}
 
@@ -317,7 +389,8 @@ void addChar(chain * list, Dictionary & dict, std::string & word) {
 
 				if (!list->inChain(dummy2)) {
 
-					list->prepend(dummy2);
+					suggestionscnt++;
+					list->append(dummy2);
 
 				}
 
@@ -360,7 +433,8 @@ void remChar(chain * list, Dictionary & dict, std::string & word) {
 
 			if (!list->inChain(dummy2)) {
 
-				list->prepend(dummy2);
+				suggestionscnt++;
+				list->append(dummy2);
 
 			}
 
@@ -387,7 +461,8 @@ void swpChar(chain * list, Dictionary & dict, std::string & word) {
 
 				if (!list->inChain(dummy)) {
 
-					list->prepend(dummy);
+					suggestionscnt++;
+					list->append(dummy);
 
 				}
 

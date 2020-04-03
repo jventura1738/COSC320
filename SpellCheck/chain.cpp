@@ -47,13 +47,19 @@ chain::~chain() {
 void chain::prepend(const std::string & word) {
 
 	link * insert = new link(word);
-	insert->next = head;
 	if (this->head) {
 
 		this->head->prev = insert;
+		insert->next = this->head;
+		this->head = insert;
 
 	}
-	head = insert;
+	else {
+
+		this->head = insert;
+		return;
+
+	}
 
 }
 
@@ -62,9 +68,9 @@ void chain::append(const std::string & word) {
 
 	link * insert = new link(word);
 	link * cursor = this->head;
-	if (!cursor) {
+	if (!this->head) {
 
-		head = insert;
+		this->head = insert;
 		return;
 
 	}
@@ -73,8 +79,8 @@ void chain::append(const std::string & word) {
 		cursor = cursor->next;
 
 	}
+
 	cursor->next = insert;
-	insert->prev = cursor;
 
 }
 
@@ -105,7 +111,7 @@ void chain::print() {
 	while(cursor) {
 
 		std::cout << "*" << cursor->data << "* ";
-		cursor = cursor->next; 
+		cursor = cursor->next;
 
 	}
 

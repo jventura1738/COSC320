@@ -160,7 +160,6 @@ int main(int argc, char ** argv) {
 
 	}
 	std::string * words2 = new std::string[twoeditcount];
-	std::cout << twoeditcount - duppies << "\n";
 	chain::link * cursor = done.head;
 	chain done2;
 	unsigned idx = 0;
@@ -187,7 +186,7 @@ int main(int argc, char ** argv) {
 
 			std::cout << "Suggestions for: " << words2[i] << "\n";
 			corrections.print();
-			std::cout << "\n\n"
+			std::cout << "\n\n";
 
 		}
 		else {

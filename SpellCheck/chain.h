@@ -34,9 +34,11 @@ public:
 		// Copy Constructor.
 		link(link & l) {
 
+			std::cout << "im here1\n";
 			this->data = l.data;
 			this->next = l.next;
 			this->prev = l.prev;
+			std::cout << "im done2\n";
 
 		}
 

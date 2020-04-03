@@ -44,6 +44,7 @@ void remChar(chain * list, Dictionary & dict, std::string & word);
 void swpChar(chain * list, Dictionary & dict, std::string & word);
 
 unsigned suggestionscnt = 0;
+unsigned incorrectWords = 0;
 
 int main(int argc, char ** argv) {
 
@@ -121,23 +122,83 @@ int main(int argc, char ** argv) {
 
 	}
 
-	// TODO: check for suggestions.
 	bool * needsSuggestion = needsCorrection(dict, words, numWords);
 	extraCreditHighlight(words, needsSuggestion, numWords);
+	Timer timer;
 	chain corrections = correctionResults(dict, words, needsSuggestion, numWords);
+	timer.end_timer();
 
-	std::cout << "The following words are mispelled! \n";
+	std::cout << "\n---------------------------------------------------\n";
+	std::cout << "\nThe following words are mispelled! \n";
 	printMispelled(words, needsSuggestion, numWords);
 
-	std::cout << "\n---------------------------------------------------\n";
+	std::cout << "---------------------------------------------------\n";
 	showSuggestions(&corrections, words, numWords);
+
+	chain::link * cursor = corrections.head;
+	unsigned twoeditcount = 0;
+	while(cursor) {
+
+		if (cursor->data != "_SPACER-BOI_") {
+
+			twoeditcount++;
+
+		}
+		cursor = cursor->next;
+
+	}
+	cursor = nullptr;
+	std::string * words2 = new std::string[twoeditcount];
+	bool * needsSuggestion2 = new bool[twoeditcount];
+	
+	chain::link * cursor2 = corrections.head;
+	std::cout << "\nCURSOR: " << cursor->data << "\n";
+	unsigned idx = 0;
+	while(cursor2) {
+
+		if (cursor2->data != "_SPACER-BOI_") {
+
+			words2[idx] = cursor2->data;
+			needsSuggestion2[idx++] = true;
+
+		}
+		cursor2 = cursor2->next;
+
+	}
+
 	std::cout << "\n---------------------------------------------------\n";
+	for (unsigned i = 0; i < twoeditcount; i++) {
+
+		std::cout << words[i] << " ";
+
+	}
+	std::cout << "\n\n---------------------------------------------------\n";
+
+	timer.start_timer();
+	chain corrections2 = correctionResults(dict, words2, needsSuggestion2, twoeditcount);
+	timer.end_timer();
+
+	// std::cout << "\n---------------------------------------------------\n";
+	// std::cout << "\nThe following words are mispelled! \n";
+	// printMispelled(words, needsSuggestion, numWords);
+
+	// std::cout << "---------------------------------------------------\n";
+	// showSuggestions(&corrections, words, numWords);
+	std::cout << "Two edit distances: \n";
+	std::cout << "\n---------------------------------------------------\n";
+	showSuggestions(&corrections2, words2, twoeditcount);
+
+	std::cout << "\n---------------------------------------------------\n";
+	std::cout << "Summary\n";
+	std::cout << "---------------------------------------------------\n\n";
+	std::cout << "Total mispelled words:   " << incorrectWords << "\n";
 	std::cout << "Total suggestions found: " << suggestionscnt << "\n";
 
 
 	// TODO 2 EDITS.
 
 	delete [] words;
+	delete [] words2;
 	delete [] needsSuggestion;
 	return 0;
 
@@ -157,6 +218,7 @@ void extraCreditHighlight(std::string * words, bool * fix, unsigned len) {
 		else {
 
 			std::cout << FORERED << words[i] << RESET << " ";
+			incorrectWords++;
 
 		}
 
@@ -187,10 +249,10 @@ void printMispelled(std::string * words, bool * fix, unsigned len) {
 void showSuggestions(chain * suggestions, std::string * words, unsigned len) {
 
 	chain done;
-	std::cout << "\n";
+	//suggestions->print();
 
 	chain::link * cursor = suggestions->head;
-	for (unsigned i = 0; i < len; i++) {
+	for (int i = 0; i < len; i++) {
 
 		if (cursor->data == "_SPACER-BOI_") {
 
@@ -201,7 +263,7 @@ void showSuggestions(chain * suggestions, std::string * words, unsigned len) {
 		else if (!done.inChain(words[i])){
 
 			std::cout << "\nSuggestions for " << words[i] << ": ";
-			while(cursor->data != "_SPACER-BOI_") {
+			while(cursor->data != "_SPACER-BOI_" && cursor->next) {
 
 				std::cout << "*" <<  cursor->data << "* ";
 				cursor = cursor->next;

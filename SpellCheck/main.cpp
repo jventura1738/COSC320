@@ -167,6 +167,7 @@ int main(int argc, char ** argv) {
 	}
 	std::cout << "BEFORE\n";
 	std::string * words2 = new std::string[twoeditcount - duppies];
+	std::cout << twoeditcount - duppies << "\n";
 	std::cout << "AFTER\n";
 	chain::link * cursor = done.head;
 	chain done2;
@@ -178,12 +179,15 @@ int main(int argc, char ** argv) {
 		if (!done2.inChain(cursor->data)) {
 
 			words2[idx] = cursor->data;
-			done2.prepend(words2[idx++]);
+			done2.prepend(words2[idx]);
+			idx++;
+			std::cout << "index: " << idx << "\n";
 
 		}
 		cursor = cursor->next;
 
 	}
+	std::cout << "gamers rise\n";
 	cursor = nullptr;
 	std::cout << "\n\n---------------------------------------------------\n";
 	std::cout << "Here are all suggestions within 2 edit distances...\n";

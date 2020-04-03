@@ -154,7 +154,7 @@ int main(int argc, char ** argv) {
 	timer.start_timer();
 	for (unsigned i = 0; i < numWords; i++) {
 
-		if (needsSuggestion[i] && /*!done.inChain(words[i])*/) {
+		if (needsSuggestion[i] /* && !done.inChain(words[i])*/) {
 
 			chain corrections = correctionResults(dict, words[i]);
 			//done.prepend(words[i]);
@@ -174,7 +174,7 @@ int main(int argc, char ** argv) {
 			}
 
 		}
-		else if(needsSuggestion[i] && /*done.inChain(words[i])*/) {
+		else if(needsSuggestion[i] /*&& done.inChain(words[i])*/) {
 
 			duppies++;
 

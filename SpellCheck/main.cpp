@@ -130,14 +130,9 @@ int main(int argc, char ** argv) {
 	chain done;
 	for (unsigned i = 0; i < numWords; i++) {
 
-		std::cout << "length: " << numWords << "\n"; 
-		std::cout << "bro: " << words[i] << "\n";
-
 		if (needsSuggestion[i] && !done.inChain(words[i])) {
 
-			std::cout << "before\n";
 			chain corrections = correctionResults(dict, words[i]);
-			std::cout << "after\n";
 			done.prepend(words[i]);
 			std::cout << "\n---------------------------------------------------\n";
 			std::cout << "\nThe following word is mispelled: " << words[i] << "\n";

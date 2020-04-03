@@ -164,14 +164,14 @@ int main(int argc, char ** argv) {
 	}
 	std::string * words2 = new std::string[twoeditcount - duppies];
 	chain::link * cursor = done.head;
-	chain done;
+	chain done2;
 	unsigned idx = 0;
 	while(cursor) {
 
-		if (!done.inChain(cursor->data)) {
+		if (!done2.inChain(cursor->data)) {
 
 			words2[idx] = cursor->data;
-			done.prepend(words2[idx++])
+			done2.prepend(words2[idx++]);
 
 		}
 		cursor = cursor->next;

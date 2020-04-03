@@ -68,7 +68,7 @@ public:
 	void append(const std::string & word);
 
 	// Method to check if a word is a link.
-	bool inChain(const std::string & word);
+	bool inChain(std::string & word);
 
 	// Method to print the chain from head to end;
 	void print();

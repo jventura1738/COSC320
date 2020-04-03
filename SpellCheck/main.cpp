@@ -275,6 +275,7 @@ void showSuggestions(chain * suggestions, std::string * words, unsigned len) {
 			}
 			i--;
 			std::cout << "\n";
+			std::cout << "appending: " << words[i] << "\n";
 			done.append(words[i]);
 
 		}

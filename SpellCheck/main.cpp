@@ -148,16 +148,16 @@ int main(int argc, char ** argv) {
 	std::cout << "\n";
 	//extraCreditHighlight(words, needsSuggestion, numWords);
 
-	chain done;
-	done.head = nullptr;
+	//chain done;
+	//done.head = nullptr;
 	unsigned twoeditcount = 0;
 	timer.start_timer();
 	for (unsigned i = 0; i < numWords; i++) {
 
-		if (needsSuggestion[i] && !done.inChain(words[i])) {
+		if (needsSuggestion[i] && /*!done.inChain(words[i])*/) {
 
 			chain corrections = correctionResults(dict, words[i]);
-			done.prepend(words[i]);
+			//done.prepend(words[i]);
 			twoeditcount++;
 			std::cout << "\n---------------------------------------------------\n";
 			std::cout << "\nThe following word is mispelled: " << words[i] << "\n";
@@ -174,59 +174,59 @@ int main(int argc, char ** argv) {
 			}
 
 		}
-		else if(needsSuggestion[i] && done.inChain(words[i])) {
+		else if(needsSuggestion[i] && /*done.inChain(words[i])*/) {
 
 			duppies++;
 
 		}
 
 	}
-	std::string * words2 = new std::string[twoeditcount - duppies];
-	chain::link * cursor = done.head;
-	chain done2;
-	unsigned idx = 0;
-	while(cursor) {
+	// std::string * words2 = new std::string[twoeditcount - duppies];
+	// chain::link * cursor = done.head;
+	// chain done2;
+	// unsigned idx = 0;
+	// while(cursor) {
 
-		if (!done2.inChain(cursor->data)) {
+	// 	if (!done2.inChain(cursor->data)) {
 
-			words2[idx] = cursor->data;
-			done2.prepend(words2[idx++]);
+	// 		words2[idx] = cursor->data;
+	// 		done2.prepend(words2[idx++]);
 
-		}
-		cursor = cursor->next;
+	// 	}
+	// 	cursor = cursor->next;
 
-	}
-	cursor = nullptr;
-	std::cout << "\n\n---------------------------------------------------\n";
-	std::cout << "Here are all suggestions within 2 edit distances...\n";
-	for (unsigned i = 0; i < twoeditcount - duppies; i++) {
+	// }
+	// cursor = nullptr;
+	// std::cout << "\n\n---------------------------------------------------\n";
+	// std::cout << "Here are all suggestions within 2 edit distances...\n";
+	// for (unsigned i = 0; i < twoeditcount - duppies; i++) {
 
-		chain corrections = correctionResults(dict, words2[i]);
-		if (corrections.head) {
+	// 	chain corrections = correctionResults(dict, words2[i]);
+	// 	if (corrections.head) {
 
-			std::cout << "Suggestions for: " << words2[i] << "\n";
-			corrections.print();
+	// 		std::cout << "Suggestions for: " << words2[i] << "\n";
+	// 		corrections.print();
 
-		}
-		else {
+	// 	}
+	// 	else {
 
-			std::cout << "No suggestions found in " << argv[1] << ".\n";
+	// 		std::cout << "No suggestions found in " << argv[1] << ".\n";
 
-		}
+	// 	}
 
-	}
-	timer.end_timer();
+	// }
+	// timer.end_timer();
 
-	std::cout << "\n---------------------------------------------------\n";
-	std::cout << "Summary:\n";
-	std::cout << "\n---------------------------------------------------\n";
-	std::cout << "Total mispelled words: " << incorrectWords << "\n";
-	std::cout << "Total suggestions found: " << suggestionscnt << "\n";
-	timer.display_time();
-	timer.reset_time();
+	// std::cout << "\n---------------------------------------------------\n";
+	// std::cout << "Summary:\n";
+	// std::cout << "\n---------------------------------------------------\n";
+	// std::cout << "Total mispelled words: " << incorrectWords << "\n";
+	// std::cout << "Total suggestions found: " << suggestionscnt << "\n";
+	// timer.display_time();
+	// timer.reset_time();
 
 	delete [] words;
-	delete [] words2;
+	// delete [] words2;
 	delete [] needsSuggestion;
 
 	return 0;

@@ -130,7 +130,7 @@ int main(int argc, char ** argv) {
 
 		chain corrections;
 
-		if (needsSuggestion[i] && !done.inChain(word[i])) {
+		if (needsSuggestion[i] && !done.inChain(words[i])) {
 
 			corrections = correctionResults(dict, words[i]);
 			done.append(words[i]);
@@ -364,14 +364,10 @@ chain correctionResults(Dictionary & dict, std::string & word) {
 
 	chain corrections;
 
-	if(fix) {
-
-		repChar(&corrections, dict, word);
-		addChar(&corrections, dict, word);
-		remChar(&corrections, dict, word);
-		swpChar(&corrections, dict, word);
-
-	}
+	repChar(&corrections, dict, word);
+	addChar(&corrections, dict, word);
+	remChar(&corrections, dict, word);
+	swpChar(&corrections, dict, word);
 
 	return corrections;
 

@@ -179,7 +179,7 @@ int main(int argc, char ** argv) {
 	cursor = nullptr;
 	std::cout << "\n\n---------------------------------------------------\n";
 	std::cout << "Here are all suggestions within 2 edit distances...\n";
-	for (unsigned i = 0; i < twoeditcount - duppies; i++) {
+	for (unsigned i = 0; i < twoeditcount; i++) {
 
 		chain corrections = correctionResults(dict, words2[i]);
 		if (corrections.head) {

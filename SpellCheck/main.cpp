@@ -202,7 +202,7 @@ int main(int argc, char ** argv) {
 	// TODO 2 EDITS.
 
 	delete [] words;
-	delete [] words2;
+	//delete [] words2;
 	delete [] needsSuggestion;
 	return 0;
 

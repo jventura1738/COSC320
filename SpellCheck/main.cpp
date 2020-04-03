@@ -150,8 +150,10 @@ int main(int argc, char ** argv) {
 	cursor = nullptr;
 	std::string * words2 = new std::string[twoeditcount];
 	bool * needsSuggestion2 = new bool[twoeditcount];
-	
-	chain::link * cursor2 = corrections.head;
+
+	std::cout << "BEFORE\n";
+	chain::link * cursor2 = (corrections.head);
+	std::cout << "AFTER\n";
 	std::cout << "\nCURSOR: " << cursor->data << "\n";
 	unsigned idx = 0;
 	while(cursor2) {

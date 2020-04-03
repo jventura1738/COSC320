@@ -129,9 +129,9 @@ int main(int argc, char ** argv) {
 	bool * needsSuggestion = needsCorrection(dict, words, numWords);
 	timer.end_timer();
 	std::cout << "NUM WORDS = " << numWords << "\n";
-	for (unsigned i = 0; i < len; i++) {
+	for (unsigned i = 0; i < numWords; i++) {
 
-		if (!fix[i]) {
+		if (!needsSuggestion[i]) {
 
 			std::cout << words[i] << " ";
 

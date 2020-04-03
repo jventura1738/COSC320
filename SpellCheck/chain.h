@@ -62,7 +62,7 @@ public:
 	*/
 
 	// Method to insert a word at front.
-	void prepend(const std::string & word);
+	void prepend(const std::string word);
 
 	// Method to insert a word at back.
 	void append(const std::string & word);

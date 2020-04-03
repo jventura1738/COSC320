@@ -44,7 +44,7 @@ chain::~chain() {
 }
 
 // Prepend function.
-void chain::prepend(const std::string & word) {
+void chain::prepend(const std::string word) {
 
 	link * insert = new link(word);
 	if (this->head) {

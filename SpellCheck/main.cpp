@@ -148,16 +148,15 @@ int main(int argc, char ** argv) {
 	std::cout << "\n";
 	//extraCreditHighlight(words, needsSuggestion, numWords);
 
-	//chain done;
-	//done.head = nullptr;
+	chain done;
 	unsigned twoeditcount = 0;
 	timer.start_timer();
 	for (unsigned i = 0; i < numWords; i++) {
 
-		if (needsSuggestion[i] /* && !done.inChain(words[i])*/) {
+		if (needsSuggestion[i] && !done.inChain(words[i])) {
 
 			chain corrections = correctionResults(dict, words[i]);
-			//done.prepend(words[i]);
+			done.prepend(words[i]);
 			twoeditcount++;
 			std::cout << "\n---------------------------------------------------\n";
 			std::cout << "\nThe following word is mispelled: " << words[i] << "\n";
@@ -165,6 +164,7 @@ int main(int argc, char ** argv) {
 
 			std::cout << "Suggestions for: " << words[i] << "\n";
 			corrections.print();
+			std::cout << "\n";
 
 			}
 			else {
@@ -174,7 +174,7 @@ int main(int argc, char ** argv) {
 			}
 
 		}
-		else if(needsSuggestion[i] /*&& done.inChain(words[i])*/) {
+		else if(needsSuggestion[i] && done.inChain(words[i])) {
 
 			duppies++;
 

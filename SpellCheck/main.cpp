@@ -45,6 +45,7 @@ void swpChar(chain * list, Dictionary & dict, std::string & word);
 
 unsigned suggestionscnt = 0;
 unsigned incorrectWords = 0;
+unsigned duppies = 0;
 
 int main(int argc, char ** argv) {
 
@@ -141,29 +142,58 @@ int main(int argc, char ** argv) {
 			twoeditcount++;
 			std::cout << "\n---------------------------------------------------\n";
 			std::cout << "\nThe following word is mispelled: " << words[i] << "\n";
-			std::cout << "Here are some suggestions...\n";
+			if (correction.head) {
+
+			std::cout << "Suggestions for: " << words2[i] << "\n";
 			corrections.print();
+
+			}
+			else {
+
+				std::cout << "No suggestions found in " << argv[1] << ".\n";
+
+			}
+
+		}
+		else if(needsSuggestion[i] && done.inChain(words[i])) {
+
+			duppies++;
 
 		}
 
 	}
-	std::string * words2 = new std::string[twoeditcount];
+	std::string * words2 = new std::string[twoeditcount - duppies];
 	chain::link * cursor = done.head;
+	chain done;
 	unsigned idx = 0;
 	while(cursor) {
 
-		words2[idx++] = cursor->data;
+		if (!done.inChain(cursor->data)) {
+
+			words2[idx] = cursor->data;
+			done.prepend(words2[idx++])
+
+		}
 		cursor = cursor->next;
 
 	}
 	cursor = nullptr;
-	for (unsigned i = 0; i < numWords; i++) {
+	std::cout << "\n\n---------------------------------------------------\n";
+		std::cout << "Here are all suggestions within 2 edit distances...\n";
+	for (unsigned i = 0; i < twoeditcount - duppies; i++) {
 
 		chain corrections = correctionResults(dict, words2[i]);
-		std::cout << "\n---------------------------------------------------\n";
-		std::cout << "Here are all suggestions within 2 edit distances...\n";
-		std::cout << "Suggestions for: " << words2[i] << "\n";
-		corrections.print();
+		if (correction.head) {
+
+			std::cout << "Suggestions for: " << words2[i] << "\n";
+			corrections.print();
+
+		}
+		else {
+
+			std::cout << "No suggestions found in " << argv[1] << ".\n";
+
+		}
 
 	}
 	timer.end_timer();

@@ -129,7 +129,8 @@ int main(int argc, char ** argv) {
 
 
 
-
+	delete [] words;
+	delete [] needsSuggestions;
 
 	return 0;
 

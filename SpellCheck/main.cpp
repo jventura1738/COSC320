@@ -29,7 +29,7 @@ bool * needsCorrection(Dictionary & dict, std::string * words, unsigned len);
 
 // Function which returns a chain containing all suggestions for the given
 // words.
-chain correctionResults(Dictionary & dict, std::string * words, bool * fix, unsigned len);
+chain correctionResults(Dictionary & dict, std::string & word);
 
 // Prepends new suggestions to the chain.
 void repChar(chain * list, Dictionary & dict, std::string & word);
@@ -125,8 +125,24 @@ int main(int argc, char ** argv) {
 	bool * needsSuggestion = needsCorrection(dict, words, numWords);
 	extraCreditHighlight(words, needsSuggestion, numWords);
 
+	chain done;
+	for (unsigned i = 0; i < numWords; i++) {
 
+		chain corrections;
 
+		if (needsSuggestion[i] && !done.inChain(word[i])) {
+
+			corrections = correctionResults(dict, words[i]);
+			done.append(words[i]);
+			std::cout << "\n---------------------------------------------------\n";
+			std::cout << "\nThe following word is mispelled: " << words[i] << "\n";
+			std::cout << "Here are some suggestions...\n";
+			corrections.print();
+			std::cout << "\n";
+
+		}
+
+	}
 
 
 	delete [] words;
@@ -344,30 +360,16 @@ bool * needsCorrection(Dictionary & dict, std::string * words, unsigned len) {
 
 }
 
-chain correctionResults(Dictionary & dict, std::string * words, bool * fix, unsigned len) {
+chain correctionResults(Dictionary & dict, std::string & word) {
 
 	chain corrections;
 
-	for (unsigned i = 0; i < len; i++) {
+	if(fix) {
 
-		if(fix[i]) {
-
-			unsigned tempboi = suggestionscnt;
-
-			repChar(&corrections, dict, words[i]);
-			addChar(&corrections, dict, words[i]);
-			remChar(&corrections, dict, words[i]);
-			swpChar(&corrections, dict, words[i]);
-
-			if (suggestionscnt == tempboi) {
-
-				corrections.append("No suggestions found.");
-
-			}
-
-		}
-
-		corrections.append("_SPACER-BOI_");
+		repChar(&corrections, dict, word);
+		addChar(&corrections, dict, word);
+		remChar(&corrections, dict, word);
+		swpChar(&corrections, dict, word);
 
 	}
 

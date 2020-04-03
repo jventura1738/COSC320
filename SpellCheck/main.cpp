@@ -45,7 +45,6 @@ void swpChar(chain * list, Dictionary & dict, std::string & word);
 
 unsigned suggestionscnt = 0;
 unsigned incorrectWords = 0;
-unsigned duppies = 0;
 
 int main(int argc, char ** argv) {
 
@@ -158,39 +157,26 @@ int main(int argc, char ** argv) {
 			}
 
 		}
-		// else if(needsSuggestion[i] && done.inChain(words[i])) {
-
-		// 	//duppies++;
-
-		// }
 
 	}
-	std::cout << "BEFORE\n";
-	std::string * words2 = new std::string[twoeditcount - duppies];
+	std::string * words2 = new std::string[twoeditcount];
 	std::cout << twoeditcount - duppies << "\n";
-	std::cout << "AFTER\n";
 	chain::link * cursor = done.head;
 	chain done2;
 	unsigned idx = 0;
 	done.print();
-	std::cout << "gamers\n";
 	while(cursor) {
 
-		std::cout << "cursor: " << cursor->data << "\n";
 		if (!done2.inChain(cursor->data)) {
 
 			words2[idx] = cursor->data;
 			done2.prepend(words2[idx]);
 			idx++;
-			std::cout << "index: " << idx << "\n";
 
 		}
-		std::cout << "moving next...\n";
 		cursor = cursor->next;
-		std::cout << "onto next\n";
 
 	}
-	std::cout << "gamers rise\n";
 	cursor = nullptr;
 	std::cout << "\n\n---------------------------------------------------\n";
 	std::cout << "Here are all suggestions within 2 edit distances...\n";
@@ -201,11 +187,13 @@ int main(int argc, char ** argv) {
 
 			std::cout << "Suggestions for: " << words2[i] << "\n";
 			corrections.print();
+			std::cout << "\n\n"
 
 		}
 		else {
 
-			std::cout << "No suggestions found in " << argv[1] << ".\n";
+			std::cout << "Suggestions for: " << words2[i] << "\n";
+			std::cout << "No suggestions found in " << argv[1] << ".\n\n\n";
 
 		}
 

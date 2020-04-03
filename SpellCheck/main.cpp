@@ -139,8 +139,14 @@ int main(int argc, char ** argv) {
 		if (needsSuggestion[i] && !done.inChain(words[i])) {
 
 			chain corrections = correctionResults(dict, words[i]);
-			done.prepend(words[i]);
-			twoeditcount++;
+			chain::link trav = corrections.head;
+			while (trav) {
+
+				done.prepend(trav->data);
+				twoeditcount++;
+				trav = trav->next;
+
+			}
 			std::cout << "\n---------------------------------------------------\n";
 			std::cout << "\nThe following word is mispelled: " << words[i] << "\n";
 			if (corrections.head) {
@@ -199,9 +205,9 @@ int main(int argc, char ** argv) {
 	}
 	timer.end_timer();
 
-	std::cout << "\n---------------------------------------------------\n";
+	std::cout << "---------------------------------------------------\n";
 	std::cout << "Summary:\n";
-	std::cout << "\n---------------------------------------------------\n";
+	std::cout << "---------------------------------------------------\n";
 	std::cout << "Total mispelled words: " << incorrectWords << "\n";
 	std::cout << "Total suggestions found: " << suggestionscnt << "\n";
 	timer.display_time();

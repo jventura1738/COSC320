@@ -123,113 +123,63 @@ int main(int argc, char ** argv) {
 		words[l++] = word;
 
 	}
-
+	Timer timer;
+	timer.start_timer();
 	bool * needsSuggestion = needsCorrection(dict, words, numWords);
+	timer.end_timer();
 	extraCreditHighlight(words, needsSuggestion, numWords);
 
 	chain done;
+	unsigned twoeditcount = 0;
+	timer.start_timer();
 	for (unsigned i = 0; i < numWords; i++) {
 
 		if (needsSuggestion[i] && !done.inChain(words[i])) {
 
 			chain corrections = correctionResults(dict, words[i]);
 			done.prepend(words[i]);
+			twoeditcount++;
 			std::cout << "\n---------------------------------------------------\n";
 			std::cout << "\nThe following word is mispelled: " << words[i] << "\n";
 			std::cout << "Here are some suggestions...\n";
 			corrections.print();
-			std::cout << "\n";
 
 		}
 
 	}
+	std::string * words2 = new std::string[twoeditcount];
+	chain::link * cursor = done.head;
+	unsigned idx = 0;
+	while(cursor) {
+
+		words2[idx++] = cursor->data;
+		cursor = cursor->next;
+
+	}
+	cursor = nullptr;
+	for (unsigned i = 0; i < numWords; i++) {
+
+		chain corrections = correctionResults(dict, words2[i]);
+		std::cout << "\n---------------------------------------------------\n";
+		std::cout << "Here are all suggestions within 2 edit distances...\n";
+		std::cout << "Suggestions for: " << words2[i] "\n";
+		corrections.print();
+
+	}
+	timer.end_timer();
+
+	std::cout << "\n---------------------------------------------------\n";
+	std::cout << "Summary:\n";
+	std::cout << "\n---------------------------------------------------\n";
+	std::cout << "Total mispelled words: " << incorrectWords << "\n";
+	std::cout << "Total suggestions found: " << suggestionscnt << "\n";
+	timer.display_time();
+	timer.reset_time();
 
 	delete [] words;
 	delete [] needsSuggestion;
 
 	return 0;
-
-	// Timer timer;
-	// chain corrections = correctionResults(dict, words, needsSuggestion, numWords);
-	// timer.end_timer();
-
-	// std::cout << "\n---------------------------------------------------\n";
-	// std::cout << "\nThe following words are mispelled! \n";
-	// printMispelled(words, needsSuggestion, numWords);
-
-	// std::cout << "---------------------------------------------------\n";
-	// // std::cout << "BRUH\n";
-	// showSuggestions(&corrections, words, numWords);
-
-	// // chain::link * cursor = corrections.head;
-	// // unsigned twoeditcount = 0;
-	// // while(cursor) {
-
-	// // 	if (cursor->data != "_SPACER-BOI_") {
-
-	// // 		twoeditcount++;
-
-	// // 	}
-	// // 	cursor = cursor->next;
-
-	// // }
-	// // std::cout << "BRUH2\n";
-	// // cursor = nullptr;
-	// // std::string * words2 = new std::string[twoeditcount];
-	// // bool * needsSuggestion2 = new bool[twoeditcount];
-
-	// // std::cout << "BEFORE\n";
-	// // chain::link * cursor2 = (corrections.head);
-	// // std::cout << "AFTER\n";
-	// // std::cout << "\nCURSOR: " << cursor->data << "\n";
-	// // unsigned idx = 0;
-	// // while(cursor2) {
-
-	// // 	if (cursor2->data != "_SPACER-BOI_") {
-
-	// // 		words2[idx] = cursor2->data;
-	// // 		needsSuggestion2[idx++] = true;
-
-	// // 	}
-	// // 	cursor2 = cursor2->next;
-
-	// // }
-
-	// // std::cout << "\n---------------------------------------------------\n";
-	// // for (unsigned i = 0; i < twoeditcount; i++) {
-
-	// // 	std::cout << words[i] << " ";
-
-	// // }
-	// // std::cout << "\n\n---------------------------------------------------\n";
-
-	// // timer.start_timer();
-	// // chain corrections2 = correctionResults(dict, words2, needsSuggestion2, twoeditcount);
-	// // timer.end_timer();
-
-	// // std::cout << "\n---------------------------------------------------\n";
-	// // std::cout << "\nThe following words are mispelled! \n";
-	// // printMispelled(words, needsSuggestion, numWords);
-
-	// // std::cout << "---------------------------------------------------\n";
-	// // showSuggestions(&corrections, words, numWords);
-	// // std::cout << "Two edit distances: \n";
-	// // std::cout << "\n---------------------------------------------------\n";
-	// // showSuggestions(&corrections2, words2, twoeditcount);
-
-	// std::cout << "\n---------------------------------------------------\n";
-	// std::cout << "Summary\n";
-	// std::cout << "---------------------------------------------------\n\n";
-	// std::cout << "Total mispelled words:   " << incorrectWords << "\n";
-	// std::cout << "Total suggestions found: " << suggestionscnt << "\n";
-
-
-	// // TODO 2 EDITS.
-
-	// delete [] words;
-	// //delete [] words2;
-	// delete [] needsSuggestion;
-	//return 0;
 
 }
 

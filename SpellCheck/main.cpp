@@ -131,6 +131,7 @@ int main(int argc, char ** argv) {
 	for (unsigned i = 0; i < numWords; i++) {
 
 		std::cout << "length: " << numWords << "\n"; 
+		std::cout << "bro: " << words[i] << "\n";
 
 		if (needsSuggestion[i] && !done->inChain(words[i])) {
 

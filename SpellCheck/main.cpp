@@ -127,18 +127,18 @@ int main(int argc, char ** argv) {
 	bool * needsSuggestion = needsCorrection(dict, words, numWords);
 	extraCreditHighlight(words, needsSuggestion, numWords);
 
-	chain * done;
+	//chain * done;
 	for (unsigned i = 0; i < numWords; i++) {
 
 		std::cout << "length: " << numWords << "\n"; 
 		std::cout << "bro: " << words[i] << "\n";
 
-		if (needsSuggestion[i] && !done->inChain(words[i])) {
+		if (needsSuggestion[i] /*&& !done->inChain(words[i])*/) {
 
 			std::cout << "before\n";
 			chain corrections = correctionResults(dict, words[i]);
 			std::cout << "after\n";
-			done->append(words[i]);
+			//done->append(words[i]);
 			std::cout << "\n---------------------------------------------------\n";
 			std::cout << "\nThe following word is mispelled: " << words[i] << "\n";
 			std::cout << "Here are some suggestions...\n";

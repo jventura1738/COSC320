@@ -128,9 +128,28 @@ int main(int argc, char ** argv) {
 	timer.start_timer();
 	bool * needsSuggestion = needsCorrection(dict, words, numWords);
 	timer.end_timer();
-	extraCreditHighlight(words, needsSuggestion, numWords);
+	std::cout << "NUM WORDS = " << numWords << "\n";
+	for (unsigned i = 0; i < len; i++) {
+
+		if (!fix[i]) {
+
+			std::cout << words[i] << " ";
+
+		}
+		else {
+
+			std::cout << FORERED << words[i] << RESET << " ";
+			incorrectWords++;
+
+		}
+
+	}
+
+	std::cout << "\n";
+	//extraCreditHighlight(words, needsSuggestion, numWords);
 
 	chain done;
+	done.head = nullptr;
 	unsigned twoeditcount = 0;
 	timer.start_timer();
 	for (unsigned i = 0; i < numWords; i++) {
@@ -179,7 +198,7 @@ int main(int argc, char ** argv) {
 	}
 	cursor = nullptr;
 	std::cout << "\n\n---------------------------------------------------\n";
-		std::cout << "Here are all suggestions within 2 edit distances...\n";
+	std::cout << "Here are all suggestions within 2 edit distances...\n";
 	for (unsigned i = 0; i < twoeditcount - duppies; i++) {
 
 		chain corrections = correctionResults(dict, words2[i]);

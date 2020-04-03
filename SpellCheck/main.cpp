@@ -165,12 +165,16 @@ int main(int argc, char ** argv) {
 		}
 
 	}
+	std::cout << "BEFORE\n";
 	std::string * words2 = new std::string[twoeditcount - duppies];
+	std::cout << "AFTER\n";
 	chain::link * cursor = done.head;
 	chain done2;
 	unsigned idx = 0;
+	std::cout << "gamers\n";
 	while(cursor) {
 
+		std::cout << "cursor: " << cursor->data << "\n";
 		if (!done2.inChain(cursor->data)) {
 
 			words2[idx] = cursor->data;

@@ -88,7 +88,9 @@ void chain::append(const std::string & word) {
 }
 
 // Method to check if a word is a link.
-bool chain::inChain(std::string & word) {
+bool chain::inChain(const std::string word) {
+
+	std::cout << "bruh: " << word << "\n";
 
 	if (!this->head) {
 

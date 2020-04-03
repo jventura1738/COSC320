@@ -130,7 +130,7 @@ int main(int argc, char ** argv) {
 
 
 	delete [] words;
-	delete [] needsSuggestions;
+	delete [] needsSuggestion;
 
 	return 0;
 

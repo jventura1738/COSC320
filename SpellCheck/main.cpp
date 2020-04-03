@@ -139,7 +139,7 @@ int main(int argc, char ** argv) {
 		if (needsSuggestion[i] && !done.inChain(words[i])) {
 
 			chain corrections = correctionResults(dict, words[i]);
-			chain::link trav = corrections.head;
+			chain::link * trav = corrections.head;
 			while (trav) {
 
 				done.prepend(trav->data);

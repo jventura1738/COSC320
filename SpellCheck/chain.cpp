@@ -87,6 +87,29 @@ void chain::append(const std::string & word) {
 
 }
 
+// Remove a word (first one found).
+void chain::remove(chain::link * target) {
+
+	if (!this->head) {
+
+		return;
+
+	}
+	if (this->head == target) {
+
+		this->head = target->next;
+
+	}
+	if (!target->next) {
+
+		target->next->prev = target->prev;
+
+	}
+
+	delete target;
+
+}
+
 // Method to check if a word is a link.
 bool chain::inChain(const std::string word) {
 

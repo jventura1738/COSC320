@@ -67,6 +67,9 @@ public:
 	// Method to insert a word at back.
 	void append(const std::string & word);
 
+	// Remove a word (first one found).
+	void remove(link * target);
+
 	// Method to check if a word is a link.
 	bool inChain(const std::string word);
 

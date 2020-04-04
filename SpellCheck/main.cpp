@@ -16,20 +16,25 @@ void extraCreditHighlight(std::string * words, bool * fix, unsigned len);
 // Prints all mispelled words.
 void printMispelled(std::string * words, bool * fix, unsigned len);
 
+// Function which returns a chain containing all suggestions for the given
+// words.
+chain correctionResults(Dictionary & dict, std::string & word);
+
 // Show all suggestions.
-void showSuggestions(chain * suggestions, std::string * words, unsigned len);
+chain showSuggestions(Dictionary & dict, char * filename, std::string * words, bool * fix, unsigned len);
 
 // Function to load the txt database into
 // the Dictionary hash table.
 void loadDatabase(std::ifstream & txtfile, Dictionary & dict);
 
+// Parse the entered string to make a viable pool
+// for suggestions. Returns the total number of
+// substrings parsed.
+std::string * parseSetup(std::string & unparsable, unsigned & numWords);
+
 // Function that returns a boolean to whether or not
 // a word in the passed array needs correction.
 bool * needsCorrection(Dictionary & dict, std::string * words, unsigned len);
-
-// Function which returns a chain containing all suggestions for the given
-// words.
-chain correctionResults(Dictionary & dict, std::string & word);
 
 // Prepends new suggestions to the chain.
 void repChar(chain * list, Dictionary & dict, std::string & word);
@@ -45,6 +50,7 @@ void swpChar(chain * list, Dictionary & dict, std::string & word);
 
 unsigned suggestionscnt = 0;
 unsigned incorrectWords = 0;
+unsigned extraCreditCount = 0;
 
 int main(int argc, char ** argv) {
 
@@ -92,57 +98,113 @@ int main(int argc, char ** argv) {
 		infile.close();
 
 	}
+
 	std::string unparsable;
 	std::cout << "\n---------------------------------------------------\n";
 	std::cout << "Please enter some text: ";
 	std::getline(std::cin, unparsable);
 	std::cout << "---------------------------------------------------\n\n";
 
-	// File tricks for parsing >:)
-	std::ofstream outfile("temp.txt");
-	outfile << unparsable;
-	outfile.close();
-	std::ifstream infile("temp.txt");
-	std::string word;
 	unsigned numWords = 0;
+	std::string * words = parseSetup(unparsable, numWords);
+	for (int i = 0; i < numWords; i++) {
 
-	// Count the words.
-	while(infile >> word) {
-
-		numWords++;
-
-	}
-
-	// Collect the words for correction.
-	infile.clear();
-	infile.seekg(0, std::ios::beg);
-	std::string * words = new std::string[numWords];
-	unsigned l = 0;
-	while(infile >> word) {
-
-		words[l++] = word;
+		std::cout << words[i] << " ";
 
 	}
-	Timer timer;
-	timer.start_timer();
 	bool * needsSuggestion = needsCorrection(dict, words, numWords);
-	timer.end_timer();
+	extraCreditHighlight(words, needsSuggestion, numWords);
+	chain extraCredit = showSuggestions(dict, argv[1], words, needsSuggestion, numWords);
+
+	std::cout << "\n\n\n\n";
+	extraCredit.print();
+
+	delete [] words;
+	delete [] needsSuggestion;
+
+	return 0;
+
+}
+
+
+// EXTRA CREDIT HIGHLIGHT INCORRECT WORDS.
+void extraCreditHighlight(std::string * words, bool * fix, unsigned len) {
 
 	std::cout << "\n";
-	extraCreditHighlight(words, needsSuggestion, numWords);
 
+	for (unsigned i = 0; i < len; i++) {
+
+		if (!fix[i]) {
+
+			std::cout << words[i] << " ";
+
+		}
+		else {
+
+			std::cout << FORERED << words[i] << RESET << " ";
+			incorrectWords++;
+
+		}
+
+	}
+
+	std::cout << "\n";
+
+}
+
+// Prints all mispelled words.
+void printMispelled(std::string * words, bool * fix, unsigned len) {
+
+	for (unsigned i = 0; i < len; i++) {
+
+		if (fix[i]) {
+
+			std::cout << words[i] << " ";
+
+		}
+
+	}
+
+	std::cout << "\n\n";
+
+}
+
+chain correctionResults(Dictionary & dict, std::string & word) {
+
+	chain corrections;
+
+	repChar(&corrections, dict, word);
+	addChar(&corrections, dict, word);
+	remChar(&corrections, dict, word);
+	swpChar(&corrections, dict, word);
+
+	return corrections;
+
+}
+
+// Show all suggestions.
+chain showSuggestions(Dictionary & dict, char * filename, std::string * words, bool * fix, unsigned len) {
+
+	Timer timer;
 	chain done;
+	chain extraCredit;
 	unsigned twoeditcount = 0;
 	timer.start_timer();
-	for (unsigned i = 0; i < numWords; i++) {
+	for (unsigned i = 0; i < len; i++) {
 
-		if (needsSuggestion[i] && !done.inChain(words[i])) {
+		if (fix[i] && !done.inChain(words[i])) {
 
 			chain corrections = correctionResults(dict, words[i]);
 			chain::link * trav = corrections.head;
 			while (trav) {
 
 				done.prepend(trav->data);
+				if (!extraCredit.inChain(trav->data)) {
+
+					extraCredit.prepend(trav->data);
+					extraCreditCount++;
+
+				}
 				twoeditcount++;
 				trav = trav->next;
 
@@ -158,7 +220,7 @@ int main(int argc, char ** argv) {
 			}
 			else {
 
-				std::cout << "No suggestions found in " << argv[1] << ".\n";
+				std::cout << "No suggestions found in " << filename << ".\n";
 
 			}
 
@@ -198,13 +260,12 @@ int main(int argc, char ** argv) {
 		else {
 
 			std::cout << "Suggestions for: " << words2[i] << "\n";
-			std::cout << "No suggestions found in " << argv[1] << ".\n\n\n";
+			std::cout << "No suggestions found in " << filename << ".\n\n\n";
 
 		}
 
 	}
 	timer.end_timer();
-
 	std::cout << "---------------------------------------------------\n";
 	std::cout << "Summary:\n";
 	std::cout << "---------------------------------------------------\n";
@@ -212,85 +273,8 @@ int main(int argc, char ** argv) {
 	std::cout << "Total suggestions found: " << suggestionscnt << "\n";
 	timer.display_time();
 	timer.reset_time();
-
-	delete [] words;
 	delete [] words2;
-	delete [] needsSuggestion;
-
-	return 0;
-
-}
-
-
-// EXTRA CREDIT HIGHLIGHT INCORRECT WORDS.
-void extraCreditHighlight(std::string * words, bool * fix, unsigned len) {
-
-	for (unsigned i = 0; i < len; i++) {
-
-		if (!fix[i]) {
-
-			std::cout << words[i] << " ";
-
-		}
-		else {
-
-			std::cout << FORERED << words[i] << RESET << " ";
-			incorrectWords++;
-
-		}
-
-	}
-
-	std::cout << "\n";
-
-}
-
-// Prints all mispelled words.
-void printMispelled(std::string * words, bool * fix, unsigned len) {
-
-	for (unsigned i = 0; i < len; i++) {
-
-		if (fix[i]) {
-
-			std::cout << words[i] << " ";
-
-		}
-
-	}
-
-	std::cout << "\n\n";
-
-}
-
-// Show all suggestions.
-void showSuggestions(chain * suggestions, std::string * words, unsigned len) {
-
-	chain done;
-
-	chain::link * cursor = suggestions->head;
-	for (int i = 0; i < len; i++) {
-
-		if (cursor->data == "_SPACER-BOI_") {
-
-			cursor = cursor->next;
-			continue;
-
-		}
-		else if (!done.inChain(words[i])){
-
-			std::cout << "\nSuggestions for " << words[i] << ": ";
-			while(cursor->data != "_SPACER-BOI_" && cursor->next) {
-
-				std::cout << "*" <<  cursor->data << "* ";
-				cursor = cursor->next;
-
-			}
-			i--;
-			done.prepend(words[i]);
-
-		}
-
-	}
+	return extraCredit;
 
 }
 
@@ -302,6 +286,37 @@ void loadDatabase(std::ifstream & txtfile, Dictionary & dict) {
 		dict.inscribe(word);
 
 	}
+
+}
+
+std::string * parseSetup(std::string & unparsable, unsigned & numWords) {
+
+	// File tricks for parsing >:)
+	std::ofstream outfile("temp.txt");
+	outfile << unparsable;
+	outfile.close();
+	std::ifstream infile("temp.txt");
+	std::string word;
+
+	// Count the words.
+	while(infile >> word) {
+
+		numWords++;
+
+	}
+
+	// Collect the words for correction.
+	infile.clear();
+	infile.seekg(0, std::ios::beg);
+	std::string * words = new std::string[numWords];
+	unsigned l = 0;
+	while(infile >> word) {
+
+		words[l++] = word;
+
+	}
+
+	return words;
 
 }
 
@@ -344,19 +359,6 @@ bool * needsCorrection(Dictionary & dict, std::string * words, unsigned len) {
 	}
 
 	return arr;
-
-}
-
-chain correctionResults(Dictionary & dict, std::string & word) {
-
-	chain corrections;
-
-	repChar(&corrections, dict, word);
-	addChar(&corrections, dict, word);
-	remChar(&corrections, dict, word);
-	swpChar(&corrections, dict, word);
-
-	return corrections;
 
 }
 

@@ -2,6 +2,7 @@
 
 Justin Ventura's Advanced Data Structures and Algorithm Analysis Repository.
 
+### Repository Note for those interested in hiring/recruiting:
 
 One of the many things I do enjoy about Dr. Anderson's labs & projects is that they are very open ended in the sense that there are many features/analysis' in which we are not required to do, (some of them do give bonus points but not all) however they are a good enrichment for us as students in computer science.  Many consider school-related projects to be of little worth, but I beg to differ.  A lot of my work in this repository is unique not only from other students, but while not perfect, they are good examples of my abilities to solve problems, then summarize & analyze the solution and abstractions required.  I only say this because I feel that as a young and new programmer, I may have skills in which are not shown anywhere else due to my lack of work-experience as an underclassman :)
 

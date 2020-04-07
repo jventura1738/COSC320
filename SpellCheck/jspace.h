@@ -58,6 +58,9 @@ namespace jspace {
 	template <typename T>
 	bool isSorted(const T * arr, size_t length);
 
+	// My own yes/no choice that is nearly unbreakable.
+	bool binaryChoice();
+
 }
 
 /* FOREGROUND */

@@ -169,4 +169,23 @@ namespace jspace {
 
 	}
 
+	bool binaryChoice() {
+		
+		int choice;
+    std::cout << "---> ";
+    std::cin >> choice;
+
+    while (!std::cin.good() || (choice > 1 || choice < 0)) {
+
+        std::cin.clear();
+        std::cin.ignore(INT32_MAX, '\n');
+        std::cout << "Invalid, re-enter ---> ";
+        std::cin >> choice;
+
+    }
+
+    return (choice) ? true : false;
+
+	}
+
 }

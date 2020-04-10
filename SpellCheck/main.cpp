@@ -158,7 +158,7 @@ int main(int argc, char ** argv) {
 // EXTRA CREDIT HIGHLIGHT INCORRECT WORDS.
 void extraCreditHighlight(std::string * words, bool * fix, unsigned len) {
 
-	std::cout << "\n";
+	std::cout << len << "\n";
 
 	for (unsigned i = 0; i < len; i++) {
 

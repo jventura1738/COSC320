@@ -162,17 +162,17 @@ void extraCreditHighlight(std::string * words, bool * fix, unsigned len) {
 
 	for (unsigned i = 0; i < len; i++) {
 
-		if (!fix[i]) {
+		// if (!fix[i]) {
 
-			std::cout << words[i] << " ";
+		// 	std::cout << words[i] << " ";
 
-		}
-		else {
+		// }
+		// else {
 
 			std::cout << FORERED << words[i] << RESET << " ";
 			incorrectWords++;
 
-		}
+		// }
 
 	}
 

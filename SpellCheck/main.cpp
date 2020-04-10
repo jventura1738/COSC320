@@ -39,7 +39,7 @@ void loadDatabase(std::ifstream & txtfile, Dictionary & dict);
 // Parse the entered string to make a viable pool
 // for suggestions. Returns the total number of
 // substrings parsed.
-std::string * parseSetup(std::string & unparsable, unsigned & numWords);
+std::string * parseSetup(std::string * unparsable, unsigned & numWords);
 
 // Function that returns a boolean to whether or not
 // a word in the passed array needs correction.
@@ -116,7 +116,7 @@ int main(int argc, char ** argv) {
 	std::cout << "---------------------------------------------------\n";
 
 	unsigned numWords = 0;
-	std::string * words = parseSetup(unparsable, numWords);
+	std::string * words = parseSetup(&unparsable, numWords);
 	bool * needsSuggestion = needsCorrection(dict, words, numWords);
 	extraCreditHighlight(words, needsSuggestion, numWords);
 	chain extraCredit = showSuggestions(dict, argv[1], words, needsSuggestion, numWords);
@@ -194,7 +194,7 @@ void extraCreditDictUpdate(char * filename) {
 	std::string parsable;
 	std::cin.ignore(INT32_MAX, '\n');
 	std::getline(std::cin, parsable);
-	std::string * words = parseSetup(parsable, wordCount);
+	std::string * words = parseSetup(&parsable, wordCount);
 
 	std::ofstream outfile;
 	outfile.open(filename, std::ios_base::app);
@@ -384,7 +384,7 @@ void loadDatabase(std::ifstream & txtfile, Dictionary & dict) {
 }
 
 // My sneaky parse ;)
-std::string * parseSetup(std::string & unparsable, unsigned & numWords) {
+std::string * parseSetup(std::string * unparsable, unsigned & numWords) {
 
 	// File tricks for parsing >:)
 	std::ofstream outfile("temp.txt");

@@ -118,32 +118,51 @@ int main(int argc, char ** argv) {
 	unsigned numWords = 0;
 	std::string * words = parseSetup(&unparsable, numWords);
 	bool * needsSuggestion = needsCorrection(dict, words, numWords);
-	std::cout << "numwords: " << numWords << "\n";
-	extraCreditHighlight(words, needsSuggestion, numWords);
-	chain extraCredit = showSuggestions(dict, argv[1], words, needsSuggestion, numWords);
+	bool runSuggestions = false;
+	for (unsigned i = 0; i < numWords; i++) {
 
-	std::cout << "---------------------------------------------------\n";
-	std::cout << "\nAdd mispelled words to the dictionary?\n";
-	std::cout << "(1) yes (0) no\n";
-	int update = jspace::binaryChoice();
-	if (update) {
+		if (needsSuggestion[i]) {
 
-		extraCreditDictUpdate(words, needsSuggestion, numWords, argv[1]);
+			runSuggestions = true;
+			break;
+
+		}
+
+	}
+	if (runSuggestions) {
+
+		extraCreditHighlight(words, needsSuggestion, numWords);
+		chain extraCredit = showSuggestions(dict, argv[1], words, needsSuggestion, numWords);
+
+		std::cout << "---------------------------------------------------\n";
+		std::cout << "\nAdd mispelled words to the dictionary?\n";
+		std::cout << "(1) yes (0) no\n";
+		int update = jspace::binaryChoice();
+		if (update) {
+
+			extraCreditDictUpdate(words, needsSuggestion, numWords, argv[1]);
+
+		}
+		else {
+
+			std::cout << "\n---------------------------------------------------\n";
+			std::cout << "\nWould you like to add words to the dictionary instead?\n";
+			std::cout << "(1) yes (0) no\n";
+			update = jspace::binaryChoice();
+			if (update) {
+
+				extraCreditDictUpdate(argv[1]);
+
+			}
+
+		} 
 
 	}
 	else {
 
-		std::cout << "\n---------------------------------------------------\n";
-		std::cout << "\nWould you like to add words to the dictionary instead?\n";
-		std::cout << "(1) yes (0) no\n";
-		update = jspace::binaryChoice();
-		if (update) {
+		std::cout << "No spelling errors :)\n";
 
-			extraCreditDictUpdate(argv[1]);
-
-		}
-
-	} 
+	}
 
 	std::cout << "\nThanks for using Justin's Spell Checker!\n";
 

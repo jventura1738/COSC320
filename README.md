@@ -21,7 +21,7 @@ Notable Features & Algorithms:
 
 Notable Features & Algorithms:
 - Hash Table with Chaining (doubly list).
-- A perfect Hashing function.
+- A self-made Hashing function.
 - Python Script made to find prime numbers for my hash.
 - Spell Checking (parsed string) within 1 & 2 edit distances.
 - Highlights incorrect words then displays suggestions.

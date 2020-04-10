@@ -440,26 +440,7 @@ bool * needsCorrection(Dictionary & dict, std::string * words, unsigned len) {
 
 	bool * arr = new bool[len];
 
-	if (!dict.inDictionary(words[0])) {
-
-		words[0][0] = isupper(words[0][0]) ? tolower(words[0][0]) : toupper(words[0][0]);
-
-		if (!dict.inDictionary(words[0])) {
-
-			arr[0] = true;
-
-		}
-		else {
-
-			arr[0] = false;
-
-		}
-
-		words[0][0] = isupper(words[0][0]) ? tolower(words[0][0]) : toupper(words[0][0]);
-
-	}
-
-	for (unsigned i = 1; i < len; i++) {
+	for (unsigned i = 0; i < len; i++) {
 
 		if (!dict.inDictionary(words[i])) {
 

@@ -142,7 +142,7 @@ int main(int argc, char ** argv) {
 
 		}
 
-	}
+	} 
 
 	std::cout << "\nThanks for using Justin's Spell Checker!\n";
 

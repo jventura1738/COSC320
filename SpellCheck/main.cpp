@@ -388,7 +388,7 @@ std::string * parseSetup(std::string * unparsable, unsigned & numWords) {
 
 	// File tricks for parsing >:)
 	std::ofstream outfile("temp.txt");
-	outfile << unparsable;
+	outfile << *unparsable;
 	outfile.close();
 	std::ifstream infile("temp.txt");
 	std::string word;

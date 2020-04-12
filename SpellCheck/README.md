@@ -26,7 +26,7 @@ Instructions to run the programs (also located in makefile):
 
 The hashing function I made uses prime numbers which I generated from my python script.  The method I used for hashing was made by me and ensured that small changes in a word resulted in a vastly different hash.  This also means that the string 'abc' and 'cba' have unique hashes.
 
-### EXTRA CREDIT!
+### EXTRA CREDIT! (15pts)
 
 - I have implemented the highlight for showing mispelled words (5pts).
 - I also implemented a feature where the user can choose to add the mispelled words to the dictionary, or add their own (ie. pick from the suggestion list).  

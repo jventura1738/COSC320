@@ -25,8 +25,6 @@ private:
 
   };
 
-  static TreeNode* const nil;
-
   TreeNode * root;
 
   void _printInOrder(TreeNode * u) {
@@ -337,6 +335,8 @@ private:
   }
 
 public:
+
+  static TreeNode* const nil;
   /* Fill in with methods */
 
   // Constructor.
@@ -646,6 +646,7 @@ int main(int argc, char ** argv) {
   // std::cout << "Tree after removing 2.\n";
   // t.printInOrder();
 
+  delete RBTree::nil;
 
   return 0;
 

@@ -53,7 +53,7 @@ void BST::subtreeRemoval(TreeNode * root) {
 }
 
 // Recursive copy. N L R
-void BST::subtreeCopy(TreeNode * head) {
+void BST::subtreeCopy(TreeNode * root) {
 
 	if (root) {
 
@@ -118,7 +118,7 @@ void BST::removal(const int & val) {
 	}
 	else if (!z->right) {
 
-		transplant(z, z->left);
+		this->transplant(z, z->left);
 		delete z;
 
 	}
@@ -137,7 +137,7 @@ void BST::removal(const int & val) {
 			y->right->parent = y;
 
 		}
-		transplant(z, y);
+		this->transplant(z, y);
 		y->left = z->left;
 		y->left->parent = y;
 		delete z;

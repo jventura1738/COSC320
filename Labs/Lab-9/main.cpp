@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <iostream>
+#include "jspace.h"
 
 enum color_t {
 
@@ -30,10 +31,17 @@ private:
 
   void _printInOrder(TreeNode * u) {
 
-    if( u != nil ) {
+    if( u != nil && u->color == RED) {
 
       _printInOrder(u->left);
-      printf(" %d", u->key);
+      std::cout << BACKWHT << FORERED << u->key << RESET << " ";
+      _printInOrder(u->right);
+
+    }
+    else if ( u != nil && u->color == BLACK ) {
+
+      _printInOrder(u->left);
+      std::cout << BACKWHT << FOREBLK << u->key << RESET << " ";
       _printInOrder(u->right);
 
     }
@@ -41,13 +49,20 @@ private:
   }
 
   // Private recursive preorder print.
-  void _preOrder(TreeNode * root) {
+  void _preOrder(TreeNode * u) {
 
-    if (root != nil) {
+    if (u != nil && u->color == RED) {
 
-      std::cout << root->key << " ";
-      _preOrder(root->left);
-      _preOrder(root->right);
+      std::cout << BACKWHT << FORERED << u->key << RESET << " ";
+      _preOrder(u->left);
+      _preOrder(u->right);
+
+    }
+    else if (u != nil && u->color == RED) {
+
+      std::cout << BACKWHT << FOREBLK << u->key << RESET << " ";
+      _preOrder(u->left);
+      _preOrder(u->right);
 
     }
 
@@ -133,7 +148,6 @@ private:
             LeftRotate(z);
 
           }
-
           z->parent->color = BLACK;
           z->parent->parent->color = RED;
           RightRotate(z->parent->parent);
@@ -176,11 +190,11 @@ private:
 
   void FixUpD(TreeNode * x) {
 
-    while (x != this->root && x->color == BLACK) {
+    while (x != root && x->color == BLACK) {
 
       if (x == x->parent->left) {
 
-        TreeNode * w = x->parent->right;
+        TreeNode* w = x->parent->right;
 
         if (w->color == RED) {
 
@@ -218,7 +232,7 @@ private:
       } 
       else {
 
-        TreeNode * w = x->parent->left;
+        TreeNode* w = x->parent->left;
         if (w->color == RED) {
 
           w->color = BLACK;
@@ -251,11 +265,8 @@ private:
           x = root;
 
         }
-
       }
-
     }
-
     x->color = BLACK;
 
   }
@@ -293,8 +304,10 @@ private:
 
   void RightRotate(TreeNode * x) {
 
-    TreeNode* y = x->left;
+    TreeNode * y = x->left;
     x->left = y->right;
+    y->right->parent = x;
+    y->parent = x->parent;
 
     if (y->right != nil) {
 
@@ -308,7 +321,7 @@ private:
       root = y;
 
     } 
-    else if (x == x->parent->right) {
+    else if (x == x->parent->left) {
 
       x->parent->right = y;
 
@@ -410,58 +423,34 @@ public:
 
   }
 
-  // Insert function.
   void insertion(int k) {
-
     TreeNode* newNode = new TreeNode;
     newNode->key = k;
 
-    if (root == nil) {
-
+    if (root == nil){
       printf("Inserting %d into empty tree\n", k);
       root = newNode;
       newNode->parent = nil;
-
-    } 
-    else {
-
+    } else {
       TreeNode* y = nil;
       TreeNode* x = root;
-
-      while(x != nil) {
-
+      while(x != nil){
         y = x;
-
-        if( k < x->key ) {
-
+        if( k < x->key ){
           x = x->left;
-
-        } 
-        else {
-
+        } else {
           x = x->right;
-
         }
-
       }
-
-      if( k < y->key ) {
-
+      if( k < y->key ){
         printf("Inserting %d on the left of %d\n",k,y->key);
         y->left = newNode;
-
-      } 
-      else {
-
+      } else {
         printf("Inserting %d on the right of %d\n",k,y->key);
         y->right = newNode;
-
       }
-
       newNode->parent = y;
-
     }
-
     newNode->color = RED;
     newNode->left = nil;
     newNode->right = nil;
@@ -509,13 +498,13 @@ public:
   }
 
   // Findd successor.
-  int successor(int key) const {
+  int successor(int key) {
 
     TreeNode * given = _search(key);
     TreeNode * cursor = given;
     TreeNode * original = given;
 
-    if(!given) {
+    if(given == nil) {
 
       throw std::string("Node with given key DNE.\n");
 
@@ -552,53 +541,61 @@ public:
   // Revised removal method.
   void removal(const int & val) {
 
-    TreeNode * z = this->_search(val);
+    TreeNode * z = _search(val);
+    if (z == nil) {
+
+      std::cout << "Node with value: " << val << " DNE in list.\n";
+      return;
+
+    }
     TreeNode * y = z;
     TreeNode * x;
     color_t yOriginalColor = y->color;
     if (z->left == nil) {
 
       x = z->right;
-      this->transplant(z, z->right);
-      delete z;
+      transplant(z, z->right);
 
-    }
+    } 
     else if (z->right == nil) {
 
       x = z->left;
-      this->transplant(z, z->left);
-      delete z;
+      transplant(z, z->left);
 
-    }
+    } 
     else {
 
-      y = z->right;
-      while (y->left) {
+      TreeNode * cursor = z->right;
 
-        y = y->left;
+      while (cursor->left != nil) {
+
+        cursor = cursor->left;
 
       }
+      y = cursor;
       yOriginalColor = y->color;
       x = y->right;
-      if(y->parent != z) {
+      if (y->parent == z) {
 
-        this->transplant(y, y->right);
+        x->parent = y;
+
+      } 
+      else {
+
+        transplant(y, y->right);
         y->right = z->right;
         y->right->parent = y;
 
       }
-      else {
 
-        x->parent = y;
-
-      }
-      this->transplant(z, y);
+      transplant(z, y);
       y->left = z->left;
       y->left->parent = y;
       y->color = z->color;
-      delete z;
 
     }
+
+    delete z;
     if (yOriginalColor == BLACK) {
 
       FixUpD(x);
@@ -626,9 +623,29 @@ int main(int argc, char ** argv) {
   // printf("Warning! Insert-Fixup not implemented! RBT properties will not be enforced!\n");
   RBTree t;
   t.insertion(3);
-  t.insertion(2);
-  t.insertion(5);
+  t.insertion(1);
+  t.insertion(9);
   t.printInOrder();
+  std::cout << "Testing search for 0...\n";
+  bool test = t.search(0);
+  if (!test) {
+
+    std::cout << "Key: 0 not in tree!\n";
+
+  }
+
+  std::cout << "Min of tree: " << t.minimum() << "\n";
+  std::cout << "Max of tree: " << t.maximum() << "\n";
+  try {
+    std::cout << "Successor of -1: " << t.successor(-1) << "\n";
+  }
+  catch (std::string s) {
+    std::cout << "Successor of -1 DNE! Error caught!\n";
+  }
+  // t.removal(8);
+  // std::cout << "Tree after removing 2.\n";
+  // t.printInOrder();
+
 
   return 0;
 

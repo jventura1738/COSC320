@@ -59,15 +59,24 @@ public:
 	*/ 
 
 	// Add a vertex to the graph with the integer value of vtx_val.
+	// If the vertex is already in the graph, throws std::string.
 	void addVertex(const T & vtx_val);
 
 	// Add an edge between the two vertices with values v1 & v2.
+	// If either vertices are not found, throws an std::string.
+	// Also throws an std::string for multiple self-loops.
 	void addEdge(const T & v1, const T & v2);
 
+	// Add an edge between the two vertices with values v1 & v2.
+	// If either vertices are not found, creates them.
+	void forceAddEdge(const T & v1, const T & v2);
+
 	// Print the graph in an adjacency list form.
-	void printGraph() const;
+	// Throws and std::string if the graph is empty.
+	void printGraph(const bool & best_format) const;
 
 	// Print the graph by vertices in BFS order.
+	// Throws and std::string if the graph is empty.
 	void printBFS(const T & root_vtx) const;
 
 };

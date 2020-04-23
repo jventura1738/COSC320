@@ -239,7 +239,7 @@ void Graph<T>::printBFS(const T & root_vtx) {
 	std::map<T, int> distance;
 	for (auto iter = this->vertices.begin(); iter != this->vertices.end(); iter++) {
 
-		distance.insert({iter->first, INT_MAX});
+		distance.insert({iter->first, 999999999999});
 
 	}
 

@@ -77,7 +77,7 @@ public:
 
 	// Print the graph by vertices in BFS order.
 	// Throws and std::string if the graph is empty.
-	void printBFS(const T & root_vtx) const;
+	void printBFS(const T & root_vtx);
 
 };
 

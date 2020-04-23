@@ -211,13 +211,13 @@ void Graph<T>::printGraph(const bool & best_format) const {
 
 	}
 
-	if (best_format)std::cout << "\n===========================================\n";
+	if (best_format) std::cout << "\n===========================================\n";
 
 }
 
 // Print the graph by vertices in BFS order.
 template <typename T>
-void Graph<T>::printBFS(const T & root_vtx) const {
+void Graph<T>::printBFS(const T & root_vtx) {
 
 	// Track the colors for each vertex.
 	std::map<T, color_t> color;
@@ -231,7 +231,7 @@ void Graph<T>::printBFS(const T & root_vtx) const {
 	std::map<T, T> parent;
 	for (auto iter = this->vertices.begin(); iter != this->vertices.end(); iter++) {
 
-		parent.insert({iter->first, NULL});
+		parent.insert({iter->first, -999});
 
 	}
 
@@ -251,13 +251,13 @@ void Graph<T>::printBFS(const T & root_vtx) const {
 	distance[root_vtx] = 0;
 	Q.push(root_vtx);
 
-	while(!Q.empty) {
+	while(!Q.empty()) {
 
 		T u = Q.front();
 		Q.pop();
 
 		// Each pair (u, v) in E;
-		for (auto v = this->vertices[u]; v != this->vertices[u].end(); v++) {
+		for (auto v = this->vertices[u].begin(); v != this->vertices[u].end(); v++) {
 
 			if (color[*v] == WHITE) {
 
@@ -271,6 +271,28 @@ void Graph<T>::printBFS(const T & root_vtx) const {
 			color[u] = BLACK;
 
 		}
+
+	}
+
+	// Begin the BFS order printing...
+	auto c = color.begin();
+	auto p = parent.begin();
+	auto d = distance.begin();
+	std::cout << "\n     BREADTH FIRST SEARCH ORDER PRINT      \n";
+	std::cout << "            (Rooted at: " << root_vtx << ")  \n";
+	std::cout << "      (WHITE = 0, GRAY = 1, BLACK = 2).      \n";
+	std::cout << "\n===========================================\n";
+	while (c != color.end()) {
+
+		std::cout << "\n               - Step -                \n\n";
+		std::cout << "Vertex discovered: " << c->first << "\n";
+		std::cout << "Its parent: " << p->second << "\n";
+		std::cout << "Its Current color: " << c->second << "\n";
+		std::cout << "Its Distance from root: " << d->second << "\n";
+		std::cout << "\n";
+		c++;
+		p++;
+		d++;
 
 	}
 

@@ -12,3 +12,6 @@ main.o: main.cpp graph.h graph.cpp
 
 clean:
 	rm -rf *.o main
+
+
+# End of makefile

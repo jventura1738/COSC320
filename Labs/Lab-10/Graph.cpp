@@ -25,7 +25,7 @@ enum color_t { WHITE = 0, GRAY, BLACK };
 template <typename T>
 Graph<T>::Graph() {
 
-	std::cout << "Gamers\n";
+	//std::cout << "Graph Constructed.\n";
 
 }
 
@@ -33,7 +33,8 @@ Graph<T>::Graph() {
 template <typename T>
 Graph<T>::Graph(const Graph<T> & old_graph) {
 
-	std::cout << "Copyboi\n";
+	//std::cout << "Copyboi\n";
+	this->vertices = old_graph.vertices;
 
 }
 
@@ -41,7 +42,7 @@ Graph<T>::Graph(const Graph<T> & old_graph) {
 template <typename T>
 Graph<T>::~Graph() {
 
-	std::cout << "Salute\n";
+	//std::cout << "Salute\n";
 
 }
 
@@ -49,7 +50,7 @@ Graph<T>::~Graph() {
 template <typename T>
 void Graph<T>::operator=(const Graph<T> & old_graph) {
 
-	std::cout << "Copyboi 2\n";
+	this->vertices = old_graph.vertices;
 
 }
 

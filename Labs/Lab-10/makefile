@@ -7,7 +7,7 @@ go = g++ -o
 main: main.o
 	$(go) main main.o
 
-main.o: main.cpp graph.h graph.cpp
+main.o: main.cpp Graph.h Graph.cpp
 	$(gc) main.cpp
 
 clean:

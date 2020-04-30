@@ -2,13 +2,39 @@
 // Lab-11: Graph.cpp
 
 #include "Graph.h"
-#include <limits>
 
 // Enumeration for coloring vertices in the BFS print function.
 // White: default color for the vertex.
 // Gray:  after we visit the vertex, but not yet its neighbors.
 // Black: after we visit the vertex and its neighbors.
 enum color_t { WHITE = 0, GRAY, BLACK };
+
+template <typename T>
+int Graph<T>::_idxOf(const T & val) {
+
+	// This is the index.
+	int index = 0;
+
+	// Iterate through the vector.
+	auto j = vertices_alias.begin();
+	while (*j != val) {
+
+		// Increment the index & iterator.
+		index++;
+		j++;
+
+		// If element is not in list, return -1.
+		if (j == vertices_alias.end()) {
+
+			return -1;
+
+		}
+
+	}
+
+	return index;
+
+}
 
 /*
  * =========================================================
@@ -26,6 +52,7 @@ template <typename T>
 Graph<T>::Graph() {
 
 	this->g_type = UNDIRECTED;
+	this->time = 0;
 
 }
 
@@ -34,6 +61,7 @@ template <typename T>
 Graph<T>::Graph(const GRAPH_TYPE & type) {
 
 	this->g_type = type;
+	this->time = 0;
 
 }
 
@@ -43,6 +71,8 @@ Graph<T>::Graph(const Graph<T> & old_graph) {
 
 	this->g_type = old_graph.g_type;
 	this->vertices = old_graph.vertices;
+	this->vertices_alias = old_graph.vertices_alias;
+	this->time = old_graph.time;
 
 }
 
@@ -60,6 +90,8 @@ void Graph<T>::operator=(const Graph<T> & old_graph) {
 
 	this->g_type = old_graph.g_type;
 	this->vertices = old_graph.vertices;
+	this->vertices_alias = old_graph.vertices_alias;
+	this->time = old_graph.time;
 
 }
 
@@ -72,6 +104,7 @@ void Graph<T>::operator=(const Graph<T> & old_graph) {
  *               add an edge between two vertices,
  *               print the graph in adjacnecy list form,
  *               and print the graph vertices in BFS order.
+ *               & various others...
  * 
  * =========================================================
 */ 
@@ -81,15 +114,19 @@ template <typename T>
 void Graph<T>::addVertex(const T & vtx_val) {
 
 	// Be sure this is not a duplicate vertex.
-	auto search = this->vertices.find(vtx_val);
+	// auto search = this->vertices.find(_idxOf(vtx_val));
+	auto search = this->vertices_alias(vtx_val);
 
 	// If it is not, add to the graph.
-	if (search == this->vertices.end()) {
+	if (search == this->vertices_alias.end()) {
 
 		std::vector<T> n_list;
-		this->vertices.insert({vtx_val, n_list});
+		int index = _idxOf(vtx_val);
+		this->vertices.insert({index, n_list});
+		this->vertices_alias.push_back(vtx_val);
 
 	}
+
 	// Otherwise, throw an std::string error.
 	else {
 
@@ -105,7 +142,7 @@ template <typename T>
 bool Graph<T>::_addEdge(const T & v1, const T & v2) const {
 
 	// Find the vertex's adjacency list.
-	auto search = this->vertices.find(v1);
+	auto search = this->vertices.find(idxOf(v1));
 
 	// Check to make sure no edge already exists.
 	for (auto iter = search->second.begin(); iter != search->second.end(); iter++) {
@@ -128,8 +165,8 @@ template <typename T>
 void Graph<T>::addEdge(const T & v1, const T & v2) {
 
 	// Check that these vertices exist.
-	auto search1 = this->vertices.find(v1);
-	auto search2 = this->vertices.find(v2);
+	auto search1 = this->vertices.find(_idxOf(v1));
+	auto search2 = this->vertices.find(_idxOf(v2));
 
 	// If they do not, throw an std::string error.
 	if (search1 == this->vertices.end() || search2 == this->vertices.end()) {
@@ -139,7 +176,7 @@ void Graph<T>::addEdge(const T & v1, const T & v2) {
 	}
 
 	// Make sure the edge does not already exist.
-	else if (this->_addEdge(v1, v2)) {
+	else if (!this->_addEdge(v1, v2)) {
 
 		throw std::string("ERROR [addEdge]: edge already exists.\n");
 
@@ -203,6 +240,7 @@ void Graph<T>::forceAddEdge(const T & v1, const T & v2) {
 	// If v1 is not in the graph, force it in.
 	if (search1 == this->vertices.end()) {
 
+		std::cout << "WARNING [forceAddEdge]: forcing " << v1 << " into graph\n";
 		this->addVertex(v1);
 
 	}
@@ -210,13 +248,59 @@ void Graph<T>::forceAddEdge(const T & v1, const T & v2) {
 	// If v2 is not in the graph, force it in.
 	if (search2 == this->vertices.end()) {
 
+		std::cout << "WARNING [forceAddEdge]: forcing " << v2 << " into graph\n";
 		this->addVertex(v2);
 
 	}
 
-	// Put an edge between the two.
-	this->vertices[v1].push_back(v2);
-	this->vertices[v2].push_back(v1);
+	// Give a warning if the edge already exists.
+	if (!this->_addEdge(v1, v2)) {
+
+		std::cout << "WARNING [forceAddEdge]: adding additional edge.\n";
+
+	}
+
+	// For self loops.
+	bool addLoop = true;
+	for (auto iter = this->vertices[v1].begin(); iter != this->vertices[v1].end(); iter++) {
+
+		if (*iter == v1) {
+
+			addLoop = false;
+
+		}
+
+	}
+
+	// For non self-loops. UNDIRECTED
+	if (v1 != v2 && this->g_type == UNDIRECTED) {
+
+		this->vertices[v1].push_back(v2);
+		this->vertices[v2].push_back(v1);
+
+	}
+
+	// For non self-loops. DIRECTED
+	else if (v1 != v2 && this->g_type == DIRECTED) {
+
+		this->vertices[v1].push_back(v2);
+
+	}
+
+	// For self-loops.
+	else if (addLoop){
+
+		this->vertices[v1].push_back(v1);
+
+	}
+
+	// If there is already a self-loop, give a warning.
+	else {
+
+		std::cout << "WARNING [forceAddEdge]: adding additional self-loop.\n";
+		this->vertices[v1].push_back(v1);
+
+	}
 
 }
 
@@ -266,26 +350,16 @@ void Graph<T>::printGraph(const bool & best_format) const {
 template <typename T>
 void Graph<T>::printBFS(const T & root_vtx) {
 
+	std::cout << "\n     BREADTH FIRST SEARCH ORDER PRINT      \n";
+
 	// Track the colors for each vertex.
 	std::map<T, color_t> color;
-	for (auto iter = this->vertices.begin(); iter != this->vertices.end(); iter++) {
-
-		color.insert({iter->first, WHITE});
-
-	}
-
-	// Track the parents for each vertex.
 	std::map<T, T> parent;
-	for (auto iter = this->vertices.begin(); iter != this->vertices.end(); iter++) {
-
-		parent.insert({iter->first, -999});
-
-	}
-
-	// Track the distance of each vertex.
 	std::map<T, int> distance;
 	for (auto iter = this->vertices.begin(); iter != this->vertices.end(); iter++) {
 
+		color.insert({iter->first, WHITE});
+		parent.insert({iter->first, -999});
 		distance.insert({iter->first, 999999999999});
 
 	}
@@ -297,6 +371,7 @@ void Graph<T>::printBFS(const T & root_vtx) {
 	color[root_vtx] = GRAY;
 	distance[root_vtx] = 0;
 	Q.push(root_vtx);
+	std::cout << "BFS Ordering rooted at: " << Q.front() << " -> " << Q.front() << " ";
 
 	while(!Q.empty()) {
 
@@ -312,6 +387,7 @@ void Graph<T>::printBFS(const T & root_vtx) {
 				distance[*v] = distance[u] + 1;
 				parent[*v] = u;
 				Q.push(*v);
+				std::cout << *v << " ";
 
 			}
 
@@ -321,35 +397,29 @@ void Graph<T>::printBFS(const T & root_vtx) {
 
 	}
 
-	// Begin the BFS order printing...
-	auto c = color.begin();
-	auto p = parent.begin();
-	auto d = distance.begin();
-	std::cout << "\n     BREADTH FIRST SEARCH ORDER PRINT      \n";
-	std::cout << "            (Rooted at: " << root_vtx << ")  \n";
-	std::cout << "      (WHITE = 0, GRAY = 1, BLACK = 2).      \n";
-	std::cout << "\n===========================================\n";
-	while (c != color.end()) {
-
-		std::cout << "\n               - Step -                \n\n";
-		std::cout << "Vertex discovered: " << c->first << "\n";
-		std::cout << "Its parent: " << p->second << "\n";
-		std::cout << "Its Current color: " << c->second << "\n";
-		std::cout << "Its Distance from root: " << d->second << "\n";
-		std::cout << "\n";
-		c++;
-		p++;
-		d++;
-
-	}
+	std::cout << "\n\n";
 
 }
 
 // Returns what type of graph this is.
 template <typename T>
-GRAPH_TYPE Graph<T>::getType() {
+GRAPH_TYPE Graph<T>::getType() const {
 
 	return this->g_type;
+
+}
+
+template <typename T>
+bool Graph<T>::empty() const {
+
+	return this->vertices.empty();
+
+}
+
+template <typename T>
+bool Graph<T>::isDAG() const {
+
+	return this->_isDAG();
 
 }
 

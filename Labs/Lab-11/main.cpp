@@ -4,79 +4,59 @@
 // My graph class.
 #include "Graph.h"
 
-int main() {
-	
-	// TESTING BEGINS HERE
-	Graph<int> g1;
+// My jspace namespace.
+#include "jspace.h"
 
-	/*
-	 * Graph g1 (let * denote self loop)
-	 * 1 - 2 - 3
-	 * |   | / |
-	 * 4   5 - 6*
-	 *
-	*/
+// This function will take the data from the file
+// and make a graph out of it.  This graph MUST
+// be an intger graph for simplicity.
+// Returns: the graph from the file.
+Graph<int> generateGraph(char ** filename);
 
-	std::cout << "                  - GRAPH G1 -               \n\n";
-	std::cout << "                   1 - 2 - 3                 \n";
-	std::cout << "                   |   | / |                 \n";
-	std::cout << "                   4   5 - 6*                \n";
-	std::cout << "\n            (* denotes self loop)          \n";
-	std::cout << "\n===========================================\n";
+// This function will create a random graph with
+// the number of vertices passed as a parameter.
+// Also takes a parameter for whether or not the
+// graph will be directed.
+Graph<int> randomGraph(int & numvertices, bool isDirected);
 
-	// Create the graph.
-	g1.addVertex(1);
-	g1.addVertex(2);
-	g1.addVertex(3);
-	g1.addVertex(4);
-	g1.addVertex(5);
-	g1.addVertex(6);
-	g1.addEdge(1, 2);
-	g1.addEdge(1, 4);
-	g1.addEdge(3, 2);
-	g1.addEdge(3, 5);
-	g1.addEdge(3, 6);
-	g1.addEdge(5, 2);
-	g1.addEdge(5, 6);
-	g1.addEdge(6, 6);
-	
-	g1.printGraph(true);
+int main(int argc, char ** argv) {
 
-	std::cout << "\nPrinting G1 BFS...\n";
-	g1.printBFS(1);
+	if (argc > 2) {
 
-	Graph<int> g2;
+		jspace::printError("expected 1 or 2 arguments, more than that provided.");
+		std::cout << "[Exceeded amount given: " << argc << " ]\n";
+		return 0;
 
-	std::cout << "\n===========================================\n";
-	std::cout << "                  - GRAPH G2 -               \n\n";
-	std::cout << "                 1 - 2 - 3 - 4               \n";
-	std::cout << "                 |   | /   /                 \n";
-	std::cout << "                 5   6 - 7                   \n";
-	std::cout << "\n===========================================\n";
+	}
+	else {
 
-	// Create the graph.
-	g2.addVertex(1);
-	g2.addVertex(2);
-	g2.addVertex(3);
-	g2.addVertex(4);
-	g2.addVertex(5);
-	g2.addVertex(6);
-	g2.addVertex(7);
-	g2.addEdge(1, 5);
-	g2.addEdge(1, 2);
-	g2.addEdge(2, 2);
-	g2.addEdge(2, 6);
-	g2.addEdge(3, 6);
-	g2.addEdge(3, 4);
-	g2.addEdge(4, 7);
-	g2.addEdge(6, 7);
+		std::cout << "======================================================\n";
+		Graph<int> G1;
+		if (argc == 2) {
 
-	g2.printGraph(true);
+			std::cout << "Would you like to use the graph passed as an argument?\n";
+			int choice = jspace::binaryChoice();
+			if (choice) G1 = generateGraph(argv);
 
-	std::cout << "\nPrinting G2 BFS...\n";
-	g2.printBFS(1);
+		}
+
+		if (!G1.empty()) {
+
+			//G1 = randomGraph();
+
+		}		
+
+		
+
+	}
 
 	return 0;
+
+}
+
+Graph<int> generateGraph(char ** filename) {
+
+
 
 }
 

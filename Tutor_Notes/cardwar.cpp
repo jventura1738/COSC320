@@ -64,13 +64,30 @@ struct Card {
 
 	}
 
+	Card nullcard() {
+
+		Card nullcard;
+		return nullcard;
+
+	}
+
+	bool isnullcard() {
+
+		if (this->getValue() == -1) {
+
+			return true;
+
+		}
+
+		return false;
+
+	}
+
 };
 
 struct pdeck {
-private:
-	std::vector<Card> hand;
-
 public:
+	std::vector<Card> hand;
 	
 	void receiveCard(Card & card) {
 
@@ -79,6 +96,14 @@ public:
 	}
 
 	Card playCard() {
+
+		if (this->hand.empty()) {
+
+			Card c;
+			c = c.nullcard();
+			return c;
+
+		}
 
 		Card temp = this->hand.back();
 		this->hand.pop_back();
@@ -139,7 +164,7 @@ public:
 	// this returns the top of the deck,
 	// then makes the next topmost become
 	// the new top.
-	Card pullFromTop() {
+	Card & pullFromTop() {
 
 		if (this->topindex >= 52) {
 
@@ -162,6 +187,18 @@ void playGame(struct pdeck & player1, struct pdeck & player2);
 
 int main() {
 	
+	Deck d;
+	shuffleDeck(d.underlying_deck);
+	pdeck p1, p2;
+	int i = 0;
+	while (i < 26) {
+
+		p1.receiveCard(d.pullFromTop());
+		p2.receiveCard(d.pullFromTop());
+		i++;
+
+	}
+	playGame(p1, p2);
 
 	return 0;
 }
@@ -205,6 +242,19 @@ void playGame(struct pdeck & player1, struct pdeck & player2) {
 
 		}
 
+		if (p1moves.back().isnullcard()) {
+
+			std::cout << "Player 1 loses game!\n";
+			play_game = false;
+
+		}
+		else if (p2moves.back().isnullcard()) {
+
+			std::cout << "Player 2 loses game!\n";
+			play_game = false;
+
+		}
+
 		if (p1moves.back().getValue() > p2moves.back().getValue()) {
 
 			gamestate = P1WIN;
@@ -224,6 +274,8 @@ void playGame(struct pdeck & player1, struct pdeck & player2) {
 
 		if (gamestate == P1WIN) {
 
+			std::cout << "Player 1 win!\n";
+
 			for (auto iter = p1moves.begin(); iter != p1moves.end(); iter++) {
 
 				player1.receiveCard(*iter);
@@ -238,6 +290,8 @@ void playGame(struct pdeck & player1, struct pdeck & player2) {
 		}
 		else if (gamestate == P2WIN) {
 
+			std::cout << "Player 2 win!\n";
+
 			for (auto iter = p1moves.begin(); iter != p1moves.end(); iter++) {
 
 				player2.receiveCard(*iter);
@@ -248,6 +302,11 @@ void playGame(struct pdeck & player1, struct pdeck & player2) {
 				player2.receiveCard(*iter);
 
 			}
+
+		}
+		else {
+
+			std::cout << "Draw!\n";
 
 		}
 

@@ -115,10 +115,10 @@ void Graph<T>::addVertex(const T & vtx_val) {
 
 	// Be sure this is not a duplicate vertex.
 	// auto search = this->vertices.find(_idxOf(vtx_val));
-	auto search = this->vertices_alias(vtx_val);
+	auto search = this->vertices.find(_idxOf(vtx_val));
 
 	// If it is not, add to the graph.
-	if (search == this->vertices_alias.end()) {
+	if (search == this->vertices.end()) {
 
 		std::vector<T> n_list;
 		int index = _idxOf(vtx_val);
@@ -139,15 +139,16 @@ void Graph<T>::addVertex(const T & vtx_val) {
 // Helper for addEdge().  Returns false if an edge exists
 // between v1 & v2 already, true otherwise.
 template <typename T>
-bool Graph<T>::_addEdge(const T & v1, const T & v2) const {
+bool Graph<T>::_addEdge(const T & v1, const T & v2) {
 
 	// Find the vertex's adjacency list.
-	auto search = this->vertices.find(idxOf(v1));
+	auto search = this->vertices.find(_idxOf(v1));
 
 	// Check to make sure no edge already exists.
+	int check = _idxOf(v2);
 	for (auto iter = search->second.begin(); iter != search->second.end(); iter++) {
 
-		if (*iter == v2) {
+		if (*iter == check) {
 
 			return false;
 
@@ -186,9 +187,11 @@ void Graph<T>::addEdge(const T & v1, const T & v2) {
 	else {
 
 		bool addLoop = true;
-		for (auto iter = this->vertices[v1].begin(); iter != this->vertices[v1].end(); iter++) {
+		int index = _idxOf(v1);
+		int index2 = _idxOf(v2);
+		for (auto iter = this->vertices[index].begin(); iter != this->vertices[index].end(); iter++) {
 
-			if (*iter == v1) {
+			if (*iter == index) {
 
 				addLoop = false;
 
@@ -199,22 +202,22 @@ void Graph<T>::addEdge(const T & v1, const T & v2) {
 		// For non self-loops. UNDIRECTED
 		if (v1 != v2 && this->g_type == UNDIRECTED) {
 
-			this->vertices[v1].push_back(v2);
-			this->vertices[v2].push_back(v1);
+			this->vertices[index].push_back(index2);
+			this->vertices[index2].push_back(index);
 
 		}
 
 		// For non self-loops. DIRECTED
 		else if (v1 != v2 && this->g_type == DIRECTED) {
 
-			this->vertices[v1].push_back(v2);
+			this->vertices[index].push_back(index2);
 
 		}
 
 		// For self-loops.
 		else if (addLoop){
 
-			this->vertices[v1].push_back(v1);
+			this->vertices[index].push_back(index);
 
 		}
 
@@ -317,22 +320,23 @@ void Graph<T>::printGraph(const bool & best_format) const {
 		std::cout << "\n";
 
 	}
+	
 	// Print the vertex.
 	for (auto g_trv = this->vertices.begin(); g_trv != this->vertices.end(); g_trv++) {
 
-		std::cout << g_trv->first << " : [ ";
+		std::cout << this->vertices_alias[g_trv->first] << " : [ ";
 
 		// Print its neighbors.
 		for (auto n_trv = g_trv->second.begin(); n_trv != g_trv->second.end(); n_trv++) {
 
 			if ((n_trv + 1) != g_trv->second.end()) {
 
-				std::cout << *n_trv << ", ";
+				std::cout << this->vertices_alias[*n_trv] << ", ";
 
 			}
 			else {
 
-				std::cout << *n_trv << " ]";
+				std::cout << this->vertices_alias[*n_trv] << " ]";
 
 			}
 
@@ -387,7 +391,7 @@ void Graph<T>::printBFS(const T & root_vtx) {
 				distance[*v] = distance[u] + 1;
 				parent[*v] = u;
 				Q.push(*v);
-				std::cout << *v << " ";
+				std::cout << this->vertices_alias[*v] << " ";
 
 			}
 

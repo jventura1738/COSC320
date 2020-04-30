@@ -49,7 +49,7 @@ private:
 
 	// Helper for addEdge().  Returns false if an edge exists
 	// between v1 & v2 already, true otherwise.
-	bool _addEdge(const T & v1, const T & v2) const;
+	bool _addEdge(const T & v1, const T & v2);
 
 	// Returns the index of the given value.
 	int _idxOf(const T & val);

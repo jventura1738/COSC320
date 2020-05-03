@@ -11,7 +11,7 @@ This was once again a very interesting lab.  The algorithms were followed as dem
 - must all be positive integers for the sake of clean file handling.
 - line 1: 0 for undirected, 1 for directed.
 - next line: each node in whatever order you want the node added.
-- a line with a '-' to mark the end of the nodes.
+- a line with a '-' to mark the end of the nodes. (do not include the quotes)
 - each line after will correspond to each node and end with a -1 to mark the end of said node's neighbors.
 - sample below:
 
@@ -19,7 +19,7 @@ This was once again a very interesting lab.  The algorithms were followed as dem
 
 1 2 3 4
 
--
+'-'
 
 2 3 -1
 

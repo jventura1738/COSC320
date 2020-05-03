@@ -66,6 +66,7 @@ template <typename T>
 void Graph<T>::_SCCDFS(std::vector<std::pair<int, int>> & list) {
 
 	std::map<int, color_t> color;
+	
 	for (auto u = this->vertices.begin(); u != this->vertices.end(); u++) {
 
 		color.insert({u->first, WHITE});
@@ -77,13 +78,12 @@ void Graph<T>::_SCCDFS(std::vector<std::pair<int, int>> & list) {
 	int i = 0;
 	for (auto u = list.begin(); u != list.end(); u++) {
 
-		std::cout << "Group " << (++i) << ": ";
 		if (color[u->second] == WHITE) {
 
 			this->_SCCvisit(u->second, color);
+			std::cout << "\n";
 
 		}
-		std::cout << "\n";
 
 	}
 
@@ -103,7 +103,7 @@ void Graph<T>::_SCCvisit(int u, std::map<int, color_t> & color) {
 
 	}
 	color[u] = BLACK;
-	std::cout << this->vertices_alias[u] << " ";
+	std::cout << this->vertices_alias[u] << " -> ";
 
 }
 
@@ -191,7 +191,7 @@ void Graph<T>::addVertex(const T & vtx_val) {
 	// If it is not, add to the graph.
 	if (_idxOf(vtx_val) == -1) {
 		
-		std::vector<T> n_list;
+		std::vector<int> n_list;
 		this->vertices.insert({this->vertices.size(), n_list});
 		this->vertices_alias.push_back(vtx_val);
 		// std::cout << "Inserted: " << vtx_val << ".\n";
@@ -399,21 +399,23 @@ void Graph<T>::adjList(const bool & best_format) const {
 
 	}
 
-	if (this->empty()) std::cout << "LIST EMPTY!\n";
+	if (this->empty()) std::cout << "ADJACENCY LIST EMPTY!\n";
 	
 	// Print the vertex.
 	for (auto g_trv = this->vertices.begin(); g_trv != this->vertices.end(); g_trv++) {
 
 		std::cout << this->vertices_alias[g_trv->first] << " : [ ";
 
+		if (g_trv->second.empty()) {
+
+				std::cout << "<none> ]";
+
+		}
+
 		for (auto n_trv = g_trv->second.begin(); n_trv != g_trv->second.end(); n_trv++) {
 
-			if (g_trv->second.empty()) {
-
-				std::cout << " ]";
-
-			}
-			else if ((n_trv + 1) != g_trv->second.end()) {
+			
+			if ((n_trv + 1) != g_trv->second.end()) {
 
 				std::cout << this->vertices_alias[*n_trv] << ", ";
 
@@ -561,12 +563,12 @@ void Graph<T>::topSortPrint() {
 
 		if (i + 1 != list.end()) {
 
-			std::cout << this->vertices_alias[i->first] << "'s time: " << i->second << ", ";
+			std::cout << this->vertices_alias[i->second] << "'s time: " << i->first << ", ";
 
 		}
 		else {
 
-			std::cout << this->vertices_alias[i->first] << "'s time: " << i->second << ". ";
+			std::cout << this->vertices_alias[i->second] << "'s time: " << i->first << ". ";
 
 		}
 

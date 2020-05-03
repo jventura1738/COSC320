@@ -22,7 +22,7 @@ Graph<int> generateGraph(char * filename);
 // the number of vertices passed as a parameter.
 // Also takes a parameter for whether or not the
 // graph will be directed.
-Graph<int> randomGraph(int & numvertices, bool & isDirected);
+Graph<int> randomGraph(int & numvertices, const bool & isDirected);
 
 // Returns a graph for the demo.
 Graph<int> demoGraph(bool & isDirected);
@@ -61,6 +61,7 @@ int main(int argc, char ** argv) {
 			}
 			try {
 
+				std::cout << "Attempting SCC Algorithm...\n";
 				G1.SCCprint();
 
 			}
@@ -70,6 +71,111 @@ int main(int argc, char ** argv) {
 
 			}
 
+			bool isDirected = true;
+			Graph<int> G2 = demoGraph(isDirected);
+
+			std::cout << "\n===========================================\n";
+			std::cout << "Demo random directed graph.\n";
+			G2.adjList();
+			G2.DFS(true);
+			try {
+
+				std::cout << "Attempting a Topological sort...\n";
+				G2.topSortPrint();
+
+			}
+			catch (std::string err) {
+
+				std::cout << err;
+
+			}
+			try {
+
+				std::cout << "Attempting SCC Algorithm...\n";
+				G2.SCCprint();
+
+			}
+			catch (std::string err) {
+
+				std::cout << err;
+
+			}
+
+			isDirected = false;
+			Graph<int> G3 = demoGraph(isDirected);
+
+			std::cout << "\n===========================================\n";
+			std::cout << "Demo random undirected graph.\n";
+			G3.adjList();
+			G3.DFS(true);
+			try {
+
+				std::cout << "Attempting a Topological sort...\n";
+				G3.topSortPrint();
+
+			}
+			catch (std::string err) {
+
+				std::cout << err;
+
+			}
+			try {
+
+				std::cout << "Attempting SCC Algorithm...\n";
+				G3.SCCprint();
+
+			}
+			catch (std::string err) {
+
+				std::cout << err;
+
+			}
+
+			std::cout << "\n===========================================\n";
+			std::cout << "TEMPLATE TEST (on std::string).\n";
+			std::cout << "Simulate a basic network with 5 nodes.\n";
+
+			Graph<std::string> Network(DIRECTED);
+			Network.addVertex("Justin's Node");
+			Network.addVertex("Blaine's Node");
+			Network.addVertex("Jacob's Node");
+			Network.addVertex("Ian's Node");
+			Network.addVertex("Anderson's Node");
+
+			Network.addEdge("Justin's Node", "Blaine's Node");
+			Network.addEdge("Blaine's Node", "Justin's Node");
+			Network.addEdge("Justin's Node", "Ian's Node");
+			Network.addEdge("Anderson's Node", "Blaine's Node");
+			Network.addEdge("Anderson's Node", "Jacob's Node");
+			Network.addEdge("Anderson's Node", "Ian's Node");
+			Network.addEdge("Ian's Node", "Justin's Node");
+			Network.addEdge("Jacob's Node", "Justin's Node");
+
+			Network.adjList();
+			Network.DFS(true);
+
+			try {
+
+				std::cout << "Attempting a Topological sort...\n";
+				Network.topSortPrint();
+
+			}
+			catch (std::string err) {
+
+				std::cout << err;
+
+			}
+			try {
+
+				std::cout << "Attempting SCC Algorithm...";
+				Network.SCCprint();
+
+			}
+			catch (std::string err) {
+
+				std::cout << err;
+
+			}
 
 		}	
 
@@ -143,7 +249,7 @@ Graph<int> generateGraph(char * filename) {
 }
 
 // Does nothing for now, not required for the lab.
-Graph<int> randomGraph(int & numVertices, bool & isDirected) {
+Graph<int> randomGraph(int & numVertices, const bool & isDirected) {
 
 	return Graph<int>(DIRECTED);
 

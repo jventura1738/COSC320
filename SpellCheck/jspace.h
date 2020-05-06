@@ -5,6 +5,9 @@
 #ifndef JSPACE_H
 #define JSPACE_H
 
+// For size_t
+ #include <stdio.h>
+
 /*
  * This file was created to cover very basic tasks
  * and functions that I find useful for everyday

@@ -33,6 +33,9 @@ import string
 # to both encrypt and decrypt a given string
 # of data.
 
+# Here is the delay time for simulation purposes.
+delay_time = 10
+
 # Generates the Nth prime passed as a parameter.
 # This was taken from my Gullcode2019 Repo.
 def NthPrime(n):
@@ -143,7 +146,7 @@ def VPN_delay(sleeptime):
 def VPN_miniTunnel(dataString, passwordIdx):
     # Here we will create a bunch of random data which
     # will be shoved in with the message.
-    lengths = list(np.random.normal(loc=len(dataString), scale=4, size=14))
+    lengths = list(np.random.normal(loc=len(dataString), scale=2, size=14))
 
     # Now create the data pack list for 'encapsulation.'
     dataPack = []
@@ -157,7 +160,10 @@ def VPN_miniTunnel(dataString, passwordIdx):
                 lengths += len(dataString)
             dataPack.append(randomString(int(lengths[-1])))
             lengths.pop()
+    print('[log: encapsulating data...]\n')
+    VPN_delay(delay_time - 5)
     print('[log: data encapsulated...]')
+    print('Encapsulated data: ', dataPack)
     return dataPack
 
 # This is a function which assists in VPN simulation.
@@ -171,8 +177,8 @@ def VPN_initData():
 # This is a function which simulates the prepping of
 # data by encrypting the data then preparing to send.
 def VPN_prepData(dataPack):
-    print('[log: encrypting data...]')
-    VPN_delay(3)
+    print('\n[log: encrypting data...]')
+    VPN_delay(delay_time)
     encryptedData = []
     key = generateKey()
     for dataString in dataPack:
@@ -183,7 +189,7 @@ def VPN_prepData(dataPack):
 # it to be received by recipient.
 def VPN_sendData(encryptedData, tunnelPass, key):
     print('[log: sending data...]')
-    VPN_delay(3)
+    VPN_delay(delay_time)
     VPN_recvData(encryptedData, tunnelPass, key)
 
 # This function simulates the data being receieved and

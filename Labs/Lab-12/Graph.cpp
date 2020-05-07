@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <stdlib.h>
 #include <cmath>
-#include <time.h>
+#include <chrono>
 #include <random>
 
 template <typename T>

@@ -10,6 +10,7 @@
 #include <vector>
 #include <queue>
 #include <map>
+#include <set>
 
 // Enumeration for coloring vertices in the BFS print function.
 // White: default color for the vertex.
@@ -81,6 +82,10 @@ private:
 
 	// Modified DFS visit for the Strongly Connected Components Algorithm.
 	void _SCCvisit(int u, std::map<int, color_t> & color);
+
+	// Private function which returns true if given subset of vertices
+	// is a vertex cover, and false otherwise.
+	bool _isVertexCover(std::set<int> & S) const;
 
 public:
 
@@ -163,6 +168,15 @@ public:
 
 	// Returns true for an empty graph, false otherwise.
 	bool empty() const;
+
+	// Print Vertex Cover
+	void printVertexCover();
+
+	// Prints Vertex Cover with random edge choice.
+	void randVertexCover();
+
+	// Brute force minimum vertex cover.
+	void minVertexCover() const;
 
 };
 

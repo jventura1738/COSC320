@@ -3,6 +3,10 @@
 
 #include "Graph.h"
 #include <algorithm>
+#include <stdlib.h>
+#include <cmath>
+#include <time.h>
+#include <random>
 
 template <typename T>
 int Graph<T>::_idxOf(const T & val) {
@@ -122,6 +126,7 @@ void Graph<T>::_SCCvisit(int u, std::map<int, color_t> & color) {
 template <typename T>
 Graph<T>::Graph() {
 
+	srand(1);
 	this->g_type = UNDIRECTED;
 	this->time = 0;
 	this->isDAG = false;
@@ -132,6 +137,7 @@ Graph<T>::Graph() {
 template <typename T>
 Graph<T>::Graph(const GRAPH_TYPE & type) {
 
+	srand(1);
 	this->g_type = type;
 	this->time = 0;
 	this->isDAG = (type == DIRECTED) ? true : false;
@@ -617,6 +623,205 @@ template <typename T>
 bool Graph<T>::empty() const {
 
 	return this->vertices.empty();
+
+}
+
+// Print Vertex Cover
+template <typename T>
+void Graph<T>::printVertexCover() {
+
+	// Set for tracking edges.
+	std::set<std::pair<int, int>> edgeSet;
+	for (auto i = this->vertices.begin(); i != this->vertices.end(); i++) {
+
+		for (auto j = i->second.begin(); j != i->second.end(); j++){
+
+			edgeSet.insert({i->first, *j});
+
+		}
+
+	}
+	
+	// Vertices for edges.
+	int u, v;
+
+	std::cout << "Vertex Cover edges: \n";
+
+	// Run the algorithm.
+	while (!edgeSet.empty()) {
+
+		auto i = edgeSet.begin();
+		u = i->first;
+		v = i->second;
+		std::cout << "( " << this->vertices_alias[u] << ", " << this->vertices_alias[v] << " ) ";
+
+		auto j = i;
+		while (j != edgeSet.end()) {
+
+			if (j->first == u || j->first == v || j->second == u || j->second == v) {
+
+				j = edgeSet.erase(j);
+
+			}
+			else {
+
+				j++;
+
+			}
+
+		}
+		std::cout << "\n";
+
+	}
+
+}
+
+// Random vertex cover.
+template <typename T>
+void Graph<T>::randVertexCover() {
+
+	unsigned seed1 = std::chrono::system_clock::now().time_since_epoch().count();
+	srand(seed1);
+
+	// Set for tracking edges.
+	std::set<std::pair<int, int>> edgeSet;
+	for (auto i = this->vertices.begin(); i != this->vertices.end(); i++) {
+
+		for (auto j = i->second.begin(); j != i->second.end(); j++){
+
+			edgeSet.insert({i->first, *j});
+
+		}
+
+	}
+	
+	// Vertices for edges.
+	int u, v;
+
+	std::cout << "Vertex Cover edges: \n";
+
+	// Run the algorithm.
+	while (!edgeSet.empty()) {
+
+		int stop = rand() % edgeSet.size();
+		int c = 0;
+		auto i = edgeSet.begin();
+		while (c != stop) {
+
+			i++;
+			c++;
+
+		}
+
+		u = i->first;
+		v = i->second;
+		std::cout << "( " << this->vertices_alias[u] << ", " << this->vertices_alias[v] << " ) ";
+
+		auto j = i;
+		while (j != edgeSet.end()) {
+
+			if (j->first == u || j->first == v || j->second == u || j->second == v) {
+
+				j = edgeSet.erase(j);
+
+			}
+			else {
+
+				j++;
+
+			}
+
+		}
+		std::cout << "\n";
+
+	}
+
+}
+
+// Private function which returns true if the Graph is a vertex
+// cover, and false otherwise.
+template <typename T>
+bool Graph<T>::_isVertexCover(std::set<int> & S) const {
+
+	// Set for tracking edges.
+	std::set<std::pair<int, int>> edgeSet;
+	for (auto i = this->vertices.begin(); i != this->vertices.end(); i++) {
+
+		for (auto j = i->second.begin(); j != i->second.end(); j++){
+
+			edgeSet.insert({i->first, *j});
+
+		}
+
+	}
+
+	// Determine if the subset is a vertex cover.
+	for (auto i = edgeSet.begin(); i != edgeSet.end(); i++) {
+
+		bool isVertexCover = false;
+		for (auto j = S.begin(); j != S.end(); j++) {
+
+			if (i->first == *j || i->second == *j) {
+
+				isVertexCover = true;
+
+			}
+
+		}
+		if (!isVertexCover) {
+
+			return false;
+
+		}
+
+	}
+
+	return true;
+
+}
+
+// Brute force minimum vertex cover.
+template <typename T>
+void Graph<T>::minVertexCover() const {
+
+	std::set<int> S;
+
+	// Discrete math szn.
+	// Find all possible subsets of V.
+	for (int i = 0; i < pow(2, this->vertices.size()); i++) {
+
+		for (int j = 0; j < this->vertices.size(); j++) {
+
+			if (i & 1 << j) {
+
+				S.insert(j);
+
+			}
+
+		}
+
+		if (this->_isVertexCover(S) && S.size() <= this->vertices.size() - 1) {
+
+			std::cout << "Minimum vertex cover of the graph: " << S.size() << "\n";
+			std::cout << "S -> ";
+			for (auto v = S.begin(); v != S.end(); v++) {
+
+				std::cout << this->vertices_alias[*v] << " ";
+
+			}
+			std::cout << "\n";
+			return;
+
+		}
+		else {
+
+			S.clear();
+
+		}
+
+	}
+
+	std::cout << "There exists no vertex cover!\n";
 
 }
 

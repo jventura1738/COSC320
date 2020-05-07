@@ -34,8 +34,11 @@ int main(int argc, char ** argv) {
 		try {
 
 			G1.adjList();
+			std::cout << "\nApprox vertex cover...\n";
 			G1.printVertexCover();
+			std::cout << "\nApprox vertex cover[rand]..\n";
 			G1.randVertexCover();
+			std::cout << "\nTrue minimum vertex cover...\n";
 			G1.minVertexCover();
 
 		}

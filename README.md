@@ -26,4 +26,6 @@ Notable Features & Algorithms:
 - Spell Checking (parsed string) within 1 & 2 edit distances.
 - Highlights incorrect words then displays suggestions.
 
-### Some sort of graphing problem 
+### Knight Random Walk
+
+The Problem: given an 8x8 chess board, and a knight in any corner of the board, if the knight randomly walks through the board, what is the average number of moves expected until the knight returns to its starting position?  This problem sounds like a useless one, but I would say it is actually a great introduction to 2-Dimensional Graph Random Walks.  You don't even have to be good at chess to understand this.  In this project, with simulations and mathematical analysis, we come to an average of 168 moves before the knight returns to its origin.

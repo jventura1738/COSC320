@@ -10,6 +10,7 @@
 #include <vector>
 #include <queue>
 #include <map>
+#include <bits/stdc++.h>
 
 // Enumeration for coloring vertices in the BFS print function.
 // White: default color for the vertex.

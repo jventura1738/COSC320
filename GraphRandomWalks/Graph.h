@@ -34,7 +34,7 @@ public:
 
 	// The map from an integer (a specific vertex's value) to the
 	// said vertex's neighbors values.
-	std::map<int, std::vector<int>> vertices;
+	std::map<int, std::vector<int> > vertices;
 
 	// The underlying vector to the keys in the map from 0 - n
 	// respectively to the vertices map where n = # of nodes.

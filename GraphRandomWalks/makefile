@@ -12,7 +12,7 @@ randomwalk: randomwalk.o interface.o
 randomwalk.o: RandomWalk.cpp Graph.h Graph.cpp
 	$(gc) RandomWalk.cpp
 
-interface.o: Interface.cpp Interface.h
+Interface.o: Interface.cpp Interface.h
 	$(gc) Interface.cpp
 
 clean:

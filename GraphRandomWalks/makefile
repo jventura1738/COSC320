@@ -9,8 +9,8 @@ binaries = Randomwalk Randomwalk.o Interface.o
 Randomwalk: Randomwalk.o Interface.o
 	$(go) $(binaries)
 
-Randomwalk.o: RandomWalk.cpp Graph.h Graph.cpp
-	$(gc) RandomWalk.cpp
+Randomwalk.o: Randomwalk.cpp Graph.h Graph.cpp
+	$(gc) Randomwalk.cpp
 
 Interface.o: Interface.cpp Interface.h
 	$(gc) Interface.cpp

@@ -190,7 +190,6 @@ def VPN_prepData(dataPack):
 def VPN_sendData(encryptedData, tunnelPass, key):
     print('[log: sending data...]')
     VPN_delay(delay_time)
-    VPN_recvData(encryptedData, tunnelPass, key)
 
 # This function simulates the data being receieved and
 # decrypted then displayed to the user.
@@ -212,6 +211,7 @@ def VPN_simulation():
         print(elem['cipherText'], end=' ')
     print('\n')
     VPN_sendData(encrypted, tunnelPass, key)
+    VPN_recvData(encrypted, tunnelPass, key)
 
 # This is the main program where the encryption and
 # decryption are demonstrated in the form of a basic

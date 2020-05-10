@@ -47,6 +47,25 @@ int main(int argc, char ** argv) {
 			std::cout << err << '\n';
 
 		}
+
+		Graph<int> G2;
+		G2.addVertex(0);
+		try {
+
+			G2.adjList();
+			std::cout << "\nApprox vertex cover...\n";
+			G2.printVertexCover();
+			std::cout << "\nApprox vertex cover[rand]..\n";
+			G2.randVertexCover();
+			std::cout << "\nTrue minimum vertex cover...\n";
+			G2.minVertexCover();
+
+		}
+		catch(std::string err) {
+
+			std::cout << err << '\n';
+
+		}
 		
 
 	}

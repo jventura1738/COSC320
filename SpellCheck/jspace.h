@@ -7,6 +7,7 @@
 
 // For size_t
  #include <stdio.h>
+ #include <iostream>
 
 /*
  * This file was created to cover very basic tasks

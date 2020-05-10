@@ -39,7 +39,7 @@ std::vector<int> randomWalk(Graph<std::string> & Board);
   * for us to get that number
   * we found that it takes around 200 - 250 Trials
   *
-  * - Jacob Duncan & Justin Ventura
+  * - Jacob Duncan
 */
 unsigned int getAverageSteps(unsigned int, unsigned int);
 
@@ -59,8 +59,6 @@ unsigned int promptNumTrials();
  * - The total trials ran (TRIALS entered by user).
  * - The total time of all trials.
  * - The average steps of all walks.
- * - The lowest number of steps in a walk.
- * - The highest number of steps in a walk.
  * - Number of steps per trial.
 */
 int main (int argc, char ** argv) {

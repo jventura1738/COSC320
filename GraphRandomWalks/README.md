@@ -15,7 +15,7 @@ The "Knight's Random Walk" Problem is a very interesting problem that seems daun
 
 ### Simulation Files Included & Run Instructions:
 
-- RandomWalk.cpp: where the random walk is simulated, and data is collected!
+- randomwalk.cpp: where the random walk is simulated, and data is collected!
 - Interface header and cpp: used as helpers for the RandomWalk.cpp
 - Graph header and cpp: the data structure of choice for this problem is a Graph.
 - makefile: please refer to the instructions below on how to run!

@@ -4,7 +4,7 @@
 # Makefile variables
 gc = g++ -c -std=c++11 # would be c++20 but not allowed :(
 go = g++ -o
-binaries = RandomWalk RandomWalk.o Interface.o
+binaries = Randomwalk RandomWalk.o Interface.o
 
 RandomWalk: RandomWalk.o Interface.o
 	$(go) $(binaries)
